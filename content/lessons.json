@@ -2219,40 +2219,40 @@
     ],
     "mode": "run",
     "diagram": {
-      "title": "Who closes the result stream?",
-      "caption": "The starter has two workers. Scheduling changes the result order, not the closing responsibility.",
+      "title": "Who sends values, and who closes results?",
+      "caption": "Workers send squares directly to main while it drains results. A separate coordinator waits for every worker, then closes results. The two workers can finish in either order.",
       "nodes": [
         {
           "id": "jobs",
           "x": 15,
-          "y": 60,
-          "w": 130,
+          "y": 25,
+          "w": 150,
           "label": "Producer",
-          "detail": "closes jobs"
+          "detail": "send → close jobs"
         },
         {
           "id": "workers",
-          "x": 210,
-          "y": 60,
-          "w": 170,
+          "x": 245,
+          "y": 25,
+          "w": 210,
           "label": "Two workers",
           "detail": "read jobs → send squares"
         },
         {
-          "id": "close",
-          "x": 440,
-          "y": 60,
-          "w": 170,
-          "label": "Coordinator",
-          "detail": "Wait → close results"
+          "id": "main",
+          "x": 550,
+          "y": 25,
+          "w": 220,
+          "label": "main",
+          "detail": "drain results → sort → print"
         },
         {
-          "id": "main",
-          "x": 670,
-          "y": 60,
-          "w": 130,
-          "label": "main",
-          "detail": "drain → sort → print"
+          "id": "coordinator",
+          "x": 550,
+          "y": 160,
+          "w": 220,
+          "label": "Coordinator",
+          "detail": "Wait → close results"
         }
       ],
       "edges": [
@@ -2263,13 +2263,18 @@
         },
         {
           "from": "workers",
-          "to": "close",
-          "label": "all Done"
+          "to": "main",
+          "label": "squares"
         },
         {
-          "from": "close",
+          "from": "workers",
+          "to": "coordinator",
+          "label": "all workers Done"
+        },
+        {
+          "from": "coordinator",
           "to": "main",
-          "label": "results drained"
+          "label": "close results"
         }
       ]
     },

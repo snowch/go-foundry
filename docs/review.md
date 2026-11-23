@@ -106,3 +106,13 @@ all starter packages and separately verify edited programs, Go test failure,
 cancellation, cross-course navigation and saved-project recovery. The guest
 capstone is reopened after stop, full reload and a fresh VM. These checks are
 functional evidence, not evidence of improved learning outcomes.
+
+The first complete-series CI run passed all 113 real-guest starters and the
+edited-source, assertion-failure, cancellation, checkpoint, fresh-VM and database
+reopening journey: [run 45264551201](https://github.com/snowch/go-foundry/actions/runs/45264551201).
+The local native suite and interface suite also passed. An additional review
+checked every lesson at 320 px and representative first/middle/final lessons at
+390, 820 and 1440 px in both themes, including keyboard diagram scrolling.
+Visual inspection then widened diagrams beyond the prose measure and separated
+the worker-pool's result flow from its coordinator's close signal. Narrow figures
+show an explicit scrolling hint; wide figures fit without horizontal scrolling.
