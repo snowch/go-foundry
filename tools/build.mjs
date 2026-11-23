@@ -17,7 +17,7 @@ const runtimeMetadata=JSON.parse(await readFile(site+'/runtime/image.json'));run
 async function asset(stem,extension,content){const bytes=Buffer.from(content),name=stem+'.'+hash(bytes).slice(0,16)+'.'+extension;await writeFile(site+'/'+name,bytes);assets.push({path:name,sha256:hash(bytes),bytes:bytes.length});return name;}
 const helper=await asset('source-transfer','js',await readFile('web/source-transfer.js'));
 let appSource=await readFile('web/app.js','utf8');
-for(const module of ['workspace-store','course','investigations']){const name=await asset(module,'js',await readFile('web/'+module+'.js'));appSource=appSource.replace('./'+module+'.js','./'+name);}
+for(const module of ['workspace-store','course','investigations','lesson-presentation','editor']){const name=await asset(module,'js',await readFile('web/'+module+'.js'));appSource=appSource.replace('./'+module+'.js','./'+name);}
 const app=await asset('app','js',appSource);
 const css=await asset('style','css',await readFile('web/style.css'));
 await writeFile(site+'/index.html',(await readFile('web/index.html','utf8')).replace('src="app.js"','src="'+app+'"').replace('href="style.css"','href="'+css+'"'));

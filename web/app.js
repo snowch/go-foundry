@@ -1,7 +1,9 @@
 import {loadWorkspace, saveWorkspace, clearWorkspace} from './workspace-store.js';
 import {lessons} from './course.js';
 import {investigations} from './investigations.js';
-const $=id=>document.getElementById(id), prefix='go-foundry:v1:', drafts=new Map(), notes=new Map(), done=new Set(), results=new Map();
+import {chapters, presentation} from './lesson-presentation.js';
+import {paintSource} from './editor.js';
+const $=id=>document.getElementById(id), prefix='go-foundry:v1:', drafts=new Map(), notes=new Map(), done=new Set(), unsavedCompletion=new Set(), results=new Map();
 const probes=[...lessons,...investigations];
 let files={}, probe, sourcePath, frame=null, image, undo=null, ready=false, manualBusy=false, current=null, savedWorkspace=null, workspaceError='', releaseLock=null, lastActivity=Date.now();
 const read=(key,fallback)=>{try{return localStorage.getItem(prefix+key)??fallback;}catch{return fallback;}};
@@ -16,6 +18,7 @@ function state(){
   $('run-source').disabled=busy||!image||restorationFailed;
   $('stop-run').hidden=!current||current.kind!=='run';
   $('stop-run').disabled=['saving','stopping'].includes(current?.phase);
+  const otherJob=current?.kind==='run'&&current.probeID!==probe?.id;$('active-job-note').hidden=!otherJob;$('active-job-note').replaceChildren();if(otherJob){const link=document.createElement('a');link.href='#'+current.probeID;link.textContent=probes.find(entry=>entry.id===current.probeID)?.title||'the running lesson';$('active-job-note').append('A run is active in ',link,'. Its output stays with that lesson.');}$('stop-run').setAttribute('aria-label',otherJob?'Stop run in '+probes.find(entry=>entry.id===current.probeID).title:'Stop run');
   $('runner-state').textContent=active?(current?phaseLabel(current.phase):(ready?(manualBusy?'Terminal command active':'Ready'):'Starting')):'Stopped';
   $('runner-description').textContent=current?(current.phase==='saving'?'Saving the project before returning to Ready.':current.kind==='run'?'A lesson job is active. Close this dialog to inspect Output or choose Stop run.':'The runner is restoring or saving the project. Wait for it to finish.'):manualBusy?'A terminal command is active. Wait for its prompt before submitting another run.':active?(ready?'The runner is ready for another run.':'The runner is loading or restoring your saved project.'):'The runner starts when you choose Run.';
   $('linux-start').hidden=active;$('linux-start').disabled=!image||busy;
@@ -52,10 +55,13 @@ async function acquireLease(){
 }
 
 let starting=false;
+function acknowledgeRunner(){save('runner-introduction','seen');}
+function introduceRunner(){if(read('runner-introduction','')==='seen')return;$('runner-intro-timeout').textContent=idleMinutes?'Project files are saved after each run. The runner saves again and stops after '+idleMinutes+' minutes without a run or terminal activity. Change the time in Code runner.':'Project files are saved after each run. Automatic stopping is disabled in Code runner.';$('runner-intro').showModal();}
+$('runner-intro').addEventListener('close',acknowledgeRunner);$('runner-intro-dismiss').onclick=()=>$('runner-intro').close();$('runner-intro-settings').onclick=()=>{$('runner-intro').close();$('runner-dialog').showModal();state();};
 async function start(){
   if(frame||starting)return;
   if(!image){feedback('Toolchain files could not be loaded. Reload while online. Your drafts are kept.');return;}
-  starting=true;
+  starting=true;introduceRunner();
   try {
     await acquireLease();
     try {savedWorkspace=await loadWorkspace();workspaceError='';}catch{workspaceError='Saved project storage could not be opened. Nothing has been replaced. Retry Run after browser storage is available; your editor drafts are kept.';throw Error(workspaceError);}
@@ -73,18 +79,83 @@ function checkpoint(kind='save'){
   if(!ready||!frame||current||manualBusy)return;
   current={id:crypto.randomUUID(),type:'checkpoint',kind,command:'true',phase:'saving'};post(current);state();
 }
-function showFile(path){if(!Object.hasOwn(files,path))return;sourcePath=path;$('source-file').value=path;const saved=drafts.get(path)??read('source/'+path,null);$('source').value=saved??files[path];$('source-name').textContent=path;updateLines();$('draft-status').textContent=saved===null?'Starter source is open.':'A saved edit is open. To use the starter, choose Editor tools → Restore original source. Undo restore keeps your edit available.';undo=null;$('undo').hidden=true;}
+function showFile(path){if(!Object.hasOwn(files,path))return;sourcePath=path;$('source-file').value=path;const saved=drafts.get(path)??read('source/'+path,null);$('source').value=saved??files[path];$('source-name').textContent=path;updateLines();$('draft-status').textContent=saved===null?'Starter source is open.':'An edited draft is open. To use the starter, choose Editor tools → Restore original source. Undo restore keeps your edit available.';undo=null;$('undo').hidden=true;}
+function closeOutline(returnFocus=false){
+  $('outline').hidden=true;$('outline-toggle').setAttribute('aria-expanded','false');
+  if(returnFocus){$('outline-toggle').focus({preventScroll:true});$('outline-toggle').scrollIntoView({block:'nearest'});}
+}
+function chapterFor(entry){return chapters.find(chapter=>chapter.lessons.includes(entry.id))||{id:'investigations',title:'Runtime investigations'};}
+function icon(name,extra=''){const span=document.createElement('span');span.className='material-icon '+extra+' icon-'+name;span.setAttribute('aria-hidden','true');return span;}
+function makeLinks(entries){
+  const list=document.createElement('ol');list.className='lesson-links';
+  for(const entry of entries){
+    const item=document.createElement('li'),link=document.createElement('a'),number=document.createElement('span'),title=document.createElement('span');
+    link.href='#'+entry.id;link.dataset.lessonId=entry.id;number.className='lesson-number';
+    const order=lessons.findIndex(lesson=>lesson.id===entry.id);number.textContent=order>=0?String(order+1).padStart(2,'0'):String(investigations.indexOf(entry)+1).padStart(2,'0');
+    title.className='lesson-title';title.textContent=entry.title;link.append(number,title,icon('check','compact completed-mark'));item.append(link);list.append(item);
+  }
+  return list;
+}
+function buildNavigation(){
+  const overview=document.createElement('a');overview.href='#home';overview.className='outline-overview';overview.textContent='Course overview';$('outline').append(overview);
+  for(const chapter of chapters){
+    const entries=chapter.lessons.map(id=>lessons.find(entry=>entry.id===id));
+    const home=document.createElement('section');home.className='home-chapter';
+    const title=document.createElement('h3');title.id='home-'+chapter.id;title.tabIndex=-1;title.textContent=chapter.title;
+    const description=document.createElement('p');description.textContent=chapter.description;
+    const count=document.createElement('p');count.className='chapter-progress';count.dataset.chapterProgress=chapter.id;
+    home.append(title,description,count,makeLinks(entries));$('home-outline').append(home);
+    const group=document.createElement('section');group.className='outline-group';const heading=document.createElement('h3');heading.textContent=chapter.title;group.append(heading,makeLinks(entries));$('outline').append(group);
+  }
+  const group=document.createElement('section');group.className='outline-group';const heading=document.createElement('h3');heading.textContent='Optional runtime investigations';group.append(heading,makeLinks(investigations));$('outline').append(group);
+  const homeHeading=document.createElement('h3');homeHeading.id='home-investigations';homeHeading.tabIndex=-1;homeHeading.textContent='Choose an investigation';
+  const host=$('home-investigation-list');host.append(homeHeading,makeLinks(investigations));
+}
+function progress(){
+  const count=lessons.filter(entry=>done.has(entry.id)).length, label=count+' / '+lessons.length+' lessons complete';
+  $('progress').textContent=label;$('home-progress').textContent=label;
+  for(const chapter of chapters)document.querySelectorAll('[data-chapter-progress="'+chapter.id+'"]').forEach(node=>node.textContent=chapter.lessons.filter(id=>done.has(id)).length+' / '+chapter.lessons.length+' complete');
+  for(const link of document.querySelectorAll('[data-lesson-id]')){
+    const completed=done.has(link.dataset.lessonId);link.dataset.complete=String(completed);
+    link.setAttribute('aria-label',probes.find(entry=>entry.id===link.dataset.lessonId).title+(completed?' — complete':''));
+    if(!$('lesson-view').hidden&&link.dataset.lessonId===probe?.id)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');
+  }
+  const last=lessons.find(entry=>entry.id===read('last-lesson',''));
+  $('start-course').href='#'+(last?.id||lessons[0].id);$('start-course').textContent=last?'Continue: '+last.title:'Start the first lesson';
+}
+function renderReferences(){
+  const topics=presentation[probe.id]?.topics||[];$('references').replaceChildren();$('references').className='topic-references';
+  $('references-subtitle').textContent=topics.map(topic=>topic.title).join(' · ');
+  for(const topic of topics){const item=document.createElement('li'),heading=document.createElement('h3'),reminder=document.createElement('p'),code=document.createElement('code'),link=document.createElement('a');heading.textContent=topic.title;reminder.textContent=topic.reminder;code.textContent=topic.code;link.href=topic.url;link.target='_blank';link.rel='noopener';link.textContent=topic.title+' documentation (new tab)';item.append(heading,reminder,code,link);$('references').append(item);}
+}
+function completionStatus(){$('completion-status').textContent=unsavedCompletion.has(probe?.id)?'Storage is unavailable. This completion mark is kept in this tab only.':'Saved in this browser. Completion records your progress, not a test result.';}
+function navigationCard(node,entry,direction){
+  const label=document.createElement('span'),title=document.createElement('strong');label.className='card-direction';label.textContent=entry?direction: 'Course overview';title.textContent=entry?entry.title:'Choose a lesson';node.href=entry?'#'+entry.id:'#home';node.replaceChildren(label,title);
+}
+let pendingTools=false;
 function show(id){
-  probe=probes.find(item=>item.id===id)||probes[0];
+  const entry=probes.find(item=>item.id===id), sectionID=id.startsWith('course/')?id.slice(7):null;
+  if(!entry){
+    $('home-view').hidden=false;$('lesson-view').hidden=true;document.title='Go Foundry · Learn Go';progress();
+    const chapter=chapters.find(item=>item.id===sectionID),target=chapter?$('home-'+chapter.id):sectionID==='investigations'?$('home-investigations'):$('home-title');
+    if(sectionID==='investigations')document.querySelector('.home-investigations').open=true;
+    requestAnimationFrame(()=>{target.focus({preventScroll:true});target.scrollIntoView({block:'start'});});return;
+  }
+  probe=entry;$('home-view').hidden=true;$('lesson-view').hidden=false;
+  document.title=probe.title+' · Go Foundry';
   for(const [target,field]of[['check-title','title'],['purpose','purpose'],['action','action'],['run-command','command'],['observe','observe'],['reference-output','reference']])$(target).textContent=probe[field];
   $('explanation').replaceChildren();for(const text of (probe.explanation||'').split('\n\n')){const paragraph=document.createElement('p');paragraph.textContent=text;$('explanation').append(paragraph);}$('explanation').hidden=!probe.explanation;
-  $('breadcrumb').textContent=(probe.chapter||'Runtime investigations')+' / '+probe.title;
-  const references=probe.chapter?.startsWith('1')?[['Printing with fmt.Println','https://pkg.go.dev/fmt#Println'],['Go program structure','https://go.dev/ref/spec#Program_execution']]:probe.chapter?.startsWith('2')?[['Go variable declarations','https://go.dev/ref/spec#Variable_declarations'],['Go types and operators','https://go.dev/ref/spec#Types']]:probe.chapter?.startsWith('3')?[['Go if statements','https://go.dev/ref/spec#If_statements'],['Go for loops','https://go.dev/ref/spec#For_statements']]:[['Go tests','https://pkg.go.dev/testing'],['Go file operations','https://pkg.go.dev/os']];$('references').replaceChildren();for(const [label,url]of references){const item=document.createElement('li'),link=document.createElement('a');link.href=url;link.textContent=label+' (new tab)';link.target='_blank';link.rel='noopener';item.append(link);$('references').append(item);}
-  $('prediction').value=notes.get(probe.id)??read('notes/'+probe.id,'');$('complete').checked=done.has(probe.id);
-  $('next-lesson').hidden=!probe.next;$('next-lesson').href='#'+(probe.next||'');$('next-lesson').textContent='Next: '+(probes.find(item=>item.id===probe.next)?.title||'');
-  document.querySelectorAll('#outline a').forEach(link=>{if(link.hash==='#'+probe.id)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');});showFile(probe.file);$('outline').hidden=true;$('outline-toggle').setAttribute('aria-expanded','false');renderResult();
+  const chapter=chapterFor(probe);$('section-location').textContent=chapter.title;$('section-location').href='#course/'+chapter.id;$('breadcrumb').textContent=probe.title;
+  renderReferences();$('prediction').value=notes.get(probe.id)??read('notes/'+probe.id,'');$('complete').checked=done.has(probe.id);
+  const regular=lessons.some(item=>item.id===probe.id), sequence=regular?lessons:investigations,index=sequence.indexOf(probe);
+  $('completion-label').textContent=regular?'Mark lesson complete':'Mark investigation reviewed';
+  completionStatus();
+  navigationCard($('previous-lesson'),sequence[index-1],'Previous lesson');navigationCard($('next-lesson'),sequence[index+1],'Next lesson');
+  if(regular)save('last-lesson',probe.id);
+  showFile(probe.file);closeOutline();progress();state();
+  requestAnimationFrame(()=>{if(pendingTools){pendingTools=false;$('runner-tools').open=true;$('runner-tools').scrollIntoView({block:'start'});$('runner-tools').querySelector('summary').focus({preventScroll:true});}else{$('check-title').focus({preventScroll:true});document.querySelector('.course-navigation').scrollIntoView({block:'start'});}});
 }
-function progress(){$('progress').textContent=lessons.filter(item=>done.has(item.id)).length+' / '+lessons.length+' lessons complete';}
+
 function sendPending(){if(ready&&frame&&current&&current.phase==='starting'){current.phase='compiling';post({...current,type:'job'});state();}}
 function queueRun(){
   if(current||manualBusy){feedback('Wait for the current run or terminal command to finish.');return;}
@@ -92,6 +163,7 @@ function queueRun(){
   results.set(probe.id,{output:'',diagnostics:'',status:''});
   if(frame&&ready)post(current);else start();state();
 }
+document.querySelector('.skip').onclick=event=>{event.preventDefault();const target=$('lesson-view').hidden?$('home-title'):$('check-title');target.focus({preventScroll:true});target.scrollIntoView({block:'start'});};
 $('run-source').onclick=queueRun;
 $('stop-run').onclick=()=>{if(current?.kind==='run'&&current.phase==='starting'){results.set(current.probeID,{status:'Run stopped before compilation.',output:''});current=null;state();return;}if(current?.kind==='run'){post({type:'cancel',id:current.id});current.phase='stopping';state();}};
 $('source').addEventListener('keydown',event=>{if((event.ctrlKey||event.metaKey)&&event.key==='Enter'){event.preventDefault();if(!current)queueRun();}});
@@ -142,8 +214,9 @@ addEventListener('message',async event=>{
 });
 $('theme').onclick=()=>{document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('go-foundry-theme',document.documentElement.dataset.theme);}catch{}theme();};
 function theme(){$('theme').textContent=document.documentElement.dataset.theme==='dark'?'Light theme':'Dark theme';}theme();
+$('runner-tools-open').onclick=()=>{$('runner-dialog').close();if($('lesson-view').hidden){pendingTools=true;location.hash=probe?.id||read('last-lesson',lessons[0].id);}else{$('runner-tools').open=true;$('runner-tools').scrollIntoView({block:'start'});$('runner-tools').querySelector('summary').focus({preventScroll:true});}};
 $('runner-open').onclick=()=>{$('runner-dialog').showModal();state();};$('status-open').onclick=()=>$('status-dialog').showModal();document.querySelectorAll('dialog [data-close]').forEach(button=>button.onclick=()=>button.closest('dialog').close());
-$('runner-dialog').querySelector('[data-start]').onclick=()=>{$('runner-dialog').close();start();};$('runner-dialog').querySelector('[data-stop]').onclick=requestStop;
+$('runner-dialog').querySelector('[data-start]').onclick=()=>{acknowledgeRunner();$('runner-dialog').close();start();};$('runner-dialog').querySelector('[data-stop]').onclick=requestStop;
 $('linux-start').onclick=start;$('linux-stop').onclick=requestStop;$('keep-linux').onclick=()=>$('stop-dialog').close();$('confirm-stop').onclick=()=>{$('stop-dialog').close();if(!ready&&!current){stop();return;}checkpoint('stop');};
 $('terminal-toggle').onclick=()=>terminalVisible($('terminal-region').classList.contains('terminal-closed'));
 $('terminal-hide').onclick=()=>{terminalVisible(false);$('terminal-toggle').focus();};
@@ -161,22 +234,30 @@ for(const [id,target]of[['copy-setup','setup-command'],['copy-save','save-comman
 $('fresh-project').onclick=async()=>{if(!restorationFailed||!confirm('Download the saved project first if you need a backup. Start fresh removes that saved Linux project and discards this guest session. Editor drafts, observations, results and completion marks are kept. Continue?'))return;try{await clearWorkspace();savedWorkspace=null;workspaceError='';stop();start();}catch(error){feedback(error.message+' The existing saved project has been kept.');}};
 $('download-saved').onclick=async()=>{try{const snapshot=await loadWorkspace();if(!snapshot)throw Error('No project has been saved yet.');const url=URL.createObjectURL(new Blob([snapshot.bytes],{type:'application/gzip'})),link=document.createElement('a');link.href=url;link.download='go-foundry-work.tar.gz';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){feedback(error.message);}};
 $('outline-toggle').onclick=()=>{const open=$('outline').hidden;$('outline').hidden=!open;$('outline-toggle').setAttribute('aria-expanded',String(open));};
-let chapter='';for(const entry of probes){if(read('done/'+entry.id,'')==='true')done.add(entry.id);try{const result=JSON.parse(read('result/'+entry.id,'null'));if(result)results.set(entry.id,result);}catch{}const group=entry.chapter||'Runtime investigations';if(group!==chapter){const title=document.createElement('h3');title.textContent=group;$('outline').append(title);chapter=group;}const link=document.createElement('a');link.href='#'+entry.id;link.textContent=entry.title;$('outline').append(link);}progress();
+for(const entry of probes){if(read('done/'+entry.id,'')==='true')done.add(entry.id);try{const result=JSON.parse(read('result/'+entry.id,'null'));if(result)results.set(entry.id,result);}catch{}}
+buildNavigation();progress();
 $('source-file').onchange=event=>showFile(event.target.value);
-function updateLines(){const count=$('source').value.split('\n').length;$('line-numbers').textContent=Array.from({length:count},(_,index)=>index+1).join('\n');$('source').rows=Math.max(8,Math.min(18,count+1));$('line-numbers').scrollTop=$('source').scrollTop;}
-$('source').addEventListener('scroll',()=>$('line-numbers').scrollTop=$('source').scrollTop);
+function updateLines(){
+  const source=$('source').value,count=source.split('\n').length;$('line-numbers').textContent=Array.from({length:count},(_,index)=>index+1).join('\n');$('source').rows=Math.max(8,Math.min(18,count+1));paintSource($('source-highlight'),source);
+  const definition=presentation[probe?.id],match=definition?.target.exec(source);$('show-target').textContent=definition?.label||'Show edit target';$('show-target').disabled=!match;$('target-status').textContent=match?'Target: line '+(source.slice(0,match.index).split('\n').length)+'.': 'The original edit target is no longer present in this draft.';syncEditorScroll();
+}
+function syncEditorScroll(){for(const id of ['source-highlight','line-numbers']){$(id).scrollTop=$('source').scrollTop;if(id==='source-highlight')$(id).scrollLeft=$('source').scrollLeft;}}
+$('source').addEventListener('scroll',syncEditorScroll);
+$('show-target').onclick=()=>{const match=presentation[probe?.id]?.target.exec($('source').value);if(!match)return;const start=$('source').value.lastIndexOf('\n',match.index-1)+1;let end=$('source').value.indexOf('\n',match.index);if(end<0)end=$('source').value.length;$('source').focus();$('source').setSelectionRange(start,end);const line=$('source').value.slice(0,start).split('\n').length-1;$('source').scrollTop=Math.max(0,(line-2)*parseFloat(getComputedStyle($('source')).lineHeight));syncEditorScroll();};
 $('source').oninput=()=>{updateLines();const value=$('source').value;drafts.set(sourcePath,value);$('draft-status').textContent=save('source/'+sourcePath,value)?'Editor draft saved in this browser. Run compiles this editor text.':'Editor storage is unavailable. Download this draft before closing.';};
 $('prediction').oninput=()=>{notes.set(probe.id,$('prediction').value);if(!save('notes/'+probe.id,$('prediction').value))feedback('Your observations are kept in this tab only. Copy them before closing.');};
-$('complete').onchange=()=>{if($('complete').checked)done.add(probe.id);else done.delete(probe.id);if(!save('done/'+probe.id,String($('complete').checked)))feedback('Completion is kept in this tab only.');progress();};
+$('complete').onchange=()=>{if($('complete').checked)done.add(probe.id);else done.delete(probe.id);const stored=save('done/'+probe.id,String($('complete').checked));if(stored)unsavedCompletion.delete(probe.id);else unsavedCompletion.add(probe.id);completionStatus();if(!stored)feedback('Completion is kept in this tab only.');progress();};
 $('restore').onclick=()=>{undo=$('source').value;$('source').value=files[sourcePath];$('source').dispatchEvent(new Event('input'));$('undo').hidden=false;};$('undo').onclick=()=>{if(undo===null)return;$('source').value=undo;undo=null;$('source').dispatchEvent(new Event('input'));$('undo').hidden=true;};
 $('download-source').onclick=()=>{const link=document.createElement('a'),url=URL.createObjectURL(new Blob([$('source').value],{type:'text/x-go'}));link.href=url;link.download=sourcePath.replaceAll('/','__');link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
 addEventListener('hashchange',()=>show(location.hash.slice(1)));
+addEventListener('storage',event=>{if(!event.key?.startsWith(prefix+'done/'))return;const id=event.key.slice((prefix+'done/').length);if(event.newValue==='true')done.add(id);else done.delete(id);unsavedCompletion.delete(id);if(probe?.id===id){$('complete').checked=done.has(id);completionStatus();}progress();});
+new ResizeObserver(()=>document.documentElement.style.setProperty('--header-height',document.querySelector('header').getBoundingClientRect().height+'px')).observe(document.querySelector('header'));
 addEventListener('beforeunload',event=>{if(frame){event.preventDefault();event.returnValue='';}});
-document.addEventListener('keydown',event=>{if(event.key==='Escape'){$('feedback').hidden=true;if(!$('outline').hidden){$('outline').hidden=true;$('outline-toggle').setAttribute('aria-expanded','false');$('outline-toggle').focus();}}});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'){$('feedback').hidden=true;if(!$('outline').hidden&&($('outline').contains(event.target)||event.target===$('outline-toggle')))closeOutline(true);}});
 async function init(){
   try {
     const responses=await Promise.all(['sources.json','runtime/image.json','version.json'].map(async name=>{const response=await fetch(name);if(!response.ok)throw Error(name+' could not load.');return response.json();}));
-    [files,image]=responses;const version=responses[2];for(const name of Object.keys(files)){const option=document.createElement('option');option.value=name;option.textContent=name;$('source-file').append(option);}
+    [files,image]=responses;$('source').disabled=false;const version=responses[2];for(const name of Object.keys(files)){const option=document.createElement('option');option.value=name;option.textContent=name;$('source-file').append(option);}
     $('external-linux').href=new URL(image.terminal_url,location.href).href;$('setup-command').textContent='cd /root/work/go-foundry && go version';
     $('version').textContent=JSON.stringify({commit:version.commit,go:image.go_version,toolchain_image:image.id,image_total_bytes:image.bytes,note:'All runtime assets are served by this course. No verified offline copy is offered yet.'},null,2);show(location.hash.slice(1));state();
   }catch(error){feedback('Course files could not be loaded. Reload while online. Your drafts are kept.');$('linux-start').disabled=true;}

@@ -8,10 +8,10 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
   page=testPage;await page.addInitScript(()=>{window.bridgeEvents=[];addEventListener('message',event=>{if(event.data?.channel==='foundry-linux'){const {type,id,phase,busy,message}=event.data;bridgeEvents.push({type,id,phase,busy,message});if(bridgeEvents.length>50)bridgeEvents.shift();}});});
   await context.route('**/*',route=>{if(!route.request().url().startsWith(url)){blocked.push(route.request().url());return route.abort();}return route.continue();});
   context.on('response',response=>{if(response.status()>=400)failed.push([response.status(),response.url()]);});page.on('pageerror',error=>errors.push(error.message));
-  await page.goto(url);await page.waitForFunction(()=>document.querySelector('#source-file').options.length>0);
+  await page.goto(url+'#first-program');await page.waitForFunction(()=>document.querySelector('#source-file').options.length>0);
   async function navigate(id){await page.evaluate(id=>location.hash=id,id);await page.waitForFunction(id=>document.querySelector('#outline a[aria-current]')?.hash==='#'+id,id);}
   async function run(expected,{timeout=300000,error=false}={}){
-   await page.locator('#run-source').click();await page.waitForFunction(()=>!document.querySelector('#run-source').disabled,null,{timeout});
+   await page.locator('#run-source').click();if(await page.locator('#runner-intro').evaluate(node=>node.open))await page.locator('#runner-intro-dismiss').click();await page.waitForFunction(()=>!document.querySelector('#run-source').disabled,null,{timeout});
    const status=await page.locator('#job-status').textContent(),output=await page.locator('#job-output').textContent();
    assert.match(status,error?/failed/:/Finished\. Exit code 0\./,status+'\n'+output);if(expected)assert(output.includes(expected),expected+'\n'+output);
    assert.match(await page.locator('#workspace-status').textContent(),/saved in this browser/);return output;
