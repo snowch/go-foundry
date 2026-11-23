@@ -39,12 +39,22 @@ func execute(env []string, seconds int, program string, args ...string) (int, in
 	}
 	return 0, rss
 }
+func phase(value string) {
+	if path := os.Getenv("FOUNDRY_STATUS_FILE"); path != "" {
+		_ = os.WriteFile(path, []byte(value), 0600)
+	}
+}
+
 func main() {
 	name := ""
 	if len(os.Args) == 2 {
 		name = os.Args[1]
 	}
 	packages := map[string]string{"hello": "./cmd/hello", "channels": "./cmd/channels", "db-insert": "./cmd/tinydb", "db-read": "./cmd/tinydb", "test": ""}
+
+	for _, lesson := range []string{"two-lines", "compiler-errors", "variables", "types", "division", "conditions", "loops", "running-total"} {
+		packages[lesson] = "./cmd/" + lesson
+	}
 	pkg, ok := packages[name]
 	if !ok {
 		fmt.Fprintln(os.Stderr, "Choose: ./run hello | channels | test | db-insert | db-read")
@@ -82,10 +92,12 @@ func main() {
 	var code int
 	var rss int64
 	if name == "test" {
+		phase("testing")
 		fmt.Println("Running Go tests...")
 		code, rss = execute(env, 600, filepath.Join(sdk, "bin/go"), "test", "-p=1", "-buildvcs=false", "-trimpath", "-count=1", "-timeout=60s", "./...")
 		buildTime = time.Since(started)
 	} else {
+		phase("compiling")
 		fmt.Println("Building " + name + " with the Go compiler...")
 		bin := name
 		if name == "db-insert" || name == "db-read" {
@@ -102,6 +114,7 @@ func main() {
 			if name == "db-read" {
 				args = []string{"data/people.gdb", "get", "7"}
 			}
+			phase("running")
 			then := time.Now()
 			var peak int64
 			code, peak = execute(env, 60, output, args...)

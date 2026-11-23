@@ -1,20 +1,24 @@
-# Go Foundry runtime prototype
+# Go Foundry
 
-This prototype uses a real Go 1.27.4 compiler inside a self-hosted Alpine Linux x86
-guest running in v86. The terminal, emulator, BIOS, Linux kernel, Go SDK, prepared
-cache, examples and fonts are published by this course. No runtime CDN or external
-Linux service is required. It is still a runtime investigation, not a comprehensive
-Go course or a performance-ready implementation.
+The first three chapters teach first programs, values and types, and conditions
+and loops through nine editable lessons. No Go installation, account or shell
+commands are required. **Run** starts a self-hosted Linux guest, compiles the
+current editor source with real Go 1.27.4, and shows actual output or compiler
+errors in the lesson. **Stop run** cancels a program without discarding Linux.
+The terminal remains an optional advanced tool.
 
-Choose **Run edited source**. The page starts Linux if necessary, transfers the
-current editor bytes through a guest-only file share and runs the selected check.
-No command copy/paste or download/upload round trip is needed for editor changes.
-The terminal upload control remains available for restoring work archives.
+Project files and TinyDB data are saved to IndexedDB after each run and before
+stopping. A fresh runtime restores that project automatically. The default idle
+stop is 30 minutes, configurable in Code runner. If saving fails, the guest stays
+running. Browser editor drafts, observations and completion marks keep their
+existing `go-foundry:v1:` keys. Download a project archive for a permanent backup;
+browser storage may be cleared or evicted.
 
-The guest uses 768 MiB RAM plus browser overhead. Export a work archive before
-Stop Linux, reload or tab close. Browser drafts, observations and review marks keep
-their existing `go-foundry:v1:` keys. Guest files remain temporary. There is no
-verified offline-copy control yet; self-hosting alone is not an offline guarantee.
+The guest uses 768 MiB RAM plus browser overhead. Its emulator, terminal, BIOS,
+kernel, Go SDK, prepared cache and examples are self-hosted. A fresh startup still
+needs internet: there is no verified complete offline-copy control yet. This is
+an introductory course with a prototype runtime, not a complete Go curriculum or
+a native-speed performance environment.
 
 ## Build and verification
 
@@ -30,7 +34,9 @@ writer/reader processes with requests outside the lab blocked. Go tests were slo
 about 512 seconds including compilation with that initial cache. Passing those
 checks does not establish mobile performance or learning effectiveness.
 
-[Runtime design](docs/self-hosted-linux.md), [licences](THIRD_PARTY.md) and the
+[Background jobs and persistence](docs/background-runner.md),
+[first-chapter learning design](docs/learning-design.md),
+[self-hosted runtime design](docs/self-hosted-linux.md), [licences](THIRD_PARTY.md) and the
 [direct Go WebAssembly investigation](docs/direct-wasm-investigation.md) explain
 the implementation and its limits. The legacy JSLinux serializer is retained for
 compatibility/source history, not used to start new sessions.

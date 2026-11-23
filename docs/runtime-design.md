@@ -1,4 +1,8 @@
-# Go runtime and prepared-image design
+# Historical investigation: Go runtime and prepared-image design
+
+> This document records the original external JSLinux investigation. It is not the
+> current implementation. See [self-hosted Linux](self-hosted-linux.md) and
+> [background jobs and persistence](background-runner.md) for the current design.
 
 ## Question and components
 

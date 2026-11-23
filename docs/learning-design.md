@@ -1,0 +1,28 @@
+# First three chapters
+
+The essential route assumes no Go experience. Learners must be able to use a web
+editor and a Run button; installing Go, using a shell, and understanding Linux are
+not prerequisites. Linux implementation details belong in optional runner tools.
+
+| Chapter | Practical outcome | Misconception addressed | Transfer task |
+| --- | --- | --- | --- |
+| First programs | Edit, compile and run a greeting; trace statement order; repair a syntax error using its line number | Editing source changes output without rerunning; comments execute; an earlier successful result proves broken source ran | Reorder two complete statements and explain the new output |
+| Values and types | Name values, recognise four types, and use integer division/remainders | An expression automatically changes its variable; text and integers are interchangeable; integer division preserves a fraction | Predict groups and remainder for 8 and 9 items |
+| Conditions and loops | Test a boundary, trace a loop, and retain an accumulator across repetitions | >= excludes equality; loops always execute once; resetting an accumulator each repetition keeps a running total | Change the loop limit, then move the initialisation and explain both outputs |
+
+Each lesson presents its purpose, definitions, prepared source, precise edit and
+Run instruction, observable output, and interpretation. The original result is an
+optional comparison, not an assertion that every valid edit must match. Compiler
+errors clear the previous run output and show a distinct failed execution state.
+Completion is learner-controlled and saved independently of execution.
+
+The starter and all documented edits have executable native reference checks.
+Real browser tests run every starter through the actual guest compiler and check
+edited execution, compiler errors, cancellation, and saved project restoration.
+These are functional checks. They do not demonstrate learning effectiveness or
+establish acceptable startup performance on physical Android devices.
+
+Later chapters (functions, collections, errors, data structures, algorithms and a
+TinyDB project) remain future course work. The earlier runtime investigations are
+retained as an optional navigation group; they are not presented as beginner
+prerequisites.

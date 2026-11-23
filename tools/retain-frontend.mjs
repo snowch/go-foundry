@@ -1,3 +1,4 @@
+import {valid} from './frontend-paths.mjs';
 // Keep immutable frontend/runtime graphs and the legacy guest used by existing sessions.
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
@@ -35,7 +36,7 @@ with tarfile.open(root/'artifact.tar') as t:
     p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(t.extractfile(m).read())
 `],{stdio:'inherit'});
 }
-function valid(path){return /^(app|source-transfer|style)\.[a-f0-9]{16}\.(js|css)$/.test(path)||/^linux\/releases\/[a-f0-9]{64}\/[A-Za-z0-9_./-]+$/.test(path)&&!path.split('/').includes('..')||/^runtime\/images\/[a-f0-9]{64}\/(head|lock|manifest\.json|files\/[a-f0-9]{16})$/.test(path);}
+
 async function retain(file){
  if(!valid(file.path)||!Number.isSafeInteger(file.bytes)||file.bytes<0||!/^[a-f0-9]{64}$/.test(file.sha256))throw Error('Invalid retained file');
  let bytes;
