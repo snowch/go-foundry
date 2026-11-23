@@ -441,6 +441,13 @@
       "before": "\"-count\", \"3\"",
       "after": "\"-count\", \"5\"",
       "expected": "count 5"
+    },
+    {
+      "before": "\"-count\", \"3\"",
+      "after": "\"-count\", \"many\"",
+      "expected": {
+        "contains": "invalid option"
+      }
     }
   ],
   "parse-time": [

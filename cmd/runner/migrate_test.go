@@ -40,3 +40,26 @@ func TestLegacyHelperMigrationPreservesEdits(t *testing.T) {
 		}
 	}
 }
+
+func TestResolveLessonCommands(t *testing.T) {
+	t.Chdir(t.TempDir())
+	if err := os.MkdirAll("cmd/example", 0755); err != nil {
+		t.Fatal(err)
+	}
+	for _, file := range []string{"main.go", "main_test.go"} {
+		if err := os.WriteFile(filepath.Join("cmd/example", file), []byte("package main"), 0600); err != nil {
+			t.Fatal(err)
+		}
+	}
+	for _, input := range []string{"../example", "example;echo x", "check:../example", "bench:runner", "runner", "missing", "example/../../etc/passwd", ""} {
+		if _, _, ok := resolveCommand(input); ok {
+			t.Fatalf("accepted %q", input)
+		}
+	}
+	for input, want := range map[string]string{"example": "run", "check:example": "check", "bench:example": "bench"} {
+		mode, pkg, ok := resolveCommand(input)
+		if !ok || mode != want || pkg != "./cmd/example" {
+			t.Fatalf("%s: %s %s %v", input, mode, pkg, ok)
+		}
+	}
+}

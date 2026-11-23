@@ -1,7 +1,7 @@
-# First three chapters
+# Go Foundry learning design
 
-The standalone prototype presents these outcomes as three separate introductory
-courses. Each course has its own homepage, prerequisites, three-lesson menu,
+The series presents twelve independent courses with 113 lessons. Each course
+has its own homepage, prerequisites, bounded lesson menu,
 progress and course identity. The series directory provides discovery and an
 optional learning order. Compiler tools and saved work remain shared underneath;
 changing a course does not add a prerequisite or automatically run an example.
@@ -28,21 +28,27 @@ edited execution, compiler errors, cancellation, and saved project restoration.
 These are functional checks. They do not demonstrate learning effectiveness or
 establish acceptable startup performance on physical Android devices.
 
-Later chapters (functions, collections, errors, data structures, algorithms and a
-TinyDB project) remain future course work. The earlier runtime investigations are
-retained as an optional navigation group; they are not presented as beginner
-prerequisites.
+The expanded sequence is specified in [full-course-design.md](full-course-design.md).
+Functions distinguish copies from pointer updates; collections distinguish slice
+views from independently copied storage; interfaces distinguish a typed nil from
+an empty interface. Errors preserve causes, and tests check behavior rather than
+merely reproducing a source line. Files/HTTP examples use prepared local inputs
+without requiring outside services. Concurrency requires explicit completion and
+shutdown ownership instead of sleeps. Data structures state empty/full and
+ordering invariants; algorithms state sorted-input, edge-weight and counting
+assumptions. TinyDB separates in-memory updates, file publication and browser
+project checkpointing, then reopens a real saved database after a fresh VM.
 
-## Shared course presentation adoption
+Each new lesson has a runnable original, an executable suggested edit, explicit
+result evidence and a further prediction or design question. Particularly useful
+transfer exercises include implementing a lower clamp bound, case-insensitive
+word counting, choosing a missing-input test case, identifying which slice views
+change, predicting a newly chosen graph edge and checking persistence independently
+of a repeated write. These tasks are opportunities to assess understanding;
+passing the implementation tests alone does not assess a learner's reasoning.
 
-Use the canonical [shared course design guide](https://github.com/snowch/cuda-python-lab/blob/main/docs/course-design-guide.md), also required by CUDA C++ Lab. No new Go knowledge or shell prerequisite is introduced by this presentation change.
-
-The practical outcome is finding, attempting and revisiting one lesson without losing work. Likely misconceptions are that opening course navigation reruns code, that a completion mark certifies correctness, or that previous output belongs to a newly edited source. Keep one clear Run action, code/output together, a saved optional prediction before execution, explicit previous-output labelling, and reversible completion independent of execution. Preserve the nine complete examples and their documented edits. The transfer task remains each lesson's deliberate source change and interpretation question.
-
-The course home provides prerequisites, a compact compiler illustration, a Start action and grouped progress. Direct lesson hashes remain valid. Review the essential path with optional resources closed and exercise navigation, back/forward, section destinations, completion, saved drafts/predictions/results and a running guest.
-
-## Small-lab series prototype
-
-The three completed chapters become three introductory prototype labs, each with three existing lessons: First programs, Values and types, and Conditions and loops. This validates the series interface without presenting unwritten algorithms, data-structures or TinyDB courses as finished. The practical outcome is choosing one bounded learning goal, understanding its prerequisites, and returning to its own progress and outline.
-
-The first lab needs no Go experience. Values and types builds on running a program and repairing a simple compiler error; Conditions and loops uses the variables and arithmetic taught in Values and types. Prerequisites are recommendations rather than completion locks. The examples and transfer tasks stay unchanged. Prototype boundaries can expand as later content is authored; lesson identifiers and saved work must survive any regrouping.
+Diagrams are optional additions to essential visible explanations, not hidden
+substitutes. They show specific relationships in the starter and keep assumptions
+visible. Inspect diagrams at phone sizes with keyboard scrolling as well as at
+full width. The earlier runtime investigations remain optional tools and do not
+replace any of the teaching labs.
