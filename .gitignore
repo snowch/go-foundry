@@ -10,3 +10,7 @@ __pycache__/
 .cache-path
 data/
 measurements.jsonl
+
+.cache/
+/web/linux/runtime/
+/web/linux/notices/
