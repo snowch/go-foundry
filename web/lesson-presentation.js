@@ -1,9 +1,10 @@
 // Presentation metadata only. Execution commands and stable lesson IDs stay in course.js.
-export const chapters = [
- {id:'section-1',title:'First programs',description:'Print messages, follow statement order and repair a compiler error.',lessons:['first-program','two-lines','compiler-errors']},
- {id:'section-2',title:'Values and types',description:'Name values, choose types and divide items into groups.',lessons:['variables','types','division']},
- {id:'section-3',title:'Conditions and loops',description:'Choose a path, repeat work and build a running total.',lessons:['conditions','loops','running-total']}
+export const labs = [
+ {id:'first-programs',legacySection:'section-1',title:'First programs',description:'Print messages, follow statement order and repair a compiler error.',prerequisites:'No Go experience is required. You only need to be comfortable editing text.',before:[],lessons:['first-program','two-lines','compiler-errors']},
+ {id:'values-and-types',legacySection:'section-2',title:'Values and types',description:'Name values, choose types and divide items into groups.',prerequisites:'You should be able to run a Go program and repair a simple compiler error.',before:['first-programs'],lessons:['variables','types','division']},
+ {id:'conditions-and-loops',legacySection:'section-3',title:'Conditions and loops',description:'Choose a path, repeat work and build a running total.',prerequisites:'Uses variables and arithmetic from Values and types.',before:['values-and-types'],lessons:['conditions','loops','running-total']}
 ];
+
 const fmt='https://pkg.go.dev/fmt@go1.27.4#Println', spec='https://go.dev/ref/spec#';
 const topic=(title,reminder,code,url)=>({title,reminder,code,url});
 export const presentation={

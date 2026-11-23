@@ -1,7 +1,7 @@
 import {loadWorkspace, saveWorkspace, clearWorkspace} from './workspace-store.js';
 import {lessons} from './course.js';
 import {investigations} from './investigations.js';
-import {chapters, presentation} from './lesson-presentation.js';
+import {labs, presentation} from './lesson-presentation.js';
 import {paintSource} from './editor.js';
 const $=id=>document.getElementById(id), prefix='go-foundry:v1:', drafts=new Map(), notes=new Map(), done=new Set(), unsavedCompletion=new Set(), results=new Map();
 const probes=[...lessons,...investigations];
@@ -84,74 +84,94 @@ function closeOutline(returnFocus=false){
   $('outline').hidden=true;$('outline-toggle').setAttribute('aria-expanded','false');
   if(returnFocus){$('outline-toggle').focus({preventScroll:true});$('outline-toggle').scrollIntoView({block:'nearest'});}
 }
-function chapterFor(entry){return chapters.find(chapter=>chapter.lessons.includes(entry.id))||{id:'investigations',title:'Runtime investigations'};}
+function labFor(entry){return entry?labs.find(lab=>lab.lessons.includes(entry.id)):null;}
+let activeLab=null;
 function icon(name,extra=''){const span=document.createElement('span');span.className='material-icon '+extra+' icon-'+name;span.setAttribute('aria-hidden','true');return span;}
 function makeLinks(entries){
   const list=document.createElement('ol');list.className='lesson-links';
   for(const entry of entries){
     const item=document.createElement('li'),link=document.createElement('a'),number=document.createElement('span'),title=document.createElement('span');
     link.href='#'+entry.id;link.dataset.lessonId=entry.id;number.className='lesson-number';
-    const order=lessons.findIndex(lesson=>lesson.id===entry.id);number.textContent=order>=0?String(order+1).padStart(2,'0'):String(investigations.indexOf(entry)+1).padStart(2,'0');
+    number.textContent=String(entries.indexOf(entry)+1).padStart(2,'0');
     title.className='lesson-title';title.textContent=entry.title;link.append(number,title,icon('check','compact completed-mark'));item.append(link);list.append(item);
   }
   return list;
 }
 function buildNavigation(){
-  const overview=document.createElement('a');overview.href='#home';overview.className='outline-overview';overview.textContent='Course overview';$('outline').append(overview);
-  for(const chapter of chapters){
-    const entries=chapter.lessons.map(id=>lessons.find(entry=>entry.id===id));
-    const home=document.createElement('section');home.className='home-chapter';
-    const title=document.createElement('h3');title.id='home-'+chapter.id;title.tabIndex=-1;title.textContent=chapter.title;
-    const description=document.createElement('p');description.textContent=chapter.description;
-    const count=document.createElement('p');count.className='chapter-progress';count.dataset.chapterProgress=chapter.id;
-    home.append(title,description,count,makeLinks(entries));$('home-outline').append(home);
-    const group=document.createElement('section');group.className='outline-group';const heading=document.createElement('h3');heading.textContent=chapter.title;group.append(heading,makeLinks(entries));$('outline').append(group);
+  for(const [index,lab]of labs.entries()){
+    const card=document.createElement('section');card.className='home-chapter lab-card';
+    const number=document.createElement('p');number.className='lab-number';number.textContent='Lab '+(index+1);
+    const title=document.createElement('h3');title.textContent=lab.title;
+    const description=document.createElement('p');description.textContent=lab.description;
+    const before=document.createElement('p');before.className='lab-before';before.textContent=lab.before.length?'Builds on '+labs.find(item=>item.id===lab.before[0]).title+'.':'No Go experience required.';
+    const count=document.createElement('p');count.className='chapter-progress';count.dataset.labProgress=lab.id;
+    const link=document.createElement('a');link.href='#lab/'+lab.id;link.dataset.labId=lab.id;link.textContent='Open '+lab.title;link.className='lab-open';
+    card.append(number,title,description,before,count,link);$('home-outline').append(card);
   }
-  const group=document.createElement('section');group.className='outline-group';const heading=document.createElement('h3');heading.textContent='Optional runtime investigations';group.append(heading,makeLinks(investigations));$('outline').append(group);
-  const homeHeading=document.createElement('h3');homeHeading.id='home-investigations';homeHeading.tabIndex=-1;homeHeading.textContent='Choose an investigation';
-  const host=$('home-investigation-list');host.append(homeHeading,makeLinks(investigations));
+  const heading=document.createElement('h3');heading.id='home-investigations';heading.tabIndex=-1;heading.textContent='Choose an investigation';$('home-investigation-list').append(heading,makeLinks(investigations));
+}
+function renderOutline(lab){
+  $('outline').replaceChildren();
+  const overview=document.createElement('a');overview.href=lab?'#lab/'+lab.id:'#home';overview.className='outline-overview';overview.textContent=lab?lab.title+' overview':'Go Foundry labs';$('outline').append(overview);
+  if(lab){const series=document.createElement('a');series.href='#home';series.className='outline-overview';series.textContent='All Go Foundry labs';$('outline').append(series);}
+  const group=document.createElement('section');group.className='outline-group';const heading=document.createElement('h3');heading.textContent=lab?'Lessons in this lab':'Optional runtime investigations';group.append(heading,makeLinks(lab?lab.lessons.map(id=>lessons.find(entry=>entry.id===id)):investigations));$('outline').append(group);
+}
+function countComplete(lab){return lab.lessons.filter(id=>done.has(id)).length;}
+function lastInLab(lab){const id=read('last-lesson/'+lab.id,read('last-lesson',''));return lab.lessons.includes(id)?lessons.find(entry=>entry.id===id):null;}
+function updateLabStart(lab){
+  const last=lastInLab(lab),complete=countComplete(lab)===lab.lessons.length,target=complete?lessons.find(entry=>entry.id===lab.lessons[0]):last||lessons.find(entry=>lab.lessons.includes(entry.id)&&!done.has(entry.id))||lessons.find(entry=>entry.id===lab.lessons[0]);
+  $('start-lab').href='#'+target.id;$('start-lab').textContent=complete?'Review this lab':last||countComplete(lab)?'Continue: '+target.title:'Start the first lesson';
 }
 function progress(){
-  const count=lessons.filter(entry=>done.has(entry.id)).length, label=count+' / '+lessons.length+' lessons complete';
-  $('progress').textContent=label;$('home-progress').textContent=label;
-  for(const chapter of chapters)document.querySelectorAll('[data-chapter-progress="'+chapter.id+'"]').forEach(node=>node.textContent=chapter.lessons.filter(id=>done.has(id)).length+' / '+chapter.lessons.length+' complete');
+  $('home-progress').textContent=labs.filter(lab=>countComplete(lab)===lab.lessons.length).length+' / '+labs.length+' labs complete';
+  for(const lab of labs)document.querySelectorAll('[data-lab-progress="'+lab.id+'"]').forEach(node=>node.textContent=countComplete(lab)+' / '+lab.lessons.length+' lessons complete');
+  const currentLab=labFor(probe);$('progress').textContent=currentLab?countComplete(currentLab)+' / '+currentLab.lessons.length+' lessons complete':'Optional investigations';
   for(const link of document.querySelectorAll('[data-lesson-id]')){
-    const completed=done.has(link.dataset.lessonId);link.dataset.complete=String(completed);
-    link.setAttribute('aria-label',probes.find(entry=>entry.id===link.dataset.lessonId).title+(completed?' — complete':''));
+    const completed=done.has(link.dataset.lessonId);link.dataset.complete=String(completed);link.setAttribute('aria-label',probes.find(entry=>entry.id===link.dataset.lessonId).title+(completed?' — complete':''));
     if(!$('lesson-view').hidden&&link.dataset.lessonId===probe?.id)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');
   }
-  const last=lessons.find(entry=>entry.id===read('last-lesson',''));
-  $('start-course').href='#'+(last?.id||lessons[0].id);$('start-course').textContent=last?'Continue: '+last.title:'Start the first lesson';
+  const last=lessons.find(entry=>entry.id===read('last-lesson','')),recent=labFor(last),next=labs.find(lab=>countComplete(lab)<lab.lessons.length),continuation=recent&&countComplete(recent)<recent.lessons.length?recent:next||recent||labs[0],hasProgress=lessons.some(entry=>done.has(entry.id));
+  $('start-course').href='#lab/'+continuation.id;$('start-course').textContent=!next?'Review: '+continuation.title:lastInLab(continuation)||countComplete(continuation)?'Continue: '+continuation.title:hasProgress?'Next lab: '+continuation.title:'Start the first lab';
+  if(activeLab)updateLabStart(activeLab);
 }
+function showLab(lab){
+  activeLab=lab;$('home-view').hidden=true;$('lesson-view').hidden=true;$('lab-view').hidden=false;document.title=lab.title+' · Go Foundry';
+  $('lab-title').textContent=lab.title;$('lab-current').textContent=lab.title;$('lab-description').textContent=lab.description;$('lab-prerequisites').textContent=lab.prerequisites;
+  $('lab-prerequisite-links').replaceChildren();for(const id of lab.before){const prerequisite=labs.find(item=>item.id===id),link=document.createElement('a');link.href='#lab/'+id;link.textContent='Review '+prerequisite.title;$('lab-prerequisite-links').append(link);}
+  $('lab-prerequisite-links').hidden=!lab.before.length;$('lab-progress').dataset.labProgress=lab.id;$('lab-outline').replaceChildren(makeLinks(lab.lessons.map(id=>lessons.find(entry=>entry.id===id))));
+  const following=labs[labs.indexOf(lab)+1];$('following-lab').hidden=!following;if(following){$('following-lab').href='#lab/'+following.id;$('following-lab').textContent='Next lab: '+following.title;}
+  progress();requestAnimationFrame(()=>{$('lab-title').focus({preventScroll:true});document.querySelector('.lab-location').scrollIntoView({block:'start'});});
+}
+
 function renderReferences(){
   const topics=presentation[probe.id]?.topics||[];$('references').replaceChildren();$('references').className='topic-references';
   $('references-subtitle').textContent=topics.map(topic=>topic.title).join(' · ');
   for(const topic of topics){const item=document.createElement('li'),heading=document.createElement('h3'),reminder=document.createElement('p'),code=document.createElement('code'),link=document.createElement('a');heading.textContent=topic.title;reminder.textContent=topic.reminder;code.textContent=topic.code;link.href=topic.url;link.target='_blank';link.rel='noopener';link.textContent=topic.title+' documentation (new tab)';item.append(heading,reminder,code,link);$('references').append(item);}
 }
 function completionStatus(){$('completion-status').textContent=unsavedCompletion.has(probe?.id)?'Storage is unavailable. This completion mark is kept in this tab only.':'Saved in this browser. Completion records your progress, not a test result.';}
-function navigationCard(node,entry,direction){
-  const label=document.createElement('span'),title=document.createElement('strong');label.className='card-direction';label.textContent=entry?direction: 'Course overview';title.textContent=entry?entry.title:'Choose a lesson';node.href=entry?'#'+entry.id:'#home';node.replaceChildren(label,title);
+function navigationCard(node,entry,direction,lab=null){
+  const label=document.createElement('span'),title=document.createElement('strong');label.className='card-direction';label.textContent=entry?direction:lab?'Lab overview':'Go Foundry labs';title.textContent=entry?entry.title:lab?lab.title:'Choose a lab';node.href=entry?'#'+entry.id:lab?'#lab/'+lab.id:'#home';node.replaceChildren(label,title);
 }
 let pendingTools=false;
 function show(id){
-  const entry=probes.find(item=>item.id===id), sectionID=id.startsWith('course/')?id.slice(7):null;
+  const entry=probes.find(item=>item.id===id),sectionID=id.startsWith('course/')?id.slice(7):null,requestedLab=id.startsWith('lab/')?labs.find(lab=>lab.id===id.slice(4)):labs.find(lab=>lab.legacySection===sectionID);if(requestedLab){showLab(requestedLab);return;}
   if(!entry){
-    $('home-view').hidden=false;$('lesson-view').hidden=true;document.title='Go Foundry · Learn Go';progress();
-    const chapter=chapters.find(item=>item.id===sectionID),target=chapter?$('home-'+chapter.id):sectionID==='investigations'?$('home-investigations'):$('home-title');
+    activeLab=null;$('home-view').hidden=false;$('lesson-view').hidden=true;$('lab-view').hidden=true;document.title='Go Foundry · Lab series';progress();
+    const target=sectionID==='investigations'?$('home-investigations'):$('home-title');
     if(sectionID==='investigations')document.querySelector('.home-investigations').open=true;
     requestAnimationFrame(()=>{target.focus({preventScroll:true});target.scrollIntoView({block:'start'});});return;
   }
-  probe=entry;$('home-view').hidden=true;$('lesson-view').hidden=false;
+  probe=entry;activeLab=labFor(probe);$('home-view').hidden=true;$('lab-view').hidden=true;$('lesson-view').hidden=false;
   document.title=probe.title+' · Go Foundry';
   for(const [target,field]of[['check-title','title'],['purpose','purpose'],['action','action'],['run-command','command'],['observe','observe'],['reference-output','reference']])$(target).textContent=probe[field];
   $('explanation').replaceChildren();for(const text of (probe.explanation||'').split('\n\n')){const paragraph=document.createElement('p');paragraph.textContent=text;$('explanation').append(paragraph);}$('explanation').hidden=!probe.explanation;
-  const chapter=chapterFor(probe);$('section-location').textContent=chapter.title;$('section-location').href='#course/'+chapter.id;$('breadcrumb').textContent=probe.title;
+  const lab=labFor(probe);$('section-location').textContent=lab?.title||'Runtime investigations';$('section-location').href=lab?'#lab/'+lab.id:'#course/investigations';$('breadcrumb').textContent=probe.title;renderOutline(lab);
   renderReferences();$('prediction').value=notes.get(probe.id)??read('notes/'+probe.id,'');$('complete').checked=done.has(probe.id);
-  const regular=lessons.some(item=>item.id===probe.id), sequence=regular?lessons:investigations,index=sequence.indexOf(probe);
+  const regular=lessons.some(item=>item.id===probe.id), sequence=lab?lab.lessons.map(id=>lessons.find(entry=>entry.id===id)):investigations,index=sequence.indexOf(probe);
   $('completion-label').textContent=regular?'Mark lesson complete':'Mark investigation reviewed';
   completionStatus();
-  navigationCard($('previous-lesson'),sequence[index-1],'Previous lesson');navigationCard($('next-lesson'),sequence[index+1],'Next lesson');
-  if(regular)save('last-lesson',probe.id);
+  navigationCard($('previous-lesson'),sequence[index-1],'Previous lesson',lab);navigationCard($('next-lesson'),sequence[index+1],'Next lesson',lab);
+  if(regular){save('last-lesson',probe.id);save('last-lesson/'+lab.id,probe.id);}
   showFile(probe.file);closeOutline();progress();state();
   requestAnimationFrame(()=>{if(pendingTools){pendingTools=false;$('runner-tools').open=true;$('runner-tools').scrollIntoView({block:'start'});$('runner-tools').querySelector('summary').focus({preventScroll:true});}else{$('check-title').focus({preventScroll:true});document.querySelector('.course-navigation').scrollIntoView({block:'start'});}});
 }
@@ -163,7 +183,7 @@ function queueRun(){
   results.set(probe.id,{output:'',diagnostics:'',status:''});
   if(frame&&ready)post(current);else start();state();
 }
-document.querySelector('.skip').onclick=event=>{event.preventDefault();const target=$('lesson-view').hidden?$('home-title'):$('check-title');target.focus({preventScroll:true});target.scrollIntoView({block:'start'});};
+document.querySelector('.skip').onclick=event=>{event.preventDefault();const target=!$('lesson-view').hidden?$('check-title'):!$('lab-view').hidden?$('lab-title'):$('home-title');target.focus({preventScroll:true});target.scrollIntoView({block:'start'});};
 $('run-source').onclick=queueRun;
 $('stop-run').onclick=()=>{if(current?.kind==='run'&&current.phase==='starting'){results.set(current.probeID,{status:'Run stopped before compilation.',output:''});current=null;state();return;}if(current?.kind==='run'){post({type:'cancel',id:current.id});current.phase='stopping';state();}};
 $('source').addEventListener('keydown',event=>{if((event.ctrlKey||event.metaKey)&&event.key==='Enter'){event.preventDefault();if(!current)queueRun();}});

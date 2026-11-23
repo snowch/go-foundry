@@ -161,3 +161,22 @@ th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line);vertical-
 /* Route headings receive screen-reader focus without looking like a selected form control. */
 h1[tabindex="-1"]:focus-visible,h3[tabindex="-1"]:focus-visible{outline:none}
 .home-chapter h3:focus{color:var(--accent)}
+.lab-card{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:20px;display:flex;flex-direction:column}
+.lab-card .lab-number{font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px}
+.lab-card h3{font-size:1.25rem}
+.lab-card .lab-before{font-size:14px}
+.lab-card .chapter-progress{margin-top:auto;padding-top:8px}
+.lab-open{display:inline-flex;align-items:center;min-height:44px;padding-block:8px;font-weight:600}
+.lab-location{display:flex;gap:12px;flex-wrap:wrap;align-items:center;padding-top:28px;margin-bottom:24px}
+.lab-intro{padding-bottom:24px}
+.lab-prerequisites h2{font-size:1.1rem;margin-bottom:8px}
+.lab-lessons{padding-bottom:24px}
+.lab-lessons .lesson-links{max-width:70ch;margin-bottom:20px}
+.lab-lessons .lesson-links li{border-bottom:1px solid var(--line)}
+.lab-sequence{display:flex;justify-content:space-between;gap:16px 24px;flex-wrap:wrap;border-top:1px solid var(--line);padding-block:24px}
+.lab-sequence a{display:inline-flex;align-items:center;min-height:44px}
+/* A lab has a short outline; spread its lesson links without empty section columns. */
+.lesson-outline{display:block}
+.lesson-outline .outline-overview{display:inline-flex;align-items:center;min-height:44px;margin-right:24px}
+.lesson-outline .outline-group{margin-top:16px}
+.lesson-outline .lesson-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:8px 12px}
