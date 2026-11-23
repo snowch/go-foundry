@@ -52,3 +52,19 @@ substitutes. They show specific relationships in the starter and keep assumption
 visible. Inspect diagrams at phone sizes with keyboard scrolling as well as at
 full width. The earlier runtime investigations remain optional tools and do not
 replace any of the teaching labs.
+
+## Choosing and resuming a lab
+
+The series hub helps learners choose a starting point without learning runtime
+implementation details first. Newcomers need no Go experience; experienced
+learners can choose any lab using its prerequisites. A new learner starts the
+first lesson directly. A returning learner resumes their unfinished lesson, or
+moves to the next unfinished lesson when their last lesson is marked complete.
+Completing all labs offers an explicit review action. Opening a lesson never
+starts execution. Preserve drafts, observations, results and completion marks.
+
+The main cross-subject directory presents Go Foundry as one course family. Its
+hub contains the twelve numbered independent labs, their prerequisites and
+progress. On narrow screens, choices precede the supporting compiler diagram.
+Cards use one, two or three columns according to readable available width.
+Functional navigation checks do not demonstrate learning effectiveness.

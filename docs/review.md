@@ -116,3 +116,25 @@ checked every lesson at 320 px and representative first/middle/final lessons at
 Visual inspection then widened diagrams beyond the prose measure and separated
 the worker-pool's result flow from its coordinator's close signal. Narrow figures
 show an explicit scrolling hint; wide figures fit without horizontal scrolling.
+
+## Series discovery and direct start
+
+Before: the main directory repeated twelve Go tiles beside one tile for each
+other Foundry. The Go grid alone occupied about 1,733 px on a 390 px phone, and
+its hub's lab choices began at 1,182 px. The hub's primary action opened another
+overview before the first lesson. Its cards stayed in one column below 900 px,
+even where two readable columns would fit.
+
+After: one Programming tile and one sidebar entry lead to the existing Go hub.
+The hub keeps its twelve numbered labs, prerequisites and progress. A shorter
+intro puts the direct Start/Continue action before the choices. The diagram
+remains beside the intro on wide screens and follows the choices on narrow
+screens. Card columns adapt to a minimum readable width; narrow phones keep a
+single column. A completed last lesson leads to the next unfinished lesson,
+while a wholly completed series offers review. Existing addresses and stored
+work remain stable. Navigation never starts, stops or submits to the runner.
+
+Check fresh start, returning draft/resume, completed-last advance and full-series
+review; direct links, keyboard, history/reload, responsive column counts, diagram
+order and both themes. Keep real execution and checkpoint verification separate
+from interface checks, and do not infer learning effectiveness from passing tests.
