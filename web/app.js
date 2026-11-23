@@ -36,13 +36,21 @@ function renderResult(){
   $('output-caption').hidden=!result||!!running;$('job-result').setAttribute('aria-busy',String(!!running));
 }
 function terminalVisible(open){$('terminal-region').classList.toggle('terminal-closed',!open);$('terminal-region').inert=!open;$('terminal-region').setAttribute('aria-hidden',String(!open));$('terminal-toggle').setAttribute('aria-expanded',String(open));$('terminal-toggle').textContent=open?'Hide Linux terminal':'Open Linux terminal';if(open){start();$('terminal-region').scrollIntoView({block:'start'});}}
+let leaseFinished=Promise.resolve();
 async function acquireLease(){
   if(!navigator.locks)throw Error('This browser cannot safely coordinate saved Linux sessions across tabs. Use a current browser. Your editor drafts are kept.');
-  return new Promise((resolve,reject)=>{navigator.locks.request('go-foundry-workspace-session',{ifAvailable:true},lock=>{
-    if(!lock){reject(Error('The runner is open in another Go Foundry tab. Stop it there before starting here.'));return;}
-    return new Promise(release=>{releaseLock=release;resolve();});
-  }).catch(reject);});
+  // Resolving our hold callback does not synchronously release the browser lock.
+  // A same-tick fresh restart must await the entire previous request finishing.
+  await leaseFinished;
+  let acquired, failed;
+  const entered=new Promise((resolve,reject)=>{acquired=resolve;failed=reject;});
+  leaseFinished=navigator.locks.request('go-foundry-workspace-session',{ifAvailable:true},lock=>{
+    if(!lock){failed(Error('The runner is open in another Go Foundry tab. Stop it there before starting here.'));return;}
+    return new Promise(release=>{releaseLock=release;acquired();});
+  }).catch(error=>{failed(error);});
+  return entered;
 }
+
 let starting=false;
 async function start(){
   if(frame||starting)return;
