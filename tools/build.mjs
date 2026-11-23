@@ -1,5 +1,6 @@
 import{createHash}from'node:crypto';
 import{cp,mkdir,readFile,readdir,writeFile,rm}from'node:fs/promises';import{execFileSync}from'node:child_process';
+import{labs}from'../web/lesson-presentation.js';
 const site='.build/site';await mkdir(site,{recursive:true});await cp('web',site,{recursive:true});
 execFileSync('python',['tools/local-linux/build.py','go',site+'/linux'],{stdio:'inherit'});
 await mkdir(site+'/runtime',{recursive:true});await cp(site+'/linux/runtime/image.json',site+'/runtime/image.json');
@@ -17,10 +18,24 @@ const runtimeMetadata=JSON.parse(await readFile(site+'/runtime/image.json'));run
 async function asset(stem,extension,content){const bytes=Buffer.from(content),name=stem+'.'+hash(bytes).slice(0,16)+'.'+extension;await writeFile(site+'/'+name,bytes);assets.push({path:name,sha256:hash(bytes),bytes:bytes.length});return name;}
 const helper=await asset('source-transfer','js',await readFile('web/source-transfer.js'));
 let appSource=await readFile('web/app.js','utf8');
-for(const module of ['workspace-store','course','investigations','lesson-presentation','editor']){const name=await asset(module,'js',await readFile('web/'+module+'.js'));appSource=appSource.replace('./'+module+'.js','./'+name);}
+for(const module of ['workspace-store','course','investigations','lesson-presentation','editor','routes']){const name=await asset(module,'js',await readFile('web/'+module+'.js'));appSource=appSource.replace('./'+module+'.js','./'+name);}
 const app=await asset('app','js',appSource);
 const css=await asset('style','css',await readFile('web/style.css'));
-await writeFile(site+'/index.html',(await readFile('web/index.html','utf8')).replace('src="app.js"','src="'+app+'"').replace('href="style.css"','href="'+css+'"'));
+const html=(await readFile('web/index.html','utf8')).replace('src="app.js"','src="'+app+'"').replace('href="style.css"','href="'+css+'"');
+await writeFile(site+'/index.html',html);
+for(const lab of labs){
+ const safe=text=>text.replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');
+ const entry=html.replace('<title>Go Foundry · Lab series</title>','<title>'+safe(lab.title)+' · Go Foundry</title>')
+  .replace(/<meta name="description" content="[^"]*">/,'<meta name="description" content="'+safe(lab.description)+'">')
+  .replace('<span id="brand-title">Go Foundry</span>','<span id="brand-title">Go — '+safe(lab.title)+'</span>')
+  .replace('<small id="brand-subtitle">Learn Go in your browser</small>','<small id="brand-subtitle">Go Foundry lab</small>')
+  .replace('<div id="home-view">','<div id="home-view" hidden>').replace('<article id="lab-view" hidden>','<article id="lab-view">')
+  .replace('id="lab-title" tabindex="-1"></h1>','id="lab-title" tabindex="-1">'+safe(lab.title)+'</h1>')
+  .replace('id="lab-description" class="lesson-purpose"></p>','id="lab-description" class="lesson-purpose">'+safe(lab.description)+'</p>')
+  .replace('id="lab-prerequisites"></p>','id="lab-prerequisites">'+safe(lab.prerequisites)+'</p>')
+  .replace(/(href|src)="([^"#]+)"/g,(all,attr,value)=>/^(?:[a-z][a-z\d+.-]*:|\/)/i.test(value)?all:attr+'="../'+value+'"');
+ await mkdir(site+'/'+lab.id,{recursive:true});await writeFile(site+'/'+lab.id+'/index.html',entry);
+}
 await cp('web/compat/app.js',site+'/app.js');await cp('web/compat/style.css',site+'/style.css');await rm(site+'/compat',{recursive:true,force:true});
 await writeFile(site+'/frontend.json',JSON.stringify({version:1,current:{files:assets},previous:[]},null,2)+'\n');
 const files={};async function collect(dir){for(const item of await readdir(dir,{withFileTypes:true})){const path=dir+'/'+item.name;if(item.isDirectory()){if(item.name!=='testdata')await collect(path);}else if(path.endsWith('.go')&&!path.endsWith('/migrate_test.go'))files[path]=await readFile(path,'utf8');}}await collect('cmd');await collect('internal');await writeFile(site+'/sources.json',JSON.stringify(files));

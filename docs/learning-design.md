@@ -1,5 +1,11 @@
 # First three chapters
 
+The standalone prototype presents these outcomes as three separate introductory
+courses. Each course has its own homepage, prerequisites, three-lesson menu,
+progress and course identity. The series directory provides discovery and an
+optional learning order. Compiler tools and saved work remain shared underneath;
+changing a course does not add a prerequisite or automatically run an example.
+
 The essential route assumes no Go experience. Learners must be able to use a web
 editor and a Run button; installing Go, using a shell, and understanding Linux are
 not prerequisites. Linux implementation details belong in optional runner tools.

@@ -3,8 +3,13 @@ import {lessons} from './course.js';
 import {investigations} from './investigations.js';
 import {labs, presentation} from './lesson-presentation.js';
 import {paintSource} from './editor.js';
+import {createRoutes} from './routes.js';
 const $=id=>document.getElementById(id), prefix='go-foundry:v1:', drafts=new Map(), notes=new Map(), done=new Set(), unsavedCompletion=new Set(), results=new Map();
 const probes=[...lessons,...investigations];
+const siteURL=new URL('./',import.meta.url),routes=createRoutes(siteURL,labs,probes);
+// A history change must not retarget the favicon or a resource link to a course
+// subdirectory. Resolve document-relative URLs before the first route change.
+for(const link of document.querySelectorAll('a[href],link[href]')){const href=link.getAttribute('href');if(href&&!href.startsWith('#'))link.href=new URL(href,location.href).href;}
 let files={}, probe, sourcePath, frame=null, image, undo=null, ready=false, manualBusy=false, current=null, savedWorkspace=null, workspaceError='', releaseLock=null, lastActivity=Date.now();
 const read=(key,fallback)=>{try{return localStorage.getItem(prefix+key)??fallback;}catch{return fallback;}};
 function save(key,value){try{localStorage.setItem(prefix+key,value);return true;}catch{return false;}}
@@ -18,7 +23,7 @@ function state(){
   $('run-source').disabled=busy||!image||restorationFailed;
   $('stop-run').hidden=!current||current.kind!=='run';
   $('stop-run').disabled=['saving','stopping'].includes(current?.phase);
-  const otherJob=current?.kind==='run'&&current.probeID!==probe?.id;$('active-job-note').hidden=!otherJob;$('active-job-note').replaceChildren();if(otherJob){const link=document.createElement('a');link.href='#'+current.probeID;link.textContent=probes.find(entry=>entry.id===current.probeID)?.title||'the running lesson';$('active-job-note').append('A run is active in ',link,'. Its output stays with that lesson.');}$('stop-run').setAttribute('aria-label',otherJob?'Stop run in '+probes.find(entry=>entry.id===current.probeID).title:'Stop run');
+  const otherJob=current?.kind==='run'&&current.probeID!==probe?.id;$('active-job-note').hidden=!otherJob;$('active-job-note').replaceChildren();if(otherJob){const link=document.createElement('a');link.href=routes.lesson(probes.find(entry=>entry.id===current.probeID));link.textContent=probes.find(entry=>entry.id===current.probeID)?.title||'the running lesson';$('active-job-note').append('A run is active in ',link,'. Its output stays with that lesson.');}$('stop-run').setAttribute('aria-label',otherJob?'Stop run in '+probes.find(entry=>entry.id===current.probeID).title:'Stop run');
   $('runner-state').textContent=active?(current?phaseLabel(current.phase):(ready?(manualBusy?'Terminal command active':'Ready'):'Starting')):'Stopped';
   $('runner-description').textContent=current?(current.phase==='saving'?'Saving the project before returning to Ready.':current.kind==='run'?'A lesson job is active. Close this dialog to inspect Output or choose Stop run.':'The runner is restoring or saving the project. Wait for it to finish.'):manualBusy?'A terminal command is active. Wait for its prompt before submitting another run.':active?(ready?'The runner is ready for another run.':'The runner is loading or restoring your saved project.'):'The runner starts when you choose Run.';
   $('linux-start').hidden=active;$('linux-start').disabled=!image||busy;
@@ -86,12 +91,14 @@ function closeOutline(returnFocus=false){
 }
 function labFor(entry){return entry?labs.find(lab=>lab.lessons.includes(entry.id)):null;}
 let activeLab=null;
+function brand(lab){document.querySelector('.brand').href=routes.home(lab);$('brand-title').textContent=lab?'Go — '+lab.title:'Go Foundry';$('brand-subtitle').textContent=lab?'Go Foundry lab':'Learn Go in your browser';}
+function sourceOptions(lab){const paths=lab?lab.lessons.map(id=>lessons.find(entry=>entry.id===id).file):Object.keys(files);$('source-file').replaceChildren(...paths.map(path=>{const option=document.createElement('option');option.value=path;option.textContent=path;return option;}));}
 function icon(name,extra=''){const span=document.createElement('span');span.className='material-icon '+extra+' icon-'+name;span.setAttribute('aria-hidden','true');return span;}
 function makeLinks(entries){
   const list=document.createElement('ol');list.className='lesson-links';
   for(const entry of entries){
     const item=document.createElement('li'),link=document.createElement('a'),number=document.createElement('span'),title=document.createElement('span');
-    link.href='#'+entry.id;link.dataset.lessonId=entry.id;number.className='lesson-number';
+    link.href=routes.lesson(entry);link.dataset.lessonId=entry.id;number.className='lesson-number';
     number.textContent=String(entries.indexOf(entry)+1).padStart(2,'0');
     title.className='lesson-title';title.textContent=entry.title;link.append(number,title,icon('check','compact completed-mark'));item.append(link);list.append(item);
   }
@@ -105,22 +112,21 @@ function buildNavigation(){
     const description=document.createElement('p');description.textContent=lab.description;
     const before=document.createElement('p');before.className='lab-before';before.textContent=lab.before.length?'Builds on '+labs.find(item=>item.id===lab.before[0]).title+'.':'No Go experience required.';
     const count=document.createElement('p');count.className='chapter-progress';count.dataset.labProgress=lab.id;
-    const link=document.createElement('a');link.href='#lab/'+lab.id;link.dataset.labId=lab.id;link.textContent='Open '+lab.title;link.className='lab-open';
+    const link=document.createElement('a');link.href=routes.home(lab);link.dataset.labId=lab.id;link.textContent='Open '+lab.title;link.className='lab-open';
     card.append(number,title,description,before,count,link);$('home-outline').append(card);
   }
   const heading=document.createElement('h3');heading.id='home-investigations';heading.tabIndex=-1;heading.textContent='Choose an investigation';$('home-investigation-list').append(heading,makeLinks(investigations));
 }
 function renderOutline(lab){
   $('outline').replaceChildren();
-  const overview=document.createElement('a');overview.href=lab?'#lab/'+lab.id:'#home';overview.className='outline-overview';overview.textContent=lab?lab.title+' overview':'Go Foundry labs';$('outline').append(overview);
-  if(lab){const series=document.createElement('a');series.href='#home';series.className='outline-overview';series.textContent='All Go Foundry labs';$('outline').append(series);}
+  const overview=document.createElement('a');overview.href=routes.home(lab);overview.className='outline-overview';overview.textContent=lab?lab.title+' overview':'Go Foundry labs';$('outline').append(overview);
   const group=document.createElement('section');group.className='outline-group';const heading=document.createElement('h3');heading.textContent=lab?'Lessons in this lab':'Optional runtime investigations';group.append(heading,makeLinks(lab?lab.lessons.map(id=>lessons.find(entry=>entry.id===id)):investigations));$('outline').append(group);
 }
 function countComplete(lab){return lab.lessons.filter(id=>done.has(id)).length;}
 function lastInLab(lab){const id=read('last-lesson/'+lab.id,read('last-lesson',''));return lab.lessons.includes(id)?lessons.find(entry=>entry.id===id):null;}
 function updateLabStart(lab){
   const last=lastInLab(lab),complete=countComplete(lab)===lab.lessons.length,target=complete?lessons.find(entry=>entry.id===lab.lessons[0]):last||lessons.find(entry=>lab.lessons.includes(entry.id)&&!done.has(entry.id))||lessons.find(entry=>entry.id===lab.lessons[0]);
-  $('start-lab').href='#'+target.id;$('start-lab').textContent=complete?'Review this lab':last||countComplete(lab)?'Continue: '+target.title:'Start the first lesson';
+  $('start-lab').href=routes.lesson(target);$('start-lab').textContent=complete?'Review this lab':last||countComplete(lab)?'Continue: '+target.title:'Start the first lesson';
 }
 function progress(){
   $('home-progress').textContent=labs.filter(lab=>countComplete(lab)===lab.lessons.length).length+' / '+labs.length+' labs complete';
@@ -131,15 +137,15 @@ function progress(){
     if(!$('lesson-view').hidden&&link.dataset.lessonId===probe?.id)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');
   }
   const last=lessons.find(entry=>entry.id===read('last-lesson','')),recent=labFor(last),next=labs.find(lab=>countComplete(lab)<lab.lessons.length),continuation=recent&&countComplete(recent)<recent.lessons.length?recent:next||recent||labs[0],hasProgress=lessons.some(entry=>done.has(entry.id));
-  $('start-course').href='#lab/'+continuation.id;$('start-course').textContent=!next?'Review: '+continuation.title:lastInLab(continuation)||countComplete(continuation)?'Continue: '+continuation.title:hasProgress?'Next lab: '+continuation.title:'Start the first lab';
+  $('start-course').href=routes.home(continuation);$('start-course').textContent=!next?'Review: '+continuation.title:lastInLab(continuation)||countComplete(continuation)?'Continue: '+continuation.title:hasProgress?'Next lab: '+continuation.title:'Start the first lab';
   if(activeLab)updateLabStart(activeLab);
 }
 function showLab(lab){
-  activeLab=lab;$('home-view').hidden=true;$('lesson-view').hidden=true;$('lab-view').hidden=false;document.title=lab.title+' · Go Foundry';
+  activeLab=lab;brand(lab);$('home-view').hidden=true;$('lesson-view').hidden=true;$('lab-view').hidden=false;document.title=lab.title+' · Go Foundry';
   $('lab-title').textContent=lab.title;$('lab-current').textContent=lab.title;$('lab-description').textContent=lab.description;$('lab-prerequisites').textContent=lab.prerequisites;
-  $('lab-prerequisite-links').replaceChildren();for(const id of lab.before){const prerequisite=labs.find(item=>item.id===id),link=document.createElement('a');link.href='#lab/'+id;link.textContent='Review '+prerequisite.title;$('lab-prerequisite-links').append(link);}
+  $('lab-prerequisite-links').replaceChildren();for(const id of lab.before){const prerequisite=labs.find(item=>item.id===id),link=document.createElement('a');link.href=routes.home(prerequisite);link.textContent='Review '+prerequisite.title;$('lab-prerequisite-links').append(link);}
   $('lab-prerequisite-links').hidden=!lab.before.length;$('lab-progress').dataset.labProgress=lab.id;$('lab-outline').replaceChildren(makeLinks(lab.lessons.map(id=>lessons.find(entry=>entry.id===id))));
-  const following=labs[labs.indexOf(lab)+1];$('following-lab').hidden=!following;if(following){$('following-lab').href='#lab/'+following.id;$('following-lab').textContent='Next lab: '+following.title;}
+  const following=labs[labs.indexOf(lab)+1];$('following-lab').hidden=!following;if(following){$('following-lab').href=routes.home(following);$('following-lab').textContent='Next lab: '+following.title;}
   progress();requestAnimationFrame(()=>{$('lab-title').focus({preventScroll:true});document.querySelector('.lab-location').scrollIntoView({block:'start'});});
 }
 
@@ -150,29 +156,29 @@ function renderReferences(){
 }
 function completionStatus(){$('completion-status').textContent=unsavedCompletion.has(probe?.id)?'Storage is unavailable. This completion mark is kept in this tab only.':'Saved in this browser. Completion records your progress, not a test result.';}
 function navigationCard(node,entry,direction,lab=null){
-  const label=document.createElement('span'),title=document.createElement('strong');label.className='card-direction';label.textContent=entry?direction:lab?'Lab overview':'Go Foundry labs';title.textContent=entry?entry.title:lab?lab.title:'Choose a lab';node.href=entry?'#'+entry.id:lab?'#lab/'+lab.id:'#home';node.replaceChildren(label,title);
+  const label=document.createElement('span'),title=document.createElement('strong');label.className='card-direction';label.textContent=entry?direction:lab?'Lab overview':'Go Foundry labs';title.textContent=entry?entry.title:lab?lab.title:'Choose a lab';node.href=entry?routes.lesson(entry):routes.home(lab);node.replaceChildren(label,title);
 }
 let pendingTools=false;
 function show(id){
   const entry=probes.find(item=>item.id===id),sectionID=id.startsWith('course/')?id.slice(7):null,requestedLab=id.startsWith('lab/')?labs.find(lab=>lab.id===id.slice(4)):labs.find(lab=>lab.legacySection===sectionID);if(requestedLab){showLab(requestedLab);return;}
   if(!entry){
-    activeLab=null;$('home-view').hidden=false;$('lesson-view').hidden=true;$('lab-view').hidden=true;document.title='Go Foundry · Lab series';progress();
+    activeLab=null;brand(null);$('home-view').hidden=false;$('lesson-view').hidden=true;$('lab-view').hidden=true;document.title='Go Foundry · Lab series';progress();
     const target=sectionID==='investigations'?$('home-investigations'):$('home-title');
     if(sectionID==='investigations')document.querySelector('.home-investigations').open=true;
     requestAnimationFrame(()=>{target.focus({preventScroll:true});target.scrollIntoView({block:'start'});});return;
   }
-  probe=entry;activeLab=labFor(probe);$('home-view').hidden=true;$('lab-view').hidden=true;$('lesson-view').hidden=false;
-  document.title=probe.title+' · Go Foundry';
+  probe=entry;activeLab=labFor(probe);brand(activeLab);$('home-view').hidden=true;$('lab-view').hidden=true;$('lesson-view').hidden=false;
+  document.title=probe.title+' · '+(activeLab?activeLab.title+' · ':'')+'Go Foundry';
   for(const [target,field]of[['check-title','title'],['purpose','purpose'],['action','action'],['run-command','command'],['observe','observe'],['reference-output','reference']])$(target).textContent=probe[field];
   $('explanation').replaceChildren();for(const text of (probe.explanation||'').split('\n\n')){const paragraph=document.createElement('p');paragraph.textContent=text;$('explanation').append(paragraph);}$('explanation').hidden=!probe.explanation;
-  const lab=labFor(probe);$('section-location').textContent=lab?.title||'Runtime investigations';$('section-location').href=lab?'#lab/'+lab.id:'#course/investigations';$('breadcrumb').textContent=probe.title;renderOutline(lab);
+  const lab=labFor(probe);$('section-location').textContent=lab?.title||'Runtime investigations';$('section-location').href=lab?routes.home(lab):routes.home()+'#course/investigations';$('breadcrumb').textContent=probe.title;renderOutline(lab);
   renderReferences();$('prediction').value=notes.get(probe.id)??read('notes/'+probe.id,'');$('complete').checked=done.has(probe.id);
   const regular=lessons.some(item=>item.id===probe.id), sequence=lab?lab.lessons.map(id=>lessons.find(entry=>entry.id===id)):investigations,index=sequence.indexOf(probe);
   $('completion-label').textContent=regular?'Mark lesson complete':'Mark investigation reviewed';
   completionStatus();
   navigationCard($('previous-lesson'),sequence[index-1],'Previous lesson',lab);navigationCard($('next-lesson'),sequence[index+1],'Next lesson',lab);
   if(regular){save('last-lesson',probe.id);save('last-lesson/'+lab.id,probe.id);}
-  showFile(probe.file);closeOutline();progress();state();
+  sourceOptions(lab);showFile(probe.file);closeOutline();progress();state();
   requestAnimationFrame(()=>{if(pendingTools){pendingTools=false;$('runner-tools').open=true;$('runner-tools').scrollIntoView({block:'start'});$('runner-tools').querySelector('summary').focus({preventScroll:true});}else{$('check-title').focus({preventScroll:true});document.querySelector('.course-navigation').scrollIntoView({block:'start'});}});
 }
 
@@ -234,7 +240,7 @@ addEventListener('message',async event=>{
 });
 $('theme').onclick=()=>{document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('go-foundry-theme',document.documentElement.dataset.theme);}catch{}theme();};
 function theme(){$('theme').textContent=document.documentElement.dataset.theme==='dark'?'Light theme':'Dark theme';}theme();
-$('runner-tools-open').onclick=()=>{$('runner-dialog').close();if($('lesson-view').hidden){pendingTools=true;location.hash=probe?.id||read('last-lesson',lessons[0].id);}else{$('runner-tools').open=true;$('runner-tools').scrollIntoView({block:'start'});$('runner-tools').querySelector('summary').focus({preventScroll:true});}};
+$('runner-tools-open').onclick=()=>{$('runner-dialog').close();if($('lesson-view').hidden){pendingTools=true;location.hash=activeLab?(lastInLab(activeLab)?.id||activeLab.lessons[0]):probe?.id||read('last-lesson',lessons[0].id);}else{$('runner-tools').open=true;$('runner-tools').scrollIntoView({block:'start'});$('runner-tools').querySelector('summary').focus({preventScroll:true});}};
 $('runner-open').onclick=()=>{$('runner-dialog').showModal();state();};$('status-open').onclick=()=>$('status-dialog').showModal();document.querySelectorAll('dialog [data-close]').forEach(button=>button.onclick=()=>button.closest('dialog').close());
 $('runner-dialog').querySelector('[data-start]').onclick=()=>{acknowledgeRunner();$('runner-dialog').close();start();};$('runner-dialog').querySelector('[data-stop]').onclick=requestStop;
 $('linux-start').onclick=start;$('linux-stop').onclick=requestStop;$('keep-linux').onclick=()=>$('stop-dialog').close();$('confirm-stop').onclick=()=>{$('stop-dialog').close();if(!ready&&!current){stop();return;}checkpoint('stop');};
@@ -269,18 +275,26 @@ $('prediction').oninput=()=>{notes.set(probe.id,$('prediction').value);if(!save(
 $('complete').onchange=()=>{if($('complete').checked)done.add(probe.id);else done.delete(probe.id);const stored=save('done/'+probe.id,String($('complete').checked));if(stored)unsavedCompletion.delete(probe.id);else unsavedCompletion.add(probe.id);completionStatus();if(!stored)feedback('Completion is kept in this tab only.');progress();};
 $('restore').onclick=()=>{undo=$('source').value;$('source').value=files[sourcePath];$('source').dispatchEvent(new Event('input'));$('undo').hidden=false;};$('undo').onclick=()=>{if(undo===null)return;$('source').value=undo;undo=null;$('source').dispatchEvent(new Event('input'));$('undo').hidden=true;};
 $('download-source').onclick=()=>{const link=document.createElement('a'),url=URL.createObjectURL(new Blob([$('source').value],{type:'text/x-go'}));link.href=url;link.download=sourcePath.replaceAll('/','__');link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
-addEventListener('hashchange',()=>show(location.hash.slice(1)));
+let renderedURL='';
+function renderRoute(){if(!image)return;const route=routes.resolve(location.href);if(location.href!==route.url)history.replaceState(null,'',route.url);if(renderedURL===route.url)return;renderedURL=route.url;show(route.id);}
+addEventListener('hashchange',renderRoute);addEventListener('popstate',renderRoute);
+document.addEventListener('click',event=>{
+  const link=event.target.closest?.('a');
+  if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.altKey||event.shiftKey||!link||link.hasAttribute('download')||link.target&&link.target!=='_self'||!routes.handles(link.href))return;
+  event.preventDefault();if(link.href!==location.href)history.pushState(null,'',link.href);renderRoute();
+});
 addEventListener('storage',event=>{if(!event.key?.startsWith(prefix+'done/'))return;const id=event.key.slice((prefix+'done/').length);if(event.newValue==='true')done.add(id);else done.delete(id);unsavedCompletion.delete(id);if(probe?.id===id){$('complete').checked=done.has(id);completionStatus();}progress();});
 new ResizeObserver(()=>document.documentElement.style.setProperty('--header-height',document.querySelector('header').getBoundingClientRect().height+'px')).observe(document.querySelector('header'));
 addEventListener('beforeunload',event=>{if(frame){event.preventDefault();event.returnValue='';}});
 document.addEventListener('keydown',event=>{if(event.key==='Escape'){$('feedback').hidden=true;if(!$('outline').hidden&&($('outline').contains(event.target)||event.target===$('outline-toggle')))closeOutline(true);}});
 async function init(){
   try {
-    const responses=await Promise.all(['sources.json','runtime/image.json','version.json'].map(async name=>{const response=await fetch(name);if(!response.ok)throw Error(name+' could not load.');return response.json();}));
+    const responses=await Promise.all(['sources.json','runtime/image.json','version.json'].map(async name=>{const response=await fetch(new URL(name,siteURL));if(!response.ok)throw Error(name+' could not load.');return response.json();}));
     [files,image]=responses;$('source').disabled=false;const version=responses[2];for(const name of Object.keys(files)){const option=document.createElement('option');option.value=name;option.textContent=name;$('source-file').append(option);}
-    $('external-linux').href=new URL(image.terminal_url,location.href).href;$('setup-command').textContent='cd /root/work/go-foundry && go version';
-    $('version').textContent=JSON.stringify({commit:version.commit,go:image.go_version,toolchain_image:image.id,image_total_bytes:image.bytes,note:'All runtime assets are served by this course. No verified offline copy is offered yet.'},null,2);show(location.hash.slice(1));state();
+    $('external-linux').href=new URL(image.terminal_url,siteURL).href;$('setup-command').textContent='cd /root/work/go-foundry && go version';
+    document.querySelectorAll('[data-series-home]').forEach(link=>link.href=routes.home());
+    $('version').textContent=JSON.stringify({commit:version.commit,go:image.go_version,toolchain_image:image.id,image_total_bytes:image.bytes,note:'All runtime assets are served by this course. No verified offline copy is offered yet.'},null,2);renderRoute();state();
   }catch(error){feedback('Course files could not be loaded. Reload while online. Your drafts are kept.');$('linux-start').disabled=true;}
-  try{const result=await fetch('validation.json').then(response=>response.json());$('evidence-summary').textContent=result.summary;const table=document.createElement('table');for(const rowData of [['Check','Observed wait','Result'],...(result.results||[]).map(row=>[row.name,row.host_seconds==null?'Not measured':row.host_seconds.toFixed(2)+' seconds',row.status])]){const row=document.createElement('tr');for(const value of rowData){const cell=document.createElement(table.children.length?'td':'th');cell.textContent=value;row.append(cell);}table.append(row);}$('timings').append(table);}catch{$('evidence-summary').textContent='No published runtime measurements are available.';}
+  try{const result=await fetch(new URL('validation.json',siteURL)).then(response=>response.json());$('evidence-summary').textContent=result.summary;const table=document.createElement('table');for(const rowData of [['Check','Observed wait','Result'],...(result.results||[]).map(row=>[row.name,row.host_seconds==null?'Not measured':row.host_seconds.toFixed(2)+' seconds',row.status])]){const row=document.createElement('tr');for(const value of rowData){const cell=document.createElement(table.children.length?'td':'th');cell.textContent=value;row.append(cell);}table.append(row);}$('timings').append(table);}catch{$('evidence-summary').textContent='No published runtime measurements are available.';}
 }
 init();
