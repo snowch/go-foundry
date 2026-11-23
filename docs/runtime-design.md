@@ -24,7 +24,11 @@ Go cache index timestamps are normalized without changing content identifiers. T
 
 Start is on demand. Reading the page does not boot Linux. The same iframe survives the four runtime-check views. Because the terminal is cross-origin, the page cannot inspect the prompt, execute commands, transfer edited files or save guest files automatically. The header truthfully reports Stopped or Session open. It must not report Ready merely because iframe loading finished. Reference output is labelled and never presented as the user's execution result.
 
-The source editor saves drafts separately in browser storage. Download an edited file, upload it through the terminal and paste the generated apply command. Restore source provides undo. Storage failure keeps the draft in the current tab and advises downloading it.
+The source editor saves drafts separately in browser storage. Its three visible transfer steps are Download edited file, upload it using Choose files below the black console, and copy/paste the run command. Name the destination Go file. The short command finds an uploaded .go file whose SHA-256 matches the current editor, stages its contents beside the destination and replaces the destination before running the check. Missing or outdated uploads produce a concrete upload instruction and leave the existing source intact. Browser-added filename suffixes are accepted because matching uses file contents.
+
+The earlier upload prerequisite was easy to miss; learners could paste an apply command without a file and receive only a cp error. Keep the download control visible with the instructions. A source-carrying base64/heredoc alternative passed local shell tests, but the real hosted terminal truncated the long paste and left the shell awaiting input. Do not use that approach with this service. Transport tests must use the real terminal rather than infer its capacity from a native shell or an interface stub.
+
+Restore source provides undo. Storage failure keeps a draft in the current tab and advises downloading it. Guest work and browser drafts remain separate stores. Keep Stop beside the terminal. Real embedded-terminal scrolling/focus interactions needed additional verification after export; the stub alone did not cover this path. Assert modal visibility and restore the exported archive into a fresh VM.
 
 Stop uses a modal warning and never claims to save guest files. Automatic stopping is disabled because it would discard unsaved work. Work archives include source, database files and measurements, excluding binaries and compiler caches. The export_file helper uses JSLinux's /.fscmd interface. In a fresh VM, upload and restore the archive over the clean baseline, then reopen the database in another process. Browser drafts and exported guest work are independent stores.
 
@@ -43,3 +47,13 @@ CI generates large image files rather than committing them, verifies native Go t
 Exercise real guest boot; unchanged and edited source compilation; repeated builds; Go tests forced to execute; goroutines/channels; separate database writer and reader processes; archive export; a fresh guest; archive import; restored source recompilation and database reopen. Capture actual output, image identity and outside-the-VM waits. Distinguish prepared-cache results from empty-cache compilation and desktop-browser results from physical Android performance.
 
 Inspect phone, tablet and wide layouts, light/dark themes, keyboard/modal controls and retained browser drafts. Passing functional tests demonstrates those tested behaviors; it does not establish learning effectiveness, native multicore speedup or physical crash durability.
+
+## Performance direction
+
+See [the direct WebAssembly investigation](direct-wasm-investigation.md). Rust Foundry avoids the x86 emulation layer and reuses its prepared compiler/sysroot. A small standard-Go compiler/linker WASI probe also works in Node’s WebAssembly engine, but browser integration, package/test orchestration and database operations remain unverified for that route. The current Linux prototype is not a performance-ready full course.
+
+## Frontend publishing
+
+Build scripts and styles under content-hashed names, including the source-transfer module import. Preserve the original unversioned app/style aliases for cached pre-versioning HTML. The publisher verifies those aliases on first adoption and then retains two previous small frontend graphs, checking their hashes before publication. The interface test also loads the original HTML against these aliases. A failed compatibility check blocks publishing.
+
+This frontend change reuses the existing runtime image; confirm its identity in CI before merging so open guests keep their filesystem URLs. Runtime-image retention across an actual SDK/image replacement remains a separate production requirement. Do not infer it from small frontend retention or the prototype's build cache.

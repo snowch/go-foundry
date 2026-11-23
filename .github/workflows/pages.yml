@@ -41,6 +41,9 @@ jobs:
             npx playwright install --with-deps chromium
           fi
       - run: npm run test:browser
+      - name: Preserve cached HTML compatibility
+        if: github.ref == 'refs/heads/main'
+        run: node tools/retain-frontend.mjs
       - uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/main'
         with:
