@@ -19,3 +19,12 @@ full guest verification record and CI run.
 Desktop and phone layouts were inspected locally. This does not establish physical
 Android performance or learning effectiveness. A complete offline runtime is still
 not offered; saving a workspace is different from saving all runtime assets.
+
+The local real-VM recovery check passed on 23 November 2026: saved TinyDB
+records survived an IndexedDB checkpoint, manual runner stop, full page reload,
+a fresh Linux VM and archive restoration. The idle checkpoint/shutdown check
+also passed, with off-project requests blocked and no failed asset requests or
+page errors. Edited compilation, intentional compiler failure, cancellation of
+a live process and a successful rerun were checked separately. The complete
+nine-starter journey is a publication-gating CI check. A focused persistence
+invocation reports its scope explicitly and does not claim unexecuted checks.
