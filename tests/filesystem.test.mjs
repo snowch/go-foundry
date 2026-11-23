@@ -13,3 +13,15 @@ test('bundle is reproducible and excludes generated files and third-party runtim
 with tarfile.open('.build/go-foundry-prototype.tar.gz') as t:
  names=t.getnames();assert 'go-foundry/cmd/hello/main.go' in names;assert 'go-foundry/LICENSE' in names;assert not any('/.cache/' in n or '/.git/' in n or n.endswith('.wasm') for n in names)
 `]);});
+
+// A future deployment must retain every module imported by an already-open page.
+test('published frontend module graph is complete and eligible for retention',async()=>{
+ const {valid}=await import('../tools/frontend-paths.mjs');
+ const manifest=JSON.parse(await readFile('.build/site/frontend.json'));
+ const paths=new Set(manifest.current.files.map(file=>file.path));
+ for(const file of manifest.current.files){assert(valid(file.path),file.path);if(!file.path.endsWith('.js')||file.path.includes('/'))continue;
+  const source=await readFile('.build/site/'+file.path,'utf8');
+  for(const match of source.matchAll(/from ['"]\.\/([^'"]+)['"]/g))assert(paths.has(match[1]),file.path+' imports '+match[1]);
+ }
+ for(const bad of ['../outside.js','https://example.com/app.js','linux/releases/'+'a'.repeat(64)+'/../../secret'])assert(!valid(bad));
+});

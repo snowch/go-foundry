@@ -8,8 +8,9 @@ redistribution rights for the current hosted x86 runtime.
 The guest and all files load from the individual lab's project scope. An explicit
 file-share bridge transfers the current editor bytes to Linux; the UI never relies
 on a manually pasted filename or injects large source strings through the terminal.
-Preserve browser drafts, and guard guest teardown until the learner exports their
-archive. Guest files remain temporary unless exported.
+Preserve browser drafts. The current Go adapter checkpoints project files to
+IndexedDB before teardown; see [background jobs and persistence](background-runner.md).
+Files outside that project directory still require a manual export.
 
 Source packages, exact upstream recipes, licence notices and checksums travel with
 the release. A host build tool download is not a learner runtime dependency. A
@@ -23,8 +24,8 @@ share and opens the prepared shell. Source transfer uses the complete editor
 bytes and an allowlisted workspace path. The guest shell runs the real Go
 compiler; original-example output is never substituted for actual execution.
 Queued startup captures the requested source snapshot. Theme/navigation changes
-retain the same guest iframe. Stop/reload guards preserve browser drafts and
-require the learner to export guest work.
+retain the same guest iframe. Stop checkpoints the project before releasing Linux, and reload retains a warning
+for an active guest. Browser drafts are independent of the saved guest project.
 
 Runtime image and frontend retention are separate. Publication must restore the
 previous image cache when migrating from JSLinux and retain its immutable
