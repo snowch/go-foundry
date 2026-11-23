@@ -236,5 +236,89 @@
       "after": "counts[strings.ToLower(word)]++",
       "expected": "go 3 Go 0"
     }
+  ],
+  "struct-values": [
+    {
+      "before": "moved.X = 9",
+      "after": "point.X = 9",
+      "expected": "original {9 3}\nmoved {2 3}"
+    }
+  ],
+  "value-methods": [
+    {
+      "before": "Width: 3",
+      "after": "Width: 5",
+      "expected": "area 20"
+    }
+  ],
+  "pointer-methods": [
+    {
+      "before": "(c *Counter)",
+      "after": "(c Counter)",
+      "expected": "value 3"
+    }
+  ],
+  "named-types": [
+    {
+      "before": "Seconds(3)",
+      "after": "Metres(3)",
+      "expected": null
+    }
+  ],
+  "implicit-interfaces": [
+    {
+      "before": "Greeter{Name: \"Ada\"}",
+      "after": "Message{Text: \"Ready\"}",
+      "expected": "Ready"
+    }
+  ],
+  "embedding": [
+    {
+      "before": "fmt.Println(\"promoted\", person.City, \"nested\", person.Address.City)",
+      "after": "person.City = \"Paris\"\nfmt.Println(\"promoted\", person.City, \"nested\", person.Address.City)",
+      "expected": "promoted Paris nested Paris"
+    }
+  ],
+  "type-assertions": [
+    {
+      "before": "var value any = \"Ada\"",
+      "after": "var value any = 42",
+      "expected": "text=\"\" ok=false"
+    }
+  ],
+  "type-switch": [
+    {
+      "before": "describe(7)",
+      "after": "describe(\"Ada\")",
+      "expected": "text \"Ada\""
+    }
+  ],
+  "nil-interfaces": [
+    {
+      "before": "var value any = pointer",
+      "after": "var value any = nil",
+      "expected": "pointer nil true\ninterface nil true"
+    }
+  ],
+  "generic-functions": [
+    {
+      "before": "right int64 = 5",
+      "after": "right int64 = 7",
+      "expected": "int 5\nint64 11"
+    }
+  ],
+  "generic-sets": [
+    {
+      "before": "names.Add(\"go\")",
+      "after": "names.Add(\"rust\")",
+      "expected": "go false rust true"
+    }
+  ],
+  "enum-constants": [
+    {
+      "before": "= iota",
+      "after": "= iota + 1",
+      "expected": "idle 1 working 2 done 3"
+    }
   ]
 }

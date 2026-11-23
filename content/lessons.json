@@ -793,16 +793,16 @@
           "id": "left",
           "x": 20,
           "y": 15,
-          "label": "left[:2]",
-          "detail": "indexes 0, 1",
+          "label": "left",
+          "detail": "backing[:2]",
           "w": 180
         },
         {
           "id": "right",
           "x": 320,
           "y": 15,
-          "label": "right[1:]",
-          "detail": "indexes 1, 2",
+          "label": "right",
+          "detail": "backing[1:]",
           "w": 180
         }
       ],
@@ -1055,5 +1055,382 @@
     "command": "./run word-count-practice",
     "supportFiles": [],
     "target": "counts\\[word\\]\\+\\+"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "struct-values",
+    "title": "Copy a struct value",
+    "purpose": "Track changes to two structs containing integer fields.",
+    "explanation": "A struct groups named fields. Point has two int fields, X and Y. Assigning point to moved copies those field values. These integer fields use separate storage in the two variables.",
+    "action": "Run and compare original {2 3} with moved {9 3}. Change moved.X = 9 to point.X = 9 and run again. Inspect both labelled structs.",
+    "observe": "Original becomes {9 3} and moved stays {2 3}. Which assignment copied the initial values before either X field changed?",
+    "reference": "original {2 3}\nmoved {9 3}",
+    "topics": [
+      [
+        "Struct fields",
+        "A struct groups named values.",
+        "type Point struct { X, Y int }",
+        "https://go.dev/ref/spec#Struct_types"
+      ],
+      [
+        "Struct assignment",
+        "Assigning a struct copies its field values.",
+        "moved := point",
+        "https://go.dev/ref/spec#Assignment_statements"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/struct-values/main.go",
+    "command": "./run struct-values",
+    "supportFiles": [],
+    "target": "moved\\.X\\ =\\ 9"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "value-methods",
+    "title": "Attach a calculation to a type",
+    "purpose": "Call a method that reads a value receiver.",
+    "explanation": "A method is a function declared with a receiver before its name. In Area, r Rectangle is the receiver. rect.Area() passes rect into that receiver. This method reads a copy of the Rectangle value to calculate its area.",
+    "action": "Run and find area 12. Change Width: 3 to Width: 5 in the Rectangle literal and run again. Keep Height at 4 and inspect area.",
+    "observe": "Area becomes 20. Which fields does the method read through its receiver?",
+    "reference": "area 12",
+    "topics": [
+      [
+        "Method receiver",
+        "The receiver associates a method with a type.",
+        "func (r Rectangle) Area() int",
+        "https://go.dev/ref/spec#Method_declarations"
+      ],
+      [
+        "Method call",
+        "The selector identifies the receiver’s method.",
+        "rect.Area()",
+        "https://go.dev/ref/spec#Method_expressions"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/value-methods/main.go",
+    "command": "./run value-methods",
+    "supportFiles": [],
+    "target": "Width:\\ 3"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "pointer-methods",
+    "title": "Choose whether a method changes its receiver",
+    "purpose": "Compare a pointer receiver with a value receiver.",
+    "explanation": "A *Counter receiver identifies the existing Counter. Its field update is visible to the caller. For this addressable variable, Go lets counter.Add(2) take the needed address automatically. A Counter receiver instead receives a copy of the struct.",
+    "action": "Run and find value 5. Change the Add receiver from (c *Counter) to (c Counter) and run again. Keep the method body and argument unchanged.",
+    "observe": "The result stays 3 after the edit because the method updates its copy. What difference does the receiver type make when a method must change caller-owned fields?",
+    "reference": "value 5",
+    "topics": [
+      [
+        "Pointer receiver",
+        "A pointer receiver can update the original struct’s fields.",
+        "func (c *Counter) Add(delta int)",
+        "https://go.dev/ref/spec#Method_sets"
+      ],
+      [
+        "Addressable receiver",
+        "Go permits the pointer method call on this variable.",
+        "counter.Add(2)",
+        "https://go.dev/ref/spec#Calls"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/pointer-methods/main.go",
+    "command": "./run pointer-methods",
+    "supportFiles": [],
+    "target": "\\(c\\ \\*Counter\\)"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "named-types",
+    "title": "Keep different units distinct",
+    "purpose": "Use named types to reject a mismatched argument.",
+    "explanation": "type Metres float64 and type Seconds float64 define distinct types with the same underlying numeric representation. speed requires the declared units. Distance is an alias for Metres because its declaration uses =; it does not create another type.",
+    "action": "Run and find speed 4. Change Seconds(3) in the call to Metres(3) and run again. Find the compiler message about the second argument’s type. Restore Seconds(3) before continuing.",
+    "observe": "The edited call fails compilation even though both units use float64 underneath. Which declaration makes Distance usable wherever Metres is required?",
+    "reference": "speed 4",
+    "topics": [
+      [
+        "Defined type",
+        "A definition without = creates a distinct type.",
+        "type Metres float64",
+        "https://go.dev/ref/spec#Type_definitions"
+      ],
+      [
+        "Alias",
+        "An alias gives another name to an existing type.",
+        "type Distance = Metres",
+        "https://go.dev/ref/spec#Alias_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/named-types/main.go",
+    "command": "./run named-types",
+    "supportFiles": [],
+    "target": "Seconds\\(3\\)"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "implicit-interfaces",
+    "title": "Use two implementations through one interface",
+    "purpose": "Select a value by its supported methods.",
+    "explanation": "Speaker describes the Speak method a value must provide. Greeter and Message satisfy Speaker by defining that method; Go does not require an implements declaration. announce works with the interface without knowing which concrete struct it receives.",
+    "action": "Run and find Hello, Ada. In main, change Greeter{Name: \"Ada\"} to Message{Text: \"Ready\"} and run again. Keep announce unchanged.",
+    "observe": "The output becomes Ready. Which matching method lets both structs be passed to announce?",
+    "reference": "Hello, Ada",
+    "topics": [
+      [
+        "Interface",
+        "An interface describes a required method set.",
+        "type Speaker interface { Speak() string }",
+        "https://go.dev/ref/spec#Interface_types"
+      ],
+      [
+        "Implicit satisfaction",
+        "A concrete value satisfies the interface through its methods.",
+        "announce(chosen)",
+        "https://go.dev/ref/spec#Implementing_an_interface"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/implicit-interfaces/main.go",
+    "command": "./run implicit-interfaces",
+    "supportFiles": [],
+    "target": "Greeter\\{Name:\\ \"Ada\"\\}"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "embedding",
+    "title": "Access an embedded field",
+    "purpose": "Recognise two selectors that reach one embedded field.",
+    "explanation": "Person embeds an Address field. person.Address.City explicitly selects the nested City. When the selector is unambiguous, person.City is a promoted selector for that same field. Embedding composes values; it does not create an independent second City.",
+    "action": "Run and compare promoted London with nested London. Add person.City = \"Paris\" immediately before Println and run again. Inspect both selectors.",
+    "observe": "Both selectors now print Paris. Which embedded value owns the field they both reach?",
+    "reference": "promoted London nested London",
+    "topics": [
+      [
+        "Embedded fields",
+        "An embedded type supplies the field’s name.",
+        "type Person struct { Name string; Address }",
+        "https://go.dev/ref/spec#Struct_types"
+      ],
+      [
+        "Promoted selector",
+        "An unambiguous selector can reach an embedded field.",
+        "person.City",
+        "https://go.dev/ref/spec#Selectors"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/embedding/main.go",
+    "command": "./run embedding",
+    "supportFiles": [],
+    "target": "fmt\\.Println\\(\"promoted\",\\ person\\.City,\\ \"nested\",\\ person\\.Address\\.City\\)"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "type-assertions",
+    "title": "Check a value’s concrete type",
+    "purpose": "Use the two-result type assertion to handle a mismatch.",
+    "explanation": "any is an alias for the empty interface, so it can hold a value of any type. value.(string) asks whether the dynamic value is a string. With the two-result form, a mismatch returns the string zero value and false instead of panicking.",
+    "action": "Run and find text=\"Ada\" ok=true. Change the assignment to var value any = 42 and run again. Compare text and ok.",
+    "observe": "Text becomes empty and ok becomes false. Why is the boolean result needed before using the asserted value?",
+    "reference": "text=\"Ada\" ok=true",
+    "topics": [
+      [
+        "Type assertion",
+        "The second result reports whether the assertion succeeded.",
+        "text, ok := value.(string)",
+        "https://go.dev/ref/spec#Type_assertions"
+      ],
+      [
+        "Empty interface",
+        "any can hold a value of any type.",
+        "var value any = 42",
+        "https://go.dev/ref/spec#Interface_types"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/type-assertions/main.go",
+    "command": "./run type-assertions",
+    "supportFiles": [],
+    "target": "var\\ value\\ any\\ =\\ \"Ada\""
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "type-switch",
+    "title": "Select behavior by a dynamic type",
+    "purpose": "Use a type switch to handle several concrete types.",
+    "explanation": "A type switch checks the dynamic type held by an interface. Each case gives item the matching concrete type inside that branch. The default branch handles other types, so no unchecked assertion is needed.",
+    "action": "Run and find integer 7. Change describe(7) to describe(\"Ada\") and run again. Inspect the category and the printed value.",
+    "observe": "The edited output is text \"Ada\". Which case would handle a bool in this program?",
+    "reference": "integer 7",
+    "topics": [
+      [
+        "Type switch",
+        "Cases test concrete types held by an interface.",
+        "switch item := value.(type)",
+        "https://go.dev/ref/spec#Type_switches"
+      ],
+      [
+        "Default case",
+        "Types without their own case reach default.",
+        "default: return \"other\"",
+        "https://go.dev/ref/spec#Switch_statements"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/type-switch/main.go",
+    "command": "./run type-switch",
+    "supportFiles": [],
+    "target": "describe\\(7\\)"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "nil-interfaces",
+    "title": "Compare a nil pointer and an interface",
+    "purpose": "Account for an interface’s dynamic type as well as its value.",
+    "explanation": "The pointer has type *int and value nil. Assigning that pointer to any retains its dynamic type, so the interface value itself is not nil. An interface compares equal to nil only when it holds no dynamic type and no dynamic value.",
+    "action": "Run and compare pointer nil true with interface nil false. Change var value any = pointer to var value any = nil and run again. Inspect which comparison changes.",
+    "observe": "Both comparisons now report true. What information did the starter interface retain even though its pointer value was nil?",
+    "reference": "pointer nil true\ninterface nil false",
+    "topics": [
+      [
+        "Interface comparison",
+        "A nil interface is different from an interface holding a typed nil pointer.",
+        "value == nil",
+        "https://go.dev/ref/spec#Comparison_operators"
+      ],
+      [
+        "Pointer zero value",
+        "An uninitialised pointer is nil.",
+        "var pointer *int",
+        "https://go.dev/ref/spec#Pointer_types"
+      ]
+    ],
+    "mode": "run",
+    "diagram": {
+      "title": "Why is the interface not nil?",
+      "caption": "The starter interface retains dynamic type *int even though its pointer value is nil. Only an interface with no dynamic type and no dynamic value is nil.",
+      "nodes": [
+        {
+          "id": "pointer",
+          "x": 15,
+          "y": 45,
+          "label": "pointer",
+          "detail": "type *int; value nil",
+          "w": 220
+        },
+        {
+          "id": "value",
+          "x": 290,
+          "y": 45,
+          "label": "value (any)",
+          "detail": "dynamic *int; nil",
+          "w": 220
+        }
+      ],
+      "edges": [
+        {
+          "from": "pointer",
+          "to": "value",
+          "label": "assign to interface"
+        }
+      ]
+    },
+    "file": "cmd/nil-interfaces/main.go",
+    "command": "./run nil-interfaces",
+    "supportFiles": [],
+    "target": "var\\ value\\ any\\ =\\ pointer"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "generic-functions",
+    "title": "Reuse a calculation for two integer types",
+    "purpose": "Let type inference choose a permitted type parameter.",
+    "explanation": "T is a type parameter. The constraint int | int64 allows those two types, both of which support addition. Go infers T from each call’s arguments, so one implementation can return the corresponding input type.",
+    "action": "Run and find int 5 and int64 9. Change the int64 variable right from 5 to 7 and run again. Compare both results.",
+    "observe": "The int64 result becomes 11, while the int result stays 5. Which part of the function declaration limits the types callers can supply?",
+    "reference": "int 5\nint64 9",
+    "topics": [
+      [
+        "Type parameters",
+        "A constraint determines permitted type arguments and operations.",
+        "func add[T int | int64](left, right T) T",
+        "https://go.dev/ref/spec#Type_parameter_declarations"
+      ],
+      [
+        "Type inference",
+        "The compiler can infer type arguments from call arguments.",
+        "add(left, right)",
+        "https://go.dev/ref/spec#Type_inference"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/generic-functions/main.go",
+    "command": "./run generic-functions",
+    "supportFiles": [],
+    "target": "right\\ int64\\ =\\ 5"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "generic-sets",
+    "title": "Store unique values with a generic set",
+    "purpose": "Constrain a map-backed set to comparable keys.",
+    "explanation": "Set is a named map type parameterised by its key type. comparable allows the equality operations required for map keys. struct{} is an empty value: this set uses key presence, rather than a separate payload, to represent membership.",
+    "action": "Run and find go true rust false. Change names.Add(\"go\") to names.Add(\"rust\") and run again. Compare both membership results.",
+    "observe": "The results become go false rust true. What would adding the same key twice change about membership?",
+    "reference": "go true rust false",
+    "topics": [
+      [
+        "Comparable constraint",
+        "Map key types must support equality.",
+        "type Set[T comparable] map[T]struct{}",
+        "https://go.dev/ref/spec#Type_constraints"
+      ],
+      [
+        "Membership",
+        "Use the presence result rather than a payload.",
+        "_, found := s[value]",
+        "https://go.dev/ref/spec#Map_types"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/generic-sets/main.go",
+    "command": "./run generic-sets",
+    "supportFiles": [],
+    "target": "names\\.Add\\(\"go\"\\)"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "enum-constants",
+    "title": "Name related states with iota",
+    "purpose": "Observe the numeric values assigned by a constant group.",
+    "explanation": "iota starts at 0 within a parenthesised constant declaration and increases for each constant specification. Omitted expressions repeat the previous expression using the new iota value. The State names make call sites readable, but their numeric values depend on the declarations.",
+    "action": "Run and find idle 0 working 1 done 2. Change the first expression from iota to iota + 1 and run again. Inspect all three named values.",
+    "observe": "They become 1, 2 and 3. Why did changing the first expression affect the omitted expressions as well? Stable stored codes need deliberate values when declarations change.",
+    "reference": "idle 0 working 1 done 2",
+    "topics": [
+      [
+        "Iota",
+        "iota advances within a constant declaration group.",
+        "const ( Idle State = iota; Working; Done )",
+        "https://go.dev/ref/spec#Iota"
+      ],
+      [
+        "Repeated expression",
+        "An omitted expression repeats the preceding one with the current iota.",
+        "Working",
+        "https://go.dev/ref/spec#Constant_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/enum-constants/main.go",
+    "command": "./run enum-constants",
+    "supportFiles": [],
+    "target": "=\\ iota"
   }
 ]
