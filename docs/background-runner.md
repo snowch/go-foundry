@@ -82,3 +82,16 @@ that same guest, and reopens TinyDB after a checkpoint, full page reload and fre
 VM restoration. Its idle test advances only the parent's clock; guest archive
 creation and IndexedDB writes remain real. See the CI run and validation record
 for observed results. Functional success is not evidence of learning efficacy.
+
+## Integration findings
+
+- An output limit must apply to the output stream, not `ulimit -f` on the compiler:
+  a process-wide file-size limit also prevents the Go linker writing its binary.
+- xterm emits cursor-position/device replies through `onData` without a human
+  typing. Forward those protocol replies, but do not mark them as terminal work
+  or reset the idle clock. Otherwise normal shell prompts can disable Run forever.
+- Wait for the lesson navigation acknowledgement in interface tests before
+  inspecting its draft. A click alone does not mean the hash handler has run.
+- Exercise transaction abort **after** a successful IndexedDB put request. The
+  guest must stay alive until the transaction, including durable storage failure,
+  has completed successfully.

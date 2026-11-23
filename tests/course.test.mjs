@@ -11,7 +11,7 @@ const edits={
  'two-lines':[['fmt.Println("Hello, Go!")\n\tfmt.Println("Ready to learn.")','fmt.Println("Ready to learn.")\n\tfmt.Println("Hello, Go!")','Ready to learn.\nHello, Go!']],
  'compiler-errors':[['"Ready"','"Ready',null]],
  variables:[['count := 3','count := 8','count 8\nafter adding two 10']],
- types:[['price float64 = 2.5','price float64 = 3.75','count 3\nprice 3.75\nname Ada\navailable true'],['count int = 3','count int = "three"',null]],
+ types:[['price float64 = 2.5','price float64 = 3.75','count 3\nprice 3.75\nname Ada\navailable true'],['available bool = true','available bool = false','count 3\nprice 2.5\nname Ada\navailable false'],['count int = 3','count int = "three"',null]],
  division:[['items := 7','items := 8','complete groups 2\nleft over 2\ndecimal quotient 2.6666666666666665'],['items := 7','items := 9','complete groups 3\nleft over 0\ndecimal quotient 3']],
  conditions:[['score := 49','score := 50','threshold reached'],['score := 49','score := 51','threshold reached']],
  loops:[['step <= 3','step < 3','step 1\nstep 2\ndone'],['step <= 3','step <= 0','done']],

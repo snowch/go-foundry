@@ -12,8 +12,9 @@ all starters and the documented edits, including intentional syntax/type failure
 comparison boundaries, an initially false loop condition, and accumulator reset.
 The browser interface checks cover keyboard shortcuts/modals, saved drafts and
 completion, cross-tab ownership, idle stop, failed-save retention, and widths from
-320 to 1440 pixels in both themes. Real VM execution and persistence results are
-recorded separately after the full guest journey completes.
+320 to 1440 pixels in both themes. All nine starters have also passed through the real self-hosted guest compiler.
+Cancellation, fresh-session persistence and idle-stop results are recorded in the
+full guest verification record and CI run.
 
 Desktop and phone layouts were inspected locally. This does not establish physical
 Android performance or learning effectiveness. A complete offline runtime is still

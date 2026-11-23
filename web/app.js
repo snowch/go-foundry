@@ -33,7 +33,7 @@ function renderResult(){
   $('job-status').textContent=running?phaseLabel(current.phase)+'…':(result?.status||'Ready. Choose Run to compile and execute the editor source.');
   $('job-output').textContent=result?.output|| (running?'Waiting for program output…':'Program output and compiler errors appear here.');
   $('job-diagnostics').textContent=result?.diagnostics||'No execution measurements yet.';
-  $('job-result').setAttribute('aria-busy',String(!!running));
+  $('output-caption').hidden=!result||!!running;$('job-result').setAttribute('aria-busy',String(!!running));
 }
 function terminalVisible(open){$('terminal-region').classList.toggle('terminal-closed',!open);$('terminal-region').inert=!open;$('terminal-region').setAttribute('aria-hidden',String(!open));$('terminal-toggle').setAttribute('aria-expanded',String(open));$('terminal-toggle').textContent=open?'Hide Linux terminal':'Open Linux terminal';if(open){start();$('terminal-region').scrollIntoView({block:'start'});}}
 async function acquireLease(){
@@ -65,7 +65,7 @@ function checkpoint(kind='save'){
   if(!ready||!frame||current||manualBusy)return;
   current={id:crypto.randomUUID(),type:'checkpoint',kind,command:'true',phase:'saving'};post(current);state();
 }
-function showFile(path){if(!Object.hasOwn(files,path))return;sourcePath=path;$('source-file').value=path;$('source').value=drafts.get(path)??read('source/'+path,files[path]);$('source-name').textContent=path;updateLines();$('draft-status').textContent='Editor draft saved separately from the Linux project.';undo=null;$('undo').hidden=true;}
+function showFile(path){if(!Object.hasOwn(files,path))return;sourcePath=path;$('source-file').value=path;const saved=drafts.get(path)??read('source/'+path,null);$('source').value=saved??files[path];$('source-name').textContent=path;updateLines();$('draft-status').textContent=saved===null?'Starter source is open.':'A saved edit is open. To use the starter, choose Editor tools → Restore original source. Undo restore keeps your edit available.';undo=null;$('undo').hidden=true;}
 function show(id){
   probe=probes.find(item=>item.id===id)||probes[0];
   for(const [target,field]of[['check-title','title'],['purpose','purpose'],['action','action'],['run-command','command'],['observe','observe'],['reference-output','reference']])$(target).textContent=probe[field];
