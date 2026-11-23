@@ -1,0 +1,60 @@
+name: Verify and publish runtime prototype
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: go-foundry-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/cache@v4
+        with:
+          path: |
+            .cache/sdk
+            .cache/go1.27.4.linux-amd64.tar.gz
+            .build/site/runtime
+          key: go-image-${{ runner.os }}-${{ hashFiles('tools/build-image.py', 'tools/go-toolchain.json', 'cmd/**', 'internal/**', 'go.mod', 'run', 'setup', 'README.md', 'LICENSE') }}
+      - run: npm ci
+      - run: npm run build
+      - name: Run the real Go tests on the native reference host
+        run: GOTOOLCHAIN=local CGO_ENABLED=0 GOAMD64=v1 GOMAXPROCS=2 GOCACHE="$PWD/.cache/test-cache" .cache/sdk/go/bin/go test -trimpath -count=1 -p=1 ./...
+      - run: npm test
+      - name: Select browser
+        run: |
+          if command -v google-chrome > /dev/null; then
+            printf 'CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            npx playwright install --with-deps chromium
+          fi
+      - run: npm run test:browser
+      - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          path: .build/site
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
