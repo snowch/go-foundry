@@ -39,15 +39,23 @@ A checkpoint is a gzip tar archive of `/root/work/go-foundry`, including sources
 TinyDB data and measurements. Rebuildable binaries and project compiler caches
 are excluded. The Go SDK, base Linux filesystem, process state, and files outside
 the project are not persisted. A restart boots a clean prepared runtime and
-restores the project archive before any queued editor file is applied.
+overlays the project archive on the prepared project before any queued editor file
+is applied. Baseline files missing from the archive remain available; intentionally
+deleting a baseline source file is not preserved across restart. Newly created
+source/data files and changes to saved files are preserved.
 
 After each job (including compiler errors and cancellation), the guest creates an
 archive and transfers its bytes to the parent. IndexedDB database
 `go-foundry-workspace-v1`, store `snapshots`, key `project` holds the last archive
-and timestamp. A successful **transaction completion**, not a successful `put`
+and timestamp. If reading saved project storage fails, startup is blocked rather than assuming
+an empty project: a later successful write must not replace inaccessible existing
+work with a fresh baseline. A successful **transaction completion**, not a successful `put`
 request alone, is acknowledged. The previous checkpoint remains intact if the
 transaction aborts. A failed archive restoration never replaces that checkpoint
-with the fresh baseline. Compressed automatic snapshots are limited to 32 MiB;
+with the fresh baseline. If restoration fails, Download saved project keeps a
+backup and the explicit Start a fresh project action offers recovery. Only after
+confirmation does it delete that one project record; editor drafts, observations,
+results and completion marks remain untouched. Compressed automatic snapshots are limited to 32 MiB;
 oversize/save failures leave the guest alive and require a manual archive export.
 
 A Web Lock grants one active project runner per browser origin, preventing two

@@ -28,3 +28,15 @@ export async function saveWorkspace(bytes) {
     transaction.onerror = () => {}; // The transaction's abort is the failure boundary.
   });
 }
+// Used only by the explicit, confirmed recovery action. Editor drafts and results
+// are separate and are never cleared here.
+export async function clearWorkspace() {
+  const db=await open();
+  return new Promise((resolve,reject)=>{
+    const transaction=db.transaction('snapshots','readwrite');
+    transaction.objectStore('snapshots').delete('project');
+    transaction.oncomplete=()=>resolve();
+    transaction.onabort=()=>reject(transaction.error||Error('The saved project could not be cleared.'));
+    transaction.onerror=()=>{};
+  });
+}

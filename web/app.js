@@ -1,4 +1,4 @@
-import {loadWorkspace, saveWorkspace} from './workspace-store.js';
+import {loadWorkspace, saveWorkspace, clearWorkspace} from './workspace-store.js';
 import {lessons} from './course.js';
 import {investigations} from './investigations.js';
 const $=id=>document.getElementById(id), prefix='go-foundry:v1:', drafts=new Map(), notes=new Map(), done=new Set(), results=new Map();
@@ -23,7 +23,7 @@ function state(){
   $('runner-dialog').querySelector('[data-start]').disabled=active||!image||busy;
   $('runner-dialog').querySelector('[data-stop]').disabled=!active||busy;
   $('workspace-status').textContent=workspaceError|| (savedWorkspace?'Project files and data are saved in this browser.':'Project files and data will be saved in this browser after each run.');
-  $('workspace-status').dataset.error=String(!!workspaceError);
+  $('workspace-status').dataset.error=String(!!workspaceError);$('fresh-project').hidden=!restorationFailed;
   renderResult();
 }
 function phaseLabel(phase){return ({starting:'Starting',restoring:'Restoring project',compiling:'Compiling',running:'Running',testing:'Running tests',saving:'Saving project',stopping:'Stopping run'})[phase]||'Working';}
@@ -50,7 +50,7 @@ async function start(){
   starting=true;
   try {
     await acquireLease();
-    try {savedWorkspace=await loadWorkspace();workspaceError='';}catch{workspaceError='Browser project storage is unavailable. Keep the runner open and export a work archive before stopping.';}
+    try {savedWorkspace=await loadWorkspace();workspaceError='';}catch{workspaceError='Saved project storage could not be opened. Nothing has been replaced. Retry Run after browser storage is available; your editor drafts are kept.';throw Error(workspaceError);}
     frame=document.createElement('iframe');frame.title='Optional Go Foundry Linux terminal';frame.src=$('external-linux').href;frame.setAttribute('sandbox','allow-scripts allow-same-origin allow-downloads');frame.setAttribute('allow','fullscreen');frame.allowFullscreen=true;$('terminal').append(frame);
     $('session-state').textContent='Starting the runner. Your editor text has been kept.';activity();state();
   } catch(error){releaseLock?.();releaseLock=null;current=null;feedback(error.message);state();}
@@ -115,7 +115,7 @@ addEventListener('message',async event=>{
     const finished=current;
     if(!data.saved)workspaceError=data.saveError||'Project saving failed. Keep the runner open. In Runner tools and project backups, choose Export work archive before stopping.';
     if(finished.kind==='restore'){
-      if(data.exitCode!==0){ready=false;restorationFailed=true;current=null;workspaceError='The saved project could not be restored. Its browser copy has been kept. Download saved project in Runner tools to keep a backup; use the optional terminal to inspect or restore your files.';feedback(workspaceError);state();return;}
+      if(data.exitCode!==0){ready=false;restorationFailed=true;current=null;workspaceError='The saved project could not be restored. Its browser copy has been kept. Download saved project in Runner tools to keep a backup; then choose Start a fresh project if you want to replace that saved project. Editor drafts and results will be kept.';feedback(workspaceError);state();return;}
       ready=true;current=finished.queued||null;sendPending();
     } else {
       if(finished.kind==='run'){
@@ -150,6 +150,7 @@ for(const [id,target]of[['copy-setup','setup-command'],['copy-save','save-comman
   if(id==='copy-restore'&&!confirm('Replace the guest project with the uploaded archive? Export current work first if needed.'))return;
   terminalVisible(true);post({type:'command',command:$(target).textContent});activity();
 };
+$('fresh-project').onclick=async()=>{if(!restorationFailed||!confirm('Download the saved project first if you need a backup. Start fresh removes that saved Linux project and discards this guest session. Editor drafts, observations, results and completion marks are kept. Continue?'))return;try{await clearWorkspace();savedWorkspace=null;workspaceError='';stop();start();}catch(error){feedback(error.message+' The existing saved project has been kept.');}};
 $('download-saved').onclick=async()=>{try{const snapshot=await loadWorkspace();if(!snapshot)throw Error('No project has been saved yet.');const url=URL.createObjectURL(new Blob([snapshot.bytes],{type:'application/gzip'})),link=document.createElement('a');link.href=url;link.download='go-foundry-work.tar.gz';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){feedback(error.message);}};
 $('outline-toggle').onclick=()=>{const open=$('outline').hidden;$('outline').hidden=!open;$('outline-toggle').setAttribute('aria-expanded',String(open));};
 let chapter='';for(const entry of probes){if(read('done/'+entry.id,'')==='true')done.add(entry.id);try{const result=JSON.parse(read('result/'+entry.id,'null'));if(result)results.set(entry.id,result);}catch{}const group=entry.chapter||'Runtime investigations';if(group!==chapter){const title=document.createElement('h3');title.textContent=group;$('outline').append(title);chapter=group;}const link=document.createElement('a');link.href='#'+entry.id;link.textContent=entry.title;$('outline').append(link);}progress();
