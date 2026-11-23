@@ -28,3 +28,27 @@ page errors. Edited compilation, intentional compiler failure, cancellation of
 a live process and a successful rerun were checked separately. The complete
 nine-starter journey is a publication-gating CI check. A focused persistence
 invocation reports its scope explicitly and does not claim unexecuted checks.
+
+## Shared course style: plan and review criteria
+
+Applied the existing [UX skill](https://github.com/snowch/causal-inference-lab/blob/main/.agents/skills/ux/SKILL.md) and [learning-design skill](https://github.com/snowch/causal-inference-lab/blob/main/.agents/skills/learning-design/SKILL.md), plus the canonical [course design guide](https://github.com/snowch/cuda-python-lab/blob/main/docs/course-design-guide.md). The skill files are shared workspace sources; this repository links to the canonical guide rather than copying its rules.
+
+Before implementation: separate the compact course home from lesson views; use the combined course row with linked section location and completion ticks; move saved prediction before execution and interpretation after output; provide topic reminders in References and a distinct completion row followed by previous/next cards. Keep runner/backups optional and keep the Linux iframe alive through in-page navigation. Use bundled Material Symbols Rounded, common colour roles, IBM Plex typography and code/results at the wider course width. Review actual reading order, focus, touch targets, themes, zoom, errors and stored-work preservation after implementation. Functional checks do not establish learning effectiveness.
+
+### Shared-style review findings
+
+The built essential route was reviewed with optional panels closed on the first, middle and final lessons. Actions and the saved prediction precede the editor; actual output is followed by interpretation. Topic-specific references and optional tools precede a separate completion row and destination-labelled navigation cards. The course home identifies prerequisites and the startup internet requirement.
+
+Local browser checks passed for the separate home, all nine direct lessons, section destinations, inline outline behaviour, history/reload, retained drafts/predictions, completion reconciliation, reference reminders, syntax-source fidelity, target selection and both themes at 320, 390, 600, 820, 900, 901, 1100 and 1440 px. A 200% CSS zoom check supplements the narrow layouts. Required requests stayed inside the project scope. The interface bridge separately verifies that navigation during a run retains the same guest/job, identifies which lesson owns its output, and does not start another job. First startup notice timing and manual-start acknowledgement are covered.
+
+Screenshots of phone and desktop lesson endings were inspected. Sticky headers are captured at the top of full-page evidence images to avoid screenshot-only duplication at the current scroll position. The native syntax renderer preserves Unicode, raw strings, incomplete edits and source text exactly; colour is an aid, not a compiler check. Real VM starter/edit execution and saved-project recovery remain independent publication checks. Physical Android input/performance and learning effectiveness are not established by these checks.
+
+### Go series prototype: revised plan
+
+C++ remains unchanged. Go now prototypes a series catalogue, three small lab landings, and lab-scoped lesson navigation. Each completed introductory chapter supplies one three-lesson lab. The catalogue counts labs; each lab counts only its own manual lesson marks. A landing names its prerequisites, offers Start/Continue/Review and links to the next lab. No empty advanced courses or completion locks are added. Existing lesson IDs, state keys, the shared guest and captured running jobs must remain stable across series/lab/lesson transitions. Verify legacy section aliases, per-lab boundaries, progress independence and mid-run switches in addition to the shared styling checks above.
+
+### Go series prototype: review findings
+
+The catalogue, prerequisite links and a lab landing were inspected on phone and desktop; the final lesson was inspected in both themes. Each lab presents three lessons, a local progress count and an explicit next-lab destination. The optional investigations remain separate. The shared layout checks passed for all nine lessons, canonical and legacy routes, per-lab card boundaries, cross-tab completion, retained drafts/predictions, history/reload, keyboard, zoom and 320–1440 px themes. Completing the first lab changes the catalogue to one of three labs complete and offers the next lab, without marking any of that lab's lessons.
+
+The interface bridge check also passed a switch through catalogue → another lab → another lesson while a job was active. It retained one guest, disabled a second submission and returned to the lesson that owns the job. Native Go reference/edit checks and the series metadata contract passed. Real guest execution, cancellation and saved-project recovery are separate publication checks; interface stubs do not establish those results. These checks do not establish learning effectiveness or physical Android performance.

@@ -26,3 +26,17 @@ Later chapters (functions, collections, errors, data structures, algorithms and 
 TinyDB project) remain future course work. The earlier runtime investigations are
 retained as an optional navigation group; they are not presented as beginner
 prerequisites.
+
+## Shared course presentation adoption
+
+Use the canonical [shared course design guide](https://github.com/snowch/cuda-python-lab/blob/main/docs/course-design-guide.md), also required by CUDA C++ Lab. No new Go knowledge or shell prerequisite is introduced by this presentation change.
+
+The practical outcome is finding, attempting and revisiting one lesson without losing work. Likely misconceptions are that opening course navigation reruns code, that a completion mark certifies correctness, or that previous output belongs to a newly edited source. Keep one clear Run action, code/output together, a saved optional prediction before execution, explicit previous-output labelling, and reversible completion independent of execution. Preserve the nine complete examples and their documented edits. The transfer task remains each lesson's deliberate source change and interpretation question.
+
+The course home provides prerequisites, a compact compiler illustration, a Start action and grouped progress. Direct lesson hashes remain valid. Review the essential path with optional resources closed and exercise navigation, back/forward, section destinations, completion, saved drafts/predictions/results and a running guest.
+
+## Small-lab series prototype
+
+The three completed chapters become three introductory prototype labs, each with three existing lessons: First programs, Values and types, and Conditions and loops. This validates the series interface without presenting unwritten algorithms, data-structures or TinyDB courses as finished. The practical outcome is choosing one bounded learning goal, understanding its prerequisites, and returning to its own progress and outline.
+
+The first lab needs no Go experience. Values and types builds on running a program and repairing a simple compiler error; Conditions and loops uses the variables and arithmetic taught in Values and types. Prerequisites are recommendations rather than completion locks. The examples and transfer tasks stay unchanged. Prototype boundaries can expand as later content is authored; lesson identifiers and saved work must survive any regrouping.

@@ -1,7 +1,9 @@
 # Go Foundry
 
-The first three chapters teach first programs, values and types, and conditions
-and loops through nine editable lessons. No Go installation, account or shell
+Three small prototype labs teach first programs, values and types, and conditions
+and loops through nine editable lessons. Each lab has its own landing page,
+prerequisites, progress and lesson navigation, with one shared runner and saved
+project. See the [lab-series design](docs/lab-series.md). No Go installation, account or shell
 commands are required. **Run** starts a self-hosted Linux guest, compiles the
 current editor source with real Go 1.27.4, and shows actual output or compiler
 errors in the lesson. **Stop run** cancels a program without discarding Linux.

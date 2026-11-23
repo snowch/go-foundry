@@ -22,3 +22,9 @@ validation remains in `docs/validation-jslinux-legacy.json`; it is not evidence 
 the current runtime. Do not mirror the current hosted x86 JSLinux binaries without
 establishing redistribution rights. Active legacy guest files must be retained
 through migration so existing sessions can export their work.
+
+Reading and code fonts are locally bundled IBM Plex Sans and IBM Plex Mono under
+SIL OFL 1.1; original licences are in `web/fonts/`. Functional icons are official
+Material Symbols Rounded (outlined, weight 400, grade 0), Google
+material-design-icons revision `10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7`, under
+Apache 2.0; source notes and the licence are in `web/icons/`.
