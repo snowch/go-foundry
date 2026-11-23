@@ -80,3 +80,39 @@ The first prototype still looked like sections of one course: all homes used has
 ### Standalone courses: interface review
 
 Local checks passed for all three static course entry pages, direct reloads, own-course header/home destinations, three-item lesson and source-file menus, old bookmark aliases, modified-click/new-tab entry, browser history, saved work and completion. Browser checks covered both themes and 320–1440 px without requests outside the project or missing assets. Resolving static resource URLs before history changes keeps the favicon and download links attached to their actual files. Phone course homes and the first/middle/final lesson layouts were inspected. The bridge check retained one active guest while moving through a course home, the series catalogue and another course, then returned to the original job for cancellation. Native/reference and route-contract checks passed. Actual guest execution and project recovery remain independently verified publication checks; these interface results do not establish learning effectiveness.
+
+## Complete core series (113 lessons, twelve independent labs)
+
+Before: three finished introductory labs with nine examples; the advanced
+runtime investigations were useful probes but did not teach the later topics.
+After: each course has its own purpose, stated prerequisites, scoped outline,
+progress and next-course link. The series proceeds through functions/pointers,
+collections/text, types/interfaces, errors/testing, files/HTTP, concurrency,
+data structures, algorithms and a twelve-lesson persistent TinyDB project.
+No lesson is gated by a completion mark. Original IDs and work keys are stable.
+
+The sentence review distinguishes prepared inputs, edits, Run, named output
+fields and interpretation. Text introduces local terms, states sorted-input,
+weight and range assumptions, and distinguishes VM observations from native
+performance and physical-disk durability. Optional references contain syntax
+reminders rather than a second copy of the lesson. Diagrams show aliasing,
+interface values, shutdown ownership, links and staged snapshot publication;
+captions describe the starter rather than claiming to track edited code.
+
+Originals and every documented edit have executable native fixtures, including
+expected compilation failures and assertion failures. Browser interface checks
+inspect every source/ref/navigation relationship; real guest checks execute
+all starter packages and separately verify edited programs, Go test failure,
+cancellation, cross-course navigation and saved-project recovery. The guest
+capstone is reopened after stop, full reload and a fresh VM. These checks are
+functional evidence, not evidence of improved learning outcomes.
+
+The first complete-series CI run passed all 113 real-guest starters and the
+edited-source, assertion-failure, cancellation, checkpoint, fresh-VM and database
+reopening journey: [run 45264551201](https://github.com/snowch/go-foundry/actions/runs/45264551201).
+The local native suite and interface suite also passed. An additional review
+checked every lesson at 320 px and representative first/middle/final lessons at
+390, 820 and 1440 px in both themes, including keyboard diagram scrolling.
+Visual inspection then widened diagrams beyond the prose measure and separated
+the worker-pool's result flow from its coordinator's close signal. Narrow figures
+show an explicit scrolling hint; wide figures fit without horizontal scrolling.

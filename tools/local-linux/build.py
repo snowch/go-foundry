@@ -158,6 +158,8 @@ else:
             env=env,
             check=True,
         )
+    # Warm every lesson's actual dependencies, including HTTP/JSON, before shipping.
+    subprocess.run([str(driver), "build", "-trimpath", "-buildvcs=false", "-p=1", "./..."], cwd=root, env=env, check=True)
     if native:
         subprocess.run(
             [
@@ -175,7 +177,7 @@ else:
             check=True,
         )
     else:
-        for name in ["cmd/channels", "cmd/tinydb", "internal/store"]:
+        for name in sorted(str(path.relative_to(root)) for path in (root / "cmd").iterdir() if any(path.glob("*_test.go"))) + ["internal/store"]:
             subprocess.run(
                 [
                     str(driver),

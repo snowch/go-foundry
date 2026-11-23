@@ -1,9 +1,11 @@
 # Go Foundry
 
-Three small prototype labs teach first programs, values and types, and conditions
-and loops through nine editable lessons. Each lab has its own landing page,
-prerequisites, progress and lesson navigation, with one shared runner and saved
-project. See the [lab-series design](docs/lab-series.md). No Go installation, account or shell
+Twelve independent labs contain 113 editable lessons, from first programs through
+functions, collections, interfaces, errors and tests, files and HTTP, concurrency,
+data structures and algorithms, and a persistent TinyDB project. Each lab has its
+own landing page, prerequisites, progress and lesson navigation, with one shared
+runner and saved project. See the [lab-series design](docs/lab-series.md) and
+[learning plan](docs/full-course-design.md). No Go installation, account or shell
 commands are required. **Run** starts a self-hosted Linux guest, compiles the
 current editor source with real Go 1.27.4, and shows actual output or compiler
 errors in the lesson. **Stop run** cancels a program without discarding Linux.
@@ -18,9 +20,9 @@ browser storage may be cleared or evicted.
 
 The guest uses 768 MiB RAM plus browser overhead. Its emulator, terminal, BIOS,
 kernel, Go SDK, prepared cache and examples are self-hosted. A fresh startup still
-needs internet: there is no verified complete offline-copy control yet. This is
-an introductory course with a prototype runtime, not a complete Go curriculum or
-a native-speed performance environment.
+needs internet: there is no verified complete offline-copy control yet. The emulated runtime is not a native-speed performance environment. This core
+course does not promise coverage of every ecosystem framework or production
+database behavior.
 
 ## Build and verification
 

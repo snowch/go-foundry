@@ -1,7 +1,8 @@
 const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs/promises');
 (async()=>{
- const {serve}=await import('../tools/serve.mjs'),{lessons}=await import('../web/course.js'),{server,url}=await serve();
+ const {serve}=await import('../tools/serve.mjs'),{lessons}=await import('../web/course.js'),{labs}=await import('../web/lesson-presentation.js'),{server,url}=await serve();
  const browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{})});
+ const labID=process.argv.includes('--lab')?process.argv[process.argv.indexOf('--lab')+1]:null,lab=labs.find(entry=>entry.id===labID);if(labID&&!lab)throw new Error('Unknown lab '+labID);
  let page;
  try{
   const context=await browser.newContext({acceptDownloads:true}),testPage=await context.newPage(),blocked=[],failed=[],errors=[],checks=[];
@@ -17,7 +18,8 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
    assert.match(await page.locator('#workspace-status').textContent(),/saved in this browser/);return output;
   }
   // Every starter runs through the real hidden VM and actual Go compiler.
-  for(const lesson of ((process.argv.includes('--runner-only')||process.argv.includes('--persistence-only'))?[]:lessons)){await navigate(lesson.id);const output=await run(lesson.reference);assert(await page.locator('#terminal-region').evaluate(element=>element.inert));checks.push({lesson:lesson.id,status:'passed',output});console.log('PASS real guest starter '+lesson.id);}
+  for(const lesson of ((process.argv.includes('--runner-only')||process.argv.includes('--persistence-only'))?[]:lessons.filter(entry=>!lab||lab.lessons.includes(entry.id)))){await navigate(lesson.id);const output=await run(lesson.reference);assert(await page.locator('#terminal-region').evaluate(element=>element.inert));checks.push({lesson:lesson.id,status:'passed',output});console.log('PASS real guest starter '+lesson.id);}
+  if(process.argv.includes('--examples-only')){assert.deepEqual(blocked,[]);assert.deepEqual(failed,[]);assert.deepEqual(errors,[]);await fs.mkdir('test-results',{recursive:true});await fs.writeFile('test-results/go-starters-'+labID+'.json',JSON.stringify({date:new Date().toISOString(),lab:labID,checks,blocked,failed,errors},null,2));await context.close();return;}
   if(!process.argv.includes('--persistence-only')){await navigate('first-program');const source=await page.locator('#source').inputValue();
   await page.locator('#source').fill(source.replace('Hello, Go!','Hello, saved Go!')+'\n// café 漢字 $(touch /tmp/SHOULD_NOT_EXIST)\n');await page.locator('#source').dispatchEvent('input');await run('Hello, saved Go!');
   await page.locator('#source').fill('package main\nfunc main() { this is not Go }');await page.locator('#source').dispatchEvent('input');await run('main.go:',{error:true});
@@ -25,11 +27,14 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
   await page.evaluate(()=>document.querySelector('#terminal iframe').contentWindow.postMessage({channel:'foundry-linux',type:'command',command:'if ps -o comm | grep -qx hello; then echo CANCELLED_PROCESS_STILL_RUNNING; else echo CANCELLED_PROCESS_GONE; fi'},location.origin));
   const guest=await page.locator('#terminal iframe').elementHandle().then(element=>element.contentFrame());await guest.waitForFunction(()=>/^CANCELLED_PROCESS_GONE\r?$/m.test(foundryLinux.getTranscript()),null,{timeout:30000});
   await page.locator('#source').fill(source.replace('Hello, Go!','Hello, after stop!'));await page.locator('#source').dispatchEvent('input');await run('Hello, after stop!');console.log('PASS edited source, real compiler error, cancellation and rerun in the same guest');}
+  await navigate('unit-tests');const assertion=await page.locator('#source').inputValue();await page.locator('#source').fill(assertion.replace('want := 6','want := 7'));await page.locator('#source').dispatchEvent('input');await run('got 6 want 7',{error:true});assert.match(await page.locator('#job-status').textContent(),/^Go tests failed/);
+  await page.locator('#source').fill(assertion);await page.locator('#source').dispatchEvent('input');await run('PASS');
   await navigate('database');await run('7 | Ada | 42');
+  await navigate('db-persistence');const capstone=await page.locator('#source').inputValue();await page.locator('#source').fill(capstone.replace('desiredScore := 42','desiredScore := 73'));await page.locator('#source').dispatchEvent('input');await run('saved name Ada score 73');
   await page.locator('#prediction').fill('My database should survive stopping Linux.');await page.locator('#complete').check();
   await page.locator('#runner-tools').evaluate(element=>element.open=true);const [download]=await Promise.all([page.waitForEvent('download'),page.locator('#download-saved').click()]);await fs.mkdir('test-results',{recursive:true});await download.saveAs('test-results/go-saved-project.tar.gz');assert((await fs.stat('test-results/go-saved-project.tar.gz')).size>100);
   await page.locator('#runner-open').click();await page.locator('#runner-dialog [data-stop]').click();await page.locator('#confirm-stop').click();await page.waitForFunction(()=>document.querySelector('#runner-state').textContent==='Stopped',null,{timeout:90000});assert.equal(await page.locator('#terminal iframe').count(),0);
-  await page.reload();await page.waitForFunction(()=>document.querySelector('#source-file').options.length>0);assert.equal(await page.locator('#prediction').inputValue(),'My database should survive stopping Linux.');assert(await page.locator('#complete').isChecked());await run('7 | Ada | 42',{timeout:360000});console.log('PASS committed IndexedDB archive, manual save/stop, full page reload, fresh VM restoration and database reopen');
+  await page.reload();await page.waitForFunction(()=>document.querySelector('#source-file').options.length>0);assert.equal(await page.locator('#prediction').inputValue(),'My database should survive stopping Linux.');assert(await page.locator('#complete').isChecked());await run('reopened before 73',{timeout:360000});assert.match(await page.locator('#job-output').textContent(),/saved name Ada score 73/);await navigate('database');await run('7 | Ada | 42');console.log('PASS committed IndexedDB archive, manual save/stop, full page reload, fresh VM restoration and database reopen');
   // The VM is real; only the parent's idle clock is advanced. No simulated guest
   // output substitutes for tar creation, bridge reads or IndexedDB completion.
   await page.evaluate(()=>{const now=Date.now;Date.now=()=>now()+31*60*1000;document.dispatchEvent(new Event('visibilitychange'));});await page.waitForFunction(()=>document.querySelector('#runner-state').textContent==='Stopped',null,{timeout:90000});console.log('PASS automatic idle checkpoint and shutdown');

@@ -1,0 +1,3319 @@
+[
+  {
+    "lab": "first-programs",
+    "id": "print-values",
+    "title": "Print values and expressions",
+    "purpose": "Read the values produced by simple expressions.",
+    "explanation": "Println can print more than one value, separated by spaces. The compiler evaluates an expression, such as 2 + 3, before passing its result to Println. Quoted text is a string; unquoted numbers can take part in arithmetic.",
+    "action": "Run the starter and find sum 5 and product 12 in Output. In the first Println call, change 2 + 3 to 2 * 3, then run again. Compare the sum-labelled line with the unchanged product-labelled line.",
+    "observe": "The first value becomes 6; the second stays 12. The label is text you chose: changing the calculation does not automatically rename sum. What label would describe the edited calculation?",
+    "reference": "sum 5\nproduct 12",
+    "topics": [
+      [
+        "Expressions",
+        "Operators combine values before printing.",
+        "2 + 3",
+        "https://go.dev/ref/spec#Arithmetic_operators"
+      ],
+      [
+        "Print several values",
+        "Println separates its arguments with spaces.",
+        "fmt.Println(\"sum\", 5)",
+        "https://pkg.go.dev/fmt@go1.27.4#Println"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/print-values/main.go",
+    "command": "./run print-values",
+    "supportFiles": [],
+    "target": "2\\+3"
+  },
+  {
+    "lab": "first-programs",
+    "id": "formatted-output",
+    "title": "Choose how a number is printed",
+    "purpose": "Use a format string to label and round printed values.",
+    "explanation": "Printf uses a format string to choose how its other values appear. %s prints a string, %d an integer, and %.2f a floating-point value with two digits after the decimal point. Unlike Println, Printf needs \\n in its format string to end the line. Printing fewer digits changes the displayed text, not the value used in the calculation.",
+    "action": "Run and find Ada has 3 items; price 2.35. In the format string, change %.2f to %.1f and run again. Inspect only the printed price; keep the input value 2.345 unchanged.",
+    "observe": "The price is displayed as 2.3. Did choosing fewer displayed digits change the number of items? What format would show three digits after the decimal point?",
+    "reference": "Ada has 3 items; price 2.35",
+    "topics": [
+      [
+        "Formatted output",
+        "The format string determines how values appear.",
+        "fmt.Printf(\"%.2f\\n\", price)",
+        "https://pkg.go.dev/fmt@go1.27.4"
+      ],
+      [
+        "String escapes",
+        "\\n represents a newline inside a quoted string.",
+        "\"first\\nsecond\"",
+        "https://go.dev/ref/spec#String_literals"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/formatted-output/main.go",
+    "command": "./run formatted-output",
+    "supportFiles": [],
+    "target": "%\\.2f"
+  },
+  {
+    "lab": "first-programs",
+    "id": "quoted-and-raw-strings",
+    "title": "Distinguish quoted and raw strings",
+    "purpose": "Choose whether a backslash sequence becomes a newline.",
+    "explanation": "Inside a double-quoted string, \\n represents one newline character. A raw string is enclosed by backticks; its backslashes remain literal characters. Go prints the characters stored in the string, so two strings that look similar in source can produce different lines.",
+    "action": "Run and compare the lines after quoted: and raw:. In the raw string, replace the two characters \\n with a real line break between first and second. Run again and compare the two outputs.",
+    "observe": "Both strings now put second on a new line. A real line break can appear inside a raw string; a double-quoted string uses an escape instead. Which representation would you choose for a Windows-style path containing backslashes?",
+    "reference": "quoted:\nfirst\nsecond\nraw:\nfirst\\nsecond",
+    "topics": [
+      [
+        "Quoted strings",
+        "Backslash escapes represent characters such as newline.",
+        "\"first\\nsecond\"",
+        "https://go.dev/ref/spec#String_literals"
+      ],
+      [
+        "Raw strings",
+        "Backticks preserve backslashes and line breaks.",
+        "`first\\nsecond`",
+        "https://go.dev/ref/spec#String_literals"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/quoted-and-raw-strings/main.go",
+    "command": "./run quoted-and-raw-strings",
+    "supportFiles": [],
+    "target": "`first\\\\nsecond`"
+  },
+  {
+    "lab": "values-and-types",
+    "id": "assignment",
+    "title": "Change a stored value",
+    "purpose": "Distinguish an expression from an assignment.",
+    "explanation": "The expression count + 2 calculates a value. The assignment count = count + 2 also stores that value back in count. A declaration with := creates a name; a later assignment with = updates the existing variable.",
+    "action": "Run and find before 3 and after 5. Change count = count + 2 to count = count * 2, then run again. Compare the before and after fields.",
+    "observe": "Before stays 3 and after becomes 6. The first print happens before the assignment. What would a second identical multiplication do to the stored value?",
+    "reference": "before 3\nafter 5",
+    "topics": [
+      [
+        "Assignment",
+        "The right-hand expression is evaluated before its result is stored.",
+        "count = count * 2",
+        "https://go.dev/ref/spec#Assignment_statements"
+      ],
+      [
+        "Declaration",
+        "A short declaration introduces a variable in its scope.",
+        "count := 3",
+        "https://go.dev/ref/spec#Short_variable_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/assignment/main.go",
+    "command": "./run assignment",
+    "supportFiles": [],
+    "target": "count\\ =\\ count\\ \\+\\ 2"
+  },
+  {
+    "lab": "values-and-types",
+    "id": "constants",
+    "title": "Name a value that cannot change",
+    "purpose": "Use a constant for a fixed calculation input.",
+    "explanation": "const gives a name to a constant value. A constant cannot receive a later assignment. Here itemsPerBox is fixed while Go evaluates the total for three boxes. Change the declaration to try a different fixed input.",
+    "action": "Run and find total items 12. In the const declaration, change itemsPerBox from 4 to 6 and run again. Inspect total items.",
+    "observe": "The total becomes 18. If the number must change while the program runs, it needs a variable instead. Which part of this example describes the number of boxes?",
+    "reference": "total items 12",
+    "topics": [
+      [
+        "Constants",
+        "A constant name denotes a value that cannot be reassigned.",
+        "const itemsPerBox = 4",
+        "https://go.dev/ref/spec#Constant_declarations"
+      ],
+      [
+        "Constant expressions",
+        "Arithmetic can combine named constants and literal values.",
+        "3 * itemsPerBox",
+        "https://go.dev/ref/spec#Constant_expressions"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/constants/main.go",
+    "command": "./run constants",
+    "supportFiles": [],
+    "target": "itemsPerBox\\ =\\ 4"
+  },
+  {
+    "lab": "values-and-types",
+    "id": "zero-values",
+    "title": "Inspect values before an explicit assignment",
+    "purpose": "Recognise the initial values supplied by a declaration.",
+    "explanation": "A var declaration without an initial expression supplies the type’s zero value. For int this is 0, for bool false, and for string the empty string. %q prints quoted text, making an empty string visible as two quotation marks.",
+    "action": "Run and find count=0 ready=false name=\"\". Below the declarations, change name = \"\" to name = \"Ada\" and run again. Compare all three labelled fields.",
+    "observe": "Only name changes. The other variables retain their zero values because no assignment changed them. How could you distinguish an empty name from a name containing one space using %q?",
+    "reference": "count=0 ready=false name=\"\"",
+    "topics": [
+      [
+        "Zero values",
+        "Each type has a defined initial zero value.",
+        "var count int",
+        "https://go.dev/ref/spec#The_zero_value"
+      ],
+      [
+        "Quoted output",
+        "%q makes empty strings and escape characters visible.",
+        "fmt.Printf(\"%q\", name)",
+        "https://pkg.go.dev/fmt@go1.27.4"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/zero-values/main.go",
+    "command": "./run zero-values",
+    "supportFiles": [],
+    "target": "name\\ =\\ \"\""
+  },
+  {
+    "lab": "values-and-types",
+    "id": "number-conversions",
+    "title": "Convert a decimal value to an integer",
+    "purpose": "Observe which part of a floating-point value survives conversion.",
+    "explanation": "int(value) converts a floating-point variable to an integer by discarding its fractional part toward zero. This is different from rounding to the nearest integer. The original variable keeps its floating-point value.",
+    "action": "Run and find decimal 3.9 and integer 3. Change value := 3.9 to value := -3.9 and run again. Compare the sign and fractional part in the two fields.",
+    "observe": "The integer is -3, not -4: the conversion moves toward zero. Which result would you expect from converting 0.9? Keep that prediction separate from a rounding rule.",
+    "reference": "decimal 3.9\ninteger 3",
+    "topics": [
+      [
+        "Numeric conversions",
+        "A floating-point to integer conversion discards the fraction toward zero.",
+        "whole := int(value)",
+        "https://go.dev/ref/spec#Conversions"
+      ],
+      [
+        "Original value",
+        "A conversion produces a value; it does not reassign its input.",
+        "value := 3.9",
+        "https://go.dev/ref/spec#Assignment_statements"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/number-conversions/main.go",
+    "command": "./run number-conversions",
+    "supportFiles": [],
+    "target": "value\\ :=\\ 3\\.9"
+  },
+  {
+    "lab": "values-and-types",
+    "id": "bounded-integers",
+    "title": "See an unsigned integer wrap",
+    "purpose": "Relate an integer type’s range to an arithmetic result.",
+    "explanation": "uint8 is an unsigned eight-bit integer type, with values from 0 through 255. Incrementing a variable already at 255 wraps its value to 0. The variable’s type determines this result; it does not automatically grow to hold 256.",
+    "action": "Run and find after increment 0. Change the initial value from 255 to 254 and run again. Compare after increment with the first run.",
+    "observe": "The edited result is 255. Which initial value crosses the type’s maximum after one increment? A count that must keep growing needs a suitable range and an explicit overflow policy.",
+    "reference": "after increment 0",
+    "topics": [
+      [
+        "Integer ranges",
+        "uint8 holds 0 through 255.",
+        "var value uint8 = 255",
+        "https://go.dev/ref/spec#Numeric_types"
+      ],
+      [
+        "Integer overflow",
+        "Unsigned arithmetic wraps modulo the type’s range.",
+        "value++",
+        "https://go.dev/ref/spec#Integer_overflow"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/bounded-integers/main.go",
+    "command": "./run bounded-integers",
+    "supportFiles": [],
+    "target": "value\\ uint8\\ =\\ 255"
+  },
+  {
+    "lab": "conditions-and-loops",
+    "id": "boolean-logic",
+    "title": "Combine two requirements",
+    "purpose": "Use a boolean expression to require both comparisons to pass.",
+    "explanation": "&& is logical AND: both operands must be true. || is logical OR: at least one must be true. ! negates a boolean value. Here eligibility requires a score of at least 50 and attendance of at least 80; these are this example’s rules.",
+    "action": "Run and find eligible false. Change attendance := 75 to attendance := 90 and run again. Inspect eligible and decide which comparison changed.",
+    "observe": "Eligibility becomes true because both requirements now pass. With the original inputs, would replacing && with || produce true or false?",
+    "reference": "eligible false",
+    "topics": [
+      [
+        "Logical operators",
+        "&& requires both conditions; || requires either.",
+        "score >= 50 && attendance >= 80",
+        "https://go.dev/ref/spec#Logical_operators"
+      ],
+      [
+        "Comparison",
+        "A comparison produces a boolean value.",
+        "attendance >= 80",
+        "https://go.dev/ref/spec#Comparison_operators"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/boolean-logic/main.go",
+    "command": "./run boolean-logic",
+    "supportFiles": [],
+    "target": "attendance\\ :=\\ 75"
+  },
+  {
+    "lab": "conditions-and-loops",
+    "id": "else-if",
+    "title": "Classify a value with ordered tests",
+    "purpose": "Follow the first true branch in an if/else-if chain.",
+    "explanation": "An else if checks another condition only when the preceding condition was false. These example temperature categories use degrees Celsius: below 0 is freezing; otherwise below 20 is cool; all remaining values are warm.",
+    "action": "Run with temperature := 0 and find cool. Change the temperature to -1 and run again. Explain which test now selects the output.",
+    "observe": "The result becomes freezing. Exactly 0 does not satisfy temperature < 0. Would a temperature of 20 enter the cool or warm branch?",
+    "reference": "cool",
+    "topics": [
+      [
+        "Ordered branches",
+        "Only the selected branch executes.",
+        "if first { ... } else if second { ... }",
+        "https://go.dev/ref/spec#If_statements"
+      ],
+      [
+        "Boundary tests",
+        "< excludes the boundary value.",
+        "temperature < 0",
+        "https://go.dev/ref/spec#Comparison_operators"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/else-if/main.go",
+    "command": "./run else-if",
+    "supportFiles": [],
+    "target": "temperature\\ :=\\ 0"
+  },
+  {
+    "lab": "conditions-and-loops",
+    "id": "switch",
+    "title": "Select an operation by name",
+    "purpose": "Use switch to choose one matching case.",
+    "explanation": "switch compares operation with its case values. Go executes a matching case and then leaves the switch; it does not automatically continue into the next case. default handles values with no matching case.",
+    "action": "Run and find result 7. Change operation := \"add\" to operation := \"subtract\" and run again. Keep left and right unchanged and inspect result.",
+    "observe": "The result becomes 3. Which branch would handle the name multiply in this program? A branch exists only when the source defines its case.",
+    "reference": "result 7",
+    "topics": [
+      [
+        "Switch",
+        "A matching case selects a block.",
+        "switch operation { case \"add\": ... }",
+        "https://go.dev/ref/spec#Switch_statements"
+      ],
+      [
+        "Default",
+        "default handles an unmatched value.",
+        "default:",
+        "https://go.dev/ref/spec#Expression_switches"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/switch/main.go",
+    "command": "./run switch",
+    "supportFiles": [],
+    "target": "operation\\ :=\\ \"add\""
+  },
+  {
+    "lab": "conditions-and-loops",
+    "id": "condition-loop",
+    "title": "Repeat while a condition remains true",
+    "purpose": "Use a condition-only loop and change the state that ends it.",
+    "explanation": "A for loop can contain just a condition. Go checks remaining > 0 before each repetition. remaining-- reduces the value, eventually making that condition false. Without a change that can end the loop, this form can run forever.",
+    "action": "Run and read 3, 2, 1, then launch. Change remaining := 3 to remaining := 0 and run again. Inspect whether any countdown numbers appear.",
+    "observe": "Only launch appears because the first condition is already false. Which statement in the original loop moves the countdown toward termination?",
+    "reference": "3\n2\n1\nlaunch",
+    "topics": [
+      [
+        "Condition-only loop",
+        "The condition is checked before the body.",
+        "for remaining > 0 { ... }",
+        "https://go.dev/ref/spec#For_statements"
+      ],
+      [
+        "Decrement",
+        "-- reduces an integer variable by one.",
+        "remaining--",
+        "https://go.dev/ref/spec#IncDec_statements"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/condition-loop/main.go",
+    "command": "./run condition-loop",
+    "supportFiles": [],
+    "target": "remaining\\ :=\\ 3"
+  },
+  {
+    "lab": "conditions-and-loops",
+    "id": "break-and-continue",
+    "title": "Skip an iteration or leave the loop",
+    "purpose": "Distinguish continue from break using printed values.",
+    "explanation": "continue skips the rest of the current iteration and starts the next one. break leaves the loop. This loop skips 2 and exits before printing 5, so the loop limit alone does not determine the printed values.",
+    "action": "Run and find 1, 3 and 4 on separate lines. Change the break condition from value == 5 to value == 4 and run again. Compare the last printed value.",
+    "observe": "The edited loop prints 1 and 3. Why is 4 not printed when the break test succeeds before Println?",
+    "reference": "1\n3\n4",
+    "topics": [
+      [
+        "Continue",
+        "Skip the rest of the current iteration.",
+        "continue",
+        "https://go.dev/ref/spec#Continue_statements"
+      ],
+      [
+        "Break",
+        "Leave the innermost loop.",
+        "break",
+        "https://go.dev/ref/spec#Break_statements"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/break-and-continue/main.go",
+    "command": "./run break-and-continue",
+    "supportFiles": [],
+    "target": "value\\ ==\\ 5"
+  },
+  {
+    "lab": "conditions-and-loops",
+    "id": "integer-range",
+    "title": "Repeat a fixed number of times",
+    "purpose": "Read the indexes produced by an integer range loop.",
+    "explanation": "In this course’s Go version, range count repeats with successive integers from 0 up to count - 1. A nonpositive count produces no iterations. The count is the number of iterations, rather than the final index.",
+    "action": "Run with count := 3 and find indexes 0, 1 and 2, then done. Change count to 0 and run again. Compare the number of index lines.",
+    "observe": "Only done appears after the edit. If count were 4, which index would be printed last?",
+    "reference": "index 0\nindex 1\nindex 2\ndone",
+    "topics": [
+      [
+        "Integer range",
+        "range n produces indexes from 0 through n-1.",
+        "for index := range count { ... }",
+        "https://go.dev/ref/spec#For_range"
+      ],
+      [
+        "Loop count",
+        "Zero iterations still allows the following statement to execute.",
+        "fmt.Println(\"done\")",
+        "https://go.dev/ref/spec#For_statements"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/integer-range/main.go",
+    "command": "./run integer-range",
+    "supportFiles": [],
+    "target": "count\\ :=\\ 3"
+  },
+  {
+    "lab": "functions-and-pointers",
+    "id": "function-result",
+    "title": "Pass a value into a function",
+    "purpose": "Use a parameter and returned value to reuse a calculation.",
+    "explanation": "A parameter names an input inside a function. The int after the parameter list declares the result type. return supplies that result to the caller; printing happens in main in this example.",
+    "action": "Run and find result 6. In double, change value * 2 to value * 3 and run again. Keep the argument 3 unchanged and inspect result.",
+    "observe": "The result becomes 9. Which expression belongs to the function, and which value is supplied by its caller?",
+    "reference": "result 6",
+    "topics": [
+      [
+        "Function result",
+        "A return statement supplies the declared result.",
+        "func double(value int) int { return value * 2 }",
+        "https://go.dev/ref/spec#Function_declarations"
+      ],
+      [
+        "Call arguments",
+        "The argument supplies the parameter’s initial value.",
+        "double(3)",
+        "https://go.dev/ref/spec#Calls"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/function-result/main.go",
+    "command": "./run function-result",
+    "supportFiles": [],
+    "target": "value\\ \\*\\ 2"
+  },
+  {
+    "lab": "functions-and-pointers",
+    "id": "multiple-results",
+    "title": "Return two related results",
+    "purpose": "Receive a quotient and remainder from one function call.",
+    "explanation": "A function can return multiple values. divide returns two ints, in the declared order. The assignment quotient, remainder := divide(...) receives both. This example uses a positive group size, so division is defined.",
+    "action": "Run and find quotient 2 remainder 2. Change divide(8, 3) to divide(9, 3) and run again. Inspect both named results.",
+    "observe": "The new results are quotient 3 and remainder 0. Which result accounts for items that do not fill a complete group?",
+    "reference": "quotient 2 remainder 2",
+    "topics": [
+      [
+        "Multiple results",
+        "The return list and receiving variables use the same order.",
+        "func divide(items, size int) (int, int)",
+        "https://go.dev/ref/spec#Function_types"
+      ],
+      [
+        "Receiving results",
+        "Each returned value receives its own name.",
+        "quotient, remainder := divide(8, 3)",
+        "https://go.dev/ref/spec#Assignments"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/multiple-results/main.go",
+    "command": "./run multiple-results",
+    "supportFiles": [],
+    "target": "divide\\(8,\\ 3\\)"
+  },
+  {
+    "lab": "functions-and-pointers",
+    "id": "scope-and-shadowing",
+    "title": "Choose which variable an assignment changes",
+    "purpose": "Distinguish a new inner variable from its outer namesake.",
+    "explanation": "A scope is the region where a declared name refers to its variable. The inner block can declare a different value with the same name. That declaration shadows the outer value until the block ends; it does not replace the outer storage.",
+    "action": "Run and find inner 3 and outer 10. Inside the inner block, change value := 3 to value = 3 and run again. Compare the outer result.",
+    "observe": "Outer now prints 3 because = updates the existing variable instead of declaring another one. Which declaration supplies that variable before the inner block begins?",
+    "reference": "inner 3\nouter 10",
+    "topics": [
+      [
+        "Scope",
+        "A declaration applies within its scope.",
+        "{ value := 3 }",
+        "https://go.dev/ref/spec#Declarations_and_scope"
+      ],
+      [
+        "Assignment versus declaration",
+        "= updates an existing variable; := can introduce a new one.",
+        "value = 3",
+        "https://go.dev/ref/spec#Short_variable_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/scope-and-shadowing/main.go",
+    "command": "./run scope-and-shadowing",
+    "supportFiles": [],
+    "target": "value\\ :=\\ 3"
+  },
+  {
+    "lab": "functions-and-pointers",
+    "id": "value-and-pointer",
+    "title": "Change a caller’s variable through a pointer",
+    "purpose": "Observe the difference between changing a copied int and pointed-to storage.",
+    "explanation": "Go passes argument values into parameters. An int parameter is a copy of the caller’s int. A pointer value identifies existing storage: &count obtains a pointer to count, and *value accesses the int through that pointer. Passing a pointer still copies the pointer value, while both pointers identify the same storage.",
+    "action": "Run and compare after value 3 with after pointer 4. In bumpPointer, change *value + 1 to *value + 5 and run again. Inspect which output changes.",
+    "observe": "After value stays 3 and after pointer becomes 8. The pointer operation updates count. Why did changing the value parameter in bumpValue leave count unchanged?",
+    "reference": "after value 3\nafter pointer 4",
+    "topics": [
+      [
+        "Pointers",
+        "& obtains an address; * accesses the pointed-to value.",
+        "bumpPointer(&count)",
+        "https://go.dev/ref/spec#Address_operators"
+      ],
+      [
+        "Argument values",
+        "Function arguments are assigned to parameters.",
+        "func bumpValue(value int)",
+        "https://go.dev/ref/spec#Calls"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/value-and-pointer/main.go",
+    "command": "./run value-and-pointer",
+    "supportFiles": [],
+    "target": "\\*value\\ \\+\\ 1"
+  },
+  {
+    "lab": "functions-and-pointers",
+    "id": "function-values",
+    "title": "Pass an operation as a value",
+    "purpose": "Use a function parameter to choose a calculation.",
+    "explanation": "func(int) int is the type of a function that accepts one int and returns one int. A function can be passed as an argument, just like another value. apply calls the operation it receives instead of naming a particular calculation internally.",
+    "action": "Run and find applied 8. In main, change apply(4, double) to apply(4, triple) and run again. Keep the input 4 unchanged.",
+    "observe": "The result becomes 12. What part of apply lets the caller choose the operation without changing apply’s body?",
+    "reference": "applied 8",
+    "topics": [
+      [
+        "Function types",
+        "A function type describes parameters and results.",
+        "operation func(int) int",
+        "https://go.dev/ref/spec#Function_types"
+      ],
+      [
+        "Function values",
+        "A function can be passed to another function.",
+        "apply(4, triple)",
+        "https://go.dev/ref/spec#Function_literals"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/function-values/main.go",
+    "command": "./run function-values",
+    "supportFiles": [],
+    "target": "apply\\(4,\\ double\\)"
+  },
+  {
+    "lab": "functions-and-pointers",
+    "id": "closures",
+    "title": "Keep state in a returned function",
+    "purpose": "Observe independent state captured by two function values.",
+    "explanation": "A closure is a function value that refers to variables from its surrounding scope. makeCounter returns a function that keeps access to its count. Calls through one returned function share that count; calling makeCounter again creates another count.",
+    "action": "Run and find first 1 second 2, then other 1. In makeCounter, change count := 0 to count := 10 and run again. Compare both counters’ first values.",
+    "observe": "The first counter produces 11 then 12; the other begins at 11. Why does other not continue from 12?",
+    "reference": "first 1 second 2\nother 1",
+    "topics": [
+      [
+        "Closures",
+        "A function literal can refer to variables outside its own body.",
+        "return func() int { count++; return count }",
+        "https://go.dev/ref/spec#Function_literals"
+      ],
+      [
+        "Returned function",
+        "The caller stores and invokes the function value.",
+        "next := makeCounter()",
+        "https://go.dev/ref/spec#Function_types"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/closures/main.go",
+    "command": "./run closures",
+    "supportFiles": [],
+    "target": "count\\ :=\\ 0"
+  },
+  {
+    "lab": "functions-and-pointers",
+    "id": "defer-order",
+    "title": "Run cleanup when a function returns",
+    "purpose": "Place a deferred call in the function’s execution order.",
+    "explanation": "defer schedules a call for the moment its surrounding function returns. Here cleanup is printed after work but before main continues. The call is delayed; the rest of the function still runs immediately.",
+    "action": "Run and read work, cleanup, finished. In work, remove defer from defer fmt.Println(\"cleanup\") and run again. Compare the first two lines.",
+    "observe": "Cleanup now prints before work. A deferred call belongs to the function that executes defer, so which return point triggers cleanup in the starter?",
+    "reference": "work\ncleanup\nfinished",
+    "topics": [
+      [
+        "Deferred calls",
+        "Deferred calls run when the surrounding function returns.",
+        "defer fmt.Println(\"cleanup\")",
+        "https://go.dev/ref/spec#Defer_statements"
+      ],
+      [
+        "Function return",
+        "Control returns to the statement following the call.",
+        "work()",
+        "https://go.dev/ref/spec#Return_statements"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/defer-order/main.go",
+    "command": "./run defer-order",
+    "supportFiles": [],
+    "target": "defer\\ fmt\\.Println\\(\"cleanup\"\\)"
+  },
+  {
+    "lab": "functions-and-pointers",
+    "id": "recursion",
+    "title": "Reduce a problem to a smaller call",
+    "purpose": "Trace the base case and recursive step of a running sum.",
+    "explanation": "A recursive function calls itself with a smaller problem. sumTo returns 0 for a nonpositive input. For a positive n, it adds n to sumTo(n - 1), so repeated calls eventually reach the base case.",
+    "action": "Run and find total 10 for sumTo(4). Change that call to sumTo(5) and run again. Work backward from the base case to explain the new total.",
+    "observe": "The total becomes 15. Which condition prevents another recursive call at 0? Each call needs a path toward that condition.",
+    "reference": "total 10",
+    "topics": [
+      [
+        "Recursive call",
+        "The function invokes itself with a smaller argument.",
+        "sumTo(n - 1)",
+        "https://go.dev/ref/spec#Calls"
+      ],
+      [
+        "Base case",
+        "A return can end the recursion without another call.",
+        "if n <= 0 { return 0 }",
+        "https://go.dev/ref/spec#Return_statements"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/recursion/main.go",
+    "command": "./run recursion",
+    "supportFiles": [],
+    "target": "sumTo\\(4\\)"
+  },
+  {
+    "lab": "functions-and-pointers",
+    "id": "function-practice",
+    "title": "Extend a function without changing other cases",
+    "purpose": "Apply conditions and parameters to add a lower bound.",
+    "explanation": "capAt currently enforces only an upper bound. main prints a low, middle and high input so you can see whether an edit changes a case it should preserve. The three examples are evidence for those inputs, not a proof for every integer.",
+    "action": "Run and inspect low -2 middle 3 high 5. Extend capAt so negative values return 0. Keep the existing upper bound and all middle values unchanged. Run again and inspect all three labelled results.",
+    "observe": "Look for low 0 middle 3 high 5. Did the new condition preserve the original middle and high behavior? What additional boundary inputs would you try?",
+    "reference": "low -2 middle 3 high 5",
+    "topics": [
+      [
+        "Parameters",
+        "Each call supplies its own value and limit.",
+        "capAt(-2, 5)",
+        "https://go.dev/ref/spec#Function_declarations"
+      ],
+      [
+        "Guard condition",
+        "An early return can handle a boundary case.",
+        "if value < 0 { return 0 }",
+        "https://go.dev/ref/spec#If_statements"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/function-practice/main.go",
+    "command": "./run function-practice",
+    "supportFiles": [],
+    "target": "if\\ value\\ >\\ limit\\ \\{"
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "arrays",
+    "title": "Change one array element",
+    "purpose": "Use an index to update a fixed-length array.",
+    "explanation": "An array stores a fixed number of values of one type. [3]int is an array of three ints. Indexes start at 0, so index 1 selects the second element. The length is part of an array’s type.",
+    "action": "Run and find [2 9 6]. Change the assignment values[1] = 9 to values[0] = 9 and run again. Compare the position of 9 in the printed array.",
+    "observe": "The edited result is [9 4 6]. Which index selects the final element of a three-element array?",
+    "reference": "[2 9 6]",
+    "topics": [
+      [
+        "Array type",
+        "The length and element type describe an array.",
+        "[3]int{2, 4, 6}",
+        "https://go.dev/ref/spec#Array_types"
+      ],
+      [
+        "Index",
+        "Index 0 selects the first element.",
+        "values[0] = 9",
+        "https://go.dev/ref/spec#Index_expressions"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/arrays/main.go",
+    "command": "./run arrays",
+    "supportFiles": [],
+    "target": "values\\[1\\]\\ =\\ 9"
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "slice-bounds",
+    "title": "Select a slice of a sequence",
+    "purpose": "Interpret an inclusive start and exclusive end index.",
+    "explanation": "A slice describes a sequence backed by an array. values[1:3] starts at index 1 and stops before index 3. len gives the number of elements in the slice, rather than the size of the whole backing array.",
+    "action": "Run and find len 2 values [4 6]. Change values[1:3] to values[1:4] and run again. Compare the length and final element.",
+    "observe": "The result becomes len 3 values [4 6 8]. Why is the element at the end index excluded?",
+    "reference": "len 2 values [4 6]",
+    "topics": [
+      [
+        "Slice bounds",
+        "The lower bound is included; the upper bound is excluded.",
+        "middle := values[1:3]",
+        "https://go.dev/ref/spec#Slice_expressions"
+      ],
+      [
+        "Slice length",
+        "len counts the slice’s elements.",
+        "len(middle)",
+        "https://go.dev/ref/spec#Length_and_capacity"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/slice-bounds/main.go",
+    "command": "./run slice-bounds",
+    "supportFiles": [],
+    "target": "values\\[1:3\\]"
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "append-capacity",
+    "title": "Grow a slice",
+    "purpose": "Distinguish a slice’s current length from its capacity.",
+    "explanation": "make([]int, 2, 4) creates a slice with two zero-valued elements and capacity for four. append returns the updated slice, so assign its result back. If the backing array lacks room, append allocates another array. The program reports whether capacity grew instead of assuming a particular allocation size.",
+    "action": "Run and inspect before, after length and grew. Change the initial capacity in make([]int, 2, 4) from 4 to 2 and run again. Compare grew while checking that values stay the same.",
+    "observe": "The edited run reports grew true. Both runs contain [0 0 7 8]. Why can the same four values require a new array in one run but fit the original array in the other?",
+    "reference": "before 2 4\nafter length 4 grew false\nvalues [0 0 7 8]",
+    "topics": [
+      [
+        "Append",
+        "append returns a slice containing the added elements.",
+        "values = append(values, 7, 8)",
+        "https://go.dev/ref/spec#Appending_and_copying_slices"
+      ],
+      [
+        "Capacity",
+        "cap reports space in the backing array from the slice’s start.",
+        "cap(values)",
+        "https://go.dev/ref/spec#Length_and_capacity"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/append-capacity/main.go",
+    "command": "./run append-capacity",
+    "supportFiles": [],
+    "target": "make\\(\\[\\]int,\\ 2,\\ 4\\)"
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "slice-aliases",
+    "title": "Follow two slices into shared storage",
+    "purpose": "Identify which slice indexes refer to the same array element.",
+    "explanation": "Slicing does not copy the elements. left and right describe overlapping parts of backing. left[1] and right[0] both refer to backing[1], so writing through one slice changes the value read through the other.",
+    "action": "Run and compare backing [2 9 6] with right [9 6]. Change left[1] = 9 to right[1] = 9 and run again. Find which backing element now changes.",
+    "observe": "Backing becomes [2 4 9], and right becomes [4 9]. Which index in backing corresponds to right[1]? Use the slice’s starting offset, not just the index written after right.",
+    "reference": "left [2 9]\nbacking [2 9 6]\nright [9 6]",
+    "topics": [
+      [
+        "Shared backing array",
+        "Overlapping slices can read and write the same storage.",
+        "left := backing[:2]",
+        "https://go.dev/ref/spec#Slice_types"
+      ],
+      [
+        "Slice offsets",
+        "right[0] begins at backing[1] in this example.",
+        "right := backing[1:]",
+        "https://go.dev/ref/spec#Slice_expressions"
+      ]
+    ],
+    "mode": "run",
+    "diagram": {
+      "title": "Which slice indexes share storage?",
+      "caption": "Before the assignment, left[1] and right[0] both reach backing[1], whose value is 4.",
+      "nodes": [
+        {
+          "id": "backing",
+          "x": 170,
+          "y": 110,
+          "label": "backing",
+          "detail": "[2, 4, 6]",
+          "w": 180
+        },
+        {
+          "id": "left",
+          "x": 20,
+          "y": 15,
+          "label": "left",
+          "detail": "backing[:2]",
+          "w": 180
+        },
+        {
+          "id": "right",
+          "x": 320,
+          "y": 15,
+          "label": "right",
+          "detail": "backing[1:]",
+          "w": 180
+        }
+      ],
+      "edges": [
+        {
+          "from": "left",
+          "to": "backing",
+          "label": "left[1] → slot 1"
+        },
+        {
+          "from": "right",
+          "to": "backing",
+          "label": "right[0] → slot 1"
+        }
+      ]
+    },
+    "file": "cmd/slice-aliases/main.go",
+    "command": "./run slice-aliases",
+    "supportFiles": [],
+    "target": "left\\[1\\]\\ =\\ 9"
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "copy-slices",
+    "title": "Copy values into separate storage",
+    "purpose": "Keep the original slice unchanged while editing a copied slice.",
+    "explanation": "make allocates destination storage. copy then copies as many elements as fit and returns the number copied; copy itself does not allocate the destination. Here both slices contain ints and use separate backing arrays.",
+    "action": "Run and find copied count 3, original [2 4 6] and copy [9 4 6]. Change copied[0] = 9 to copied[1] = 9 and run again. Check that original remains unchanged.",
+    "observe": "Only the copy becomes [2 9 6]. Which line creates separate storage, and which line fills it with values?",
+    "reference": "copied count 3\noriginal [2 4 6]\ncopy [9 4 6]",
+    "topics": [
+      [
+        "Copy",
+        "copy fills existing destination storage and returns a count.",
+        "count := copy(copied, original)",
+        "https://go.dev/ref/spec#Appending_and_copying_slices"
+      ],
+      [
+        "Allocation",
+        "make creates a slice with its own backing array here.",
+        "make([]int, len(original))",
+        "https://go.dev/ref/spec#Making_slices_maps_and_channels"
+      ]
+    ],
+    "mode": "run",
+    "diagram": {
+      "title": "Where does the copied value live?",
+      "caption": "make creates another array. copy copies three ints into it; changing copied[0] leaves original[0] unchanged.",
+      "nodes": [
+        {
+          "id": "a",
+          "x": 20,
+          "y": 55,
+          "label": "original",
+          "detail": "[2, 4, 6]",
+          "w": 190
+        },
+        {
+          "id": "b",
+          "x": 300,
+          "y": 55,
+          "label": "copied",
+          "detail": "[9, 4, 6]",
+          "w": 190
+        }
+      ],
+      "edges": [
+        {
+          "from": "a",
+          "to": "b",
+          "label": "copy, then edit"
+        }
+      ]
+    },
+    "file": "cmd/copy-slices/main.go",
+    "command": "./run copy-slices",
+    "supportFiles": [],
+    "target": "copied\\[0\\]\\ =\\ 9"
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "map-lookup",
+    "title": "Distinguish a missing map key from a zero value",
+    "purpose": "Use the second result of a map lookup to test presence.",
+    "explanation": "A map associates keys with values. map[string]int uses string keys and int values. A missing lookup produces the value type’s zero value; the optional second result tells whether the key exists. Ada is present with a stored value of 0.",
+    "action": "Run and find value=0 found=true. Change the lookup scores[\"Ada\"] to scores[\"Grace\"] and run again. Compare value and found.",
+    "observe": "Value is still 0, but found becomes false. Why would checking only value lose the distinction between these two cases?",
+    "reference": "value=0 found=true",
+    "topics": [
+      [
+        "Map lookup",
+        "The second result reports whether the key exists.",
+        "value, found := scores[\"Ada\"]",
+        "https://go.dev/ref/spec#Index_expressions"
+      ],
+      [
+        "Map literal",
+        "Each key is associated with a value.",
+        "map[string]int{\"Ada\": 0}",
+        "https://go.dev/ref/spec#Map_types"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/map-lookup/main.go",
+    "command": "./run map-lookup",
+    "supportFiles": [],
+    "target": "scores\\[\"Ada\"\\]"
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "map-delete-and-order",
+    "title": "Print remaining map keys in a stable order",
+    "purpose": "Remove one key and sort the keys before comparing output.",
+    "explanation": "delete removes a key if it is present. Go does not specify map iteration order, so this program collects the remaining keys and sorts them before printing. That makes changes to the contents easy to compare without confusing them with iteration order.",
+    "action": "Run and find names [Grace Lin]. Change delete(scores, \"Ada\") to delete(scores, \"Grace\") and run again. Inspect which names remain.",
+    "observe": "The result becomes names [Ada Lin]. Sorting is for the printed comparison; the map itself does not acquire a sorted iteration order. What would happen if the deleted key were absent?",
+    "reference": "names [Grace Lin]",
+    "topics": [
+      [
+        "Delete",
+        "Deleting an absent key is allowed and leaves the map unchanged.",
+        "delete(scores, \"Ada\")",
+        "https://go.dev/ref/spec#Deletion_of_map_elements"
+      ],
+      [
+        "Stable display",
+        "Sort a collected key slice when comparing map output.",
+        "sort.Strings(keys)",
+        "https://pkg.go.dev/sort@go1.27.4#Strings"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/map-delete-and-order/main.go",
+    "command": "./run map-delete-and-order",
+    "supportFiles": [],
+    "target": "delete\\(scores,\\ \"Ada\"\\)"
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "unicode-text",
+    "title": "Count bytes and Unicode code points",
+    "purpose": "Interpret string length and the indexes produced by range.",
+    "explanation": "A Go string contains bytes. len(text) counts those bytes. utf8.RuneCountInString counts Unicode code points, called runes. A range loop decodes UTF-8 runes and supplies each rune’s starting byte index, which can skip numbers when a rune occupies multiple bytes.",
+    "action": "Run and compare bytes 4 with runes 3. Inspect the byte indexes 0, 2 and 3. Change text := \"éGo\" to text := \"Go\" and run again.",
+    "observe": "The edited string has two bytes, two runes and indexes 0 and 1. What caused the jump from index 0 to index 2 in the starter? A rune count is not a general count of user-perceived written characters.",
+    "reference": "bytes 4 runes 3\n0:é\n2:G\n3:o",
+    "topics": [
+      [
+        "String range",
+        "The loop supplies a byte offset and decoded rune.",
+        "for byteIndex, value := range text",
+        "https://go.dev/ref/spec#For_range"
+      ],
+      [
+        "Rune count",
+        "Count UTF-8 code points rather than bytes.",
+        "utf8.RuneCountInString(text)",
+        "https://pkg.go.dev/unicode/utf8@go1.27.4#RuneCountInString"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/unicode-text/main.go",
+    "command": "./run unicode-text",
+    "supportFiles": [],
+    "target": "text\\ :=\\ \"éGo\""
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "text-fields",
+    "title": "Split and join words",
+    "purpose": "Normalise separating whitespace using standard string functions.",
+    "explanation": "strings.Fields splits text at runs of whitespace and leaves out empty fields at the ends. strings.Join combines the resulting strings using a chosen separator. The program prints quoted output so leading and trailing spaces are visible.",
+    "action": "Run and inspect words 2 [Ada Lin] and normalized=\"Ada Lin\". Change the input to \"  Ada Grace  Lin \" and run again. Compare the word count and normalised spacing.",
+    "observe": "The edited result has three words and one separating space. Which part of the pipeline removes repeated whitespace, and which part inserts the chosen separator?",
+    "reference": "words 2 [Ada Lin]\nnormalized=\"Ada Lin\"",
+    "topics": [
+      [
+        "Fields",
+        "Split around runs of whitespace.",
+        "strings.Fields(text)",
+        "https://pkg.go.dev/strings@go1.27.4#Fields"
+      ],
+      [
+        "Join",
+        "Choose the separator placed between fields.",
+        "strings.Join(words, \" \")",
+        "https://pkg.go.dev/strings@go1.27.4#Join"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/text-fields/main.go",
+    "command": "./run text-fields",
+    "supportFiles": [],
+    "target": "text\\ :=\\ \"\\ \\ Ada\\ \\ \\ Lin\\ \""
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "variadic-functions",
+    "title": "Pass several values or expand a slice",
+    "purpose": "Use ... at a variadic parameter and a slice argument.",
+    "explanation": "The final parameter values ...int accepts zero or more ints. Inside sum, values is a slice. At a call, more... expands a slice into those arguments; passing more without ... would supply a slice where the function expects ints.",
+    "action": "Run and find literal 6 and slice 9. Add 6 to the more slice, making []int{4, 5, 6}, and run again. Inspect which result changes.",
+    "observe": "The literal result stays 6 and the slice result becomes 15. How would sum behave if called without any arguments?",
+    "reference": "literal 6\nslice 9",
+    "topics": [
+      [
+        "Variadic parameter",
+        "Inside the function, the parameter holds a slice.",
+        "func sum(values ...int) int",
+        "https://go.dev/ref/spec#Passing_arguments_to_..._parameters"
+      ],
+      [
+        "Slice expansion",
+        "... supplies the slice elements as separate arguments.",
+        "sum(more...)",
+        "https://go.dev/ref/spec#Calls"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/variadic-functions/main.go",
+    "command": "./run variadic-functions",
+    "supportFiles": [],
+    "target": "\\[\\]int\\{4,\\ 5\\}"
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "word-count-practice",
+    "title": "Combine word counts across letter case",
+    "purpose": "Apply slices, strings and map updates to a counting task.",
+    "explanation": "Fields produces the words, and counts[word]++ adds one to each word’s count. A missing key begins at the int zero value. The starter treats Go and go as different keys. strings.ToLower returns a lower-case string that can be used as a normalised key.",
+    "action": "Run and find go 2 Go 1. Make counting case-insensitive by converting each word with strings.ToLower before using it as the map key. Run again and compare both labelled counts.",
+    "observe": "Look for go 3 Go 0. Does the zero for Go prove that a Go key is present with a zero value? Use the presence result from a map lookup to decide.",
+    "reference": "go 2 Go 1",
+    "topics": [
+      [
+        "Map update",
+        "Increment reads a missing int value as zero, then stores the incremented value.",
+        "counts[word]++",
+        "https://go.dev/ref/spec#IncDec_statements"
+      ],
+      [
+        "Case conversion",
+        "Convert the key before counting.",
+        "strings.ToLower(word)",
+        "https://pkg.go.dev/strings@go1.27.4#ToLower"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/word-count-practice/main.go",
+    "command": "./run word-count-practice",
+    "supportFiles": [],
+    "target": "counts\\[word\\]\\+\\+"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "struct-values",
+    "title": "Copy a struct value",
+    "purpose": "Track changes to two structs containing integer fields.",
+    "explanation": "A struct groups named fields. Point has two int fields, X and Y. Assigning point to moved copies those field values. These integer fields use separate storage in the two variables.",
+    "action": "Run and compare original {2 3} with moved {9 3}. Change moved.X = 9 to point.X = 9 and run again. Inspect both labelled structs.",
+    "observe": "Original becomes {9 3} and moved stays {2 3}. Which assignment copied the initial values before either X field changed?",
+    "reference": "original {2 3}\nmoved {9 3}",
+    "topics": [
+      [
+        "Struct fields",
+        "A struct groups named values.",
+        "type Point struct { X, Y int }",
+        "https://go.dev/ref/spec#Struct_types"
+      ],
+      [
+        "Struct assignment",
+        "Assigning a struct copies its field values.",
+        "moved := point",
+        "https://go.dev/ref/spec#Assignment_statements"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/struct-values/main.go",
+    "command": "./run struct-values",
+    "supportFiles": [],
+    "target": "moved\\.X\\ =\\ 9"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "value-methods",
+    "title": "Attach a calculation to a type",
+    "purpose": "Call a method that reads a value receiver.",
+    "explanation": "A method is a function declared with a receiver before its name. In Area, r Rectangle is the receiver. rect.Area() passes rect into that receiver. This method reads a copy of the Rectangle value to calculate its area.",
+    "action": "Run and find area 12. Change Width: 3 to Width: 5 in the Rectangle literal and run again. Keep Height at 4 and inspect area.",
+    "observe": "Area becomes 20. Which fields does the method read through its receiver?",
+    "reference": "area 12",
+    "topics": [
+      [
+        "Method receiver",
+        "The receiver associates a method with a type.",
+        "func (r Rectangle) Area() int",
+        "https://go.dev/ref/spec#Method_declarations"
+      ],
+      [
+        "Method call",
+        "The selector identifies the receiver’s method.",
+        "rect.Area()",
+        "https://go.dev/ref/spec#Method_expressions"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/value-methods/main.go",
+    "command": "./run value-methods",
+    "supportFiles": [],
+    "target": "Width:\\ 3"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "pointer-methods",
+    "title": "Choose whether a method changes its receiver",
+    "purpose": "Compare a pointer receiver with a value receiver.",
+    "explanation": "A *Counter receiver identifies the existing Counter. Its field update is visible to the caller. For this addressable variable, Go lets counter.Add(2) take the needed address automatically. A Counter receiver instead receives a copy of the struct.",
+    "action": "Run and find value 5. Change the Add receiver from (c *Counter) to (c Counter) and run again. Keep the method body and argument unchanged.",
+    "observe": "The result stays 3 after the edit because the method updates its copy. What difference does the receiver type make when a method must change caller-owned fields?",
+    "reference": "value 5",
+    "topics": [
+      [
+        "Pointer receiver",
+        "A pointer receiver can update the original struct’s fields.",
+        "func (c *Counter) Add(delta int)",
+        "https://go.dev/ref/spec#Method_sets"
+      ],
+      [
+        "Addressable receiver",
+        "Go permits the pointer method call on this variable.",
+        "counter.Add(2)",
+        "https://go.dev/ref/spec#Calls"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/pointer-methods/main.go",
+    "command": "./run pointer-methods",
+    "supportFiles": [],
+    "target": "\\(c\\ \\*Counter\\)"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "named-types",
+    "title": "Keep different units distinct",
+    "purpose": "Use named types to reject a mismatched argument.",
+    "explanation": "type Metres float64 and type Seconds float64 define distinct types with the same underlying numeric representation. speed requires the declared units. Distance is an alias for Metres because its declaration uses =; it does not create another type.",
+    "action": "Run and find speed 4. Change Seconds(3) in the call to Metres(3) and run again. Find the compiler message about the second argument’s type. Restore Seconds(3) before continuing.",
+    "observe": "The edited call fails compilation even though both units use float64 underneath. Which declaration makes Distance usable wherever Metres is required?",
+    "reference": "speed 4",
+    "topics": [
+      [
+        "Defined type",
+        "A definition without = creates a distinct type.",
+        "type Metres float64",
+        "https://go.dev/ref/spec#Type_definitions"
+      ],
+      [
+        "Alias",
+        "An alias gives another name to an existing type.",
+        "type Distance = Metres",
+        "https://go.dev/ref/spec#Alias_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/named-types/main.go",
+    "command": "./run named-types",
+    "supportFiles": [],
+    "target": "Seconds\\(3\\)"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "implicit-interfaces",
+    "title": "Use two implementations through one interface",
+    "purpose": "Select a value by its supported methods.",
+    "explanation": "Speaker describes the Speak method a value must provide. Greeter and Message satisfy Speaker by defining that method; Go does not require an implements declaration. announce works with the interface without knowing which concrete struct it receives.",
+    "action": "Run and find Hello, Ada. In main, change Greeter{Name: \"Ada\"} to Message{Text: \"Ready\"} and run again. Keep announce unchanged.",
+    "observe": "The output becomes Ready. Which matching method lets both structs be passed to announce?",
+    "reference": "Hello, Ada",
+    "topics": [
+      [
+        "Interface",
+        "An interface describes a required method set.",
+        "type Speaker interface { Speak() string }",
+        "https://go.dev/ref/spec#Interface_types"
+      ],
+      [
+        "Implicit satisfaction",
+        "A concrete value satisfies the interface through its methods.",
+        "announce(chosen)",
+        "https://go.dev/ref/spec#Implementing_an_interface"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/implicit-interfaces/main.go",
+    "command": "./run implicit-interfaces",
+    "supportFiles": [],
+    "target": "Greeter\\{Name:\\ \"Ada\"\\}"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "embedding",
+    "title": "Access an embedded field",
+    "purpose": "Recognise two selectors that reach one embedded field.",
+    "explanation": "Person embeds an Address field. person.Address.City explicitly selects the nested City. When the selector is unambiguous, person.City is a promoted selector for that same field. Embedding composes values; it does not create an independent second City.",
+    "action": "Run and compare promoted London with nested London. Add person.City = \"Paris\" immediately before Println and run again. Inspect both selectors.",
+    "observe": "Both selectors now print Paris. Which embedded value owns the field they both reach?",
+    "reference": "promoted London nested London",
+    "topics": [
+      [
+        "Embedded fields",
+        "An embedded type supplies the field’s name.",
+        "type Person struct { Name string; Address }",
+        "https://go.dev/ref/spec#Struct_types"
+      ],
+      [
+        "Promoted selector",
+        "An unambiguous selector can reach an embedded field.",
+        "person.City",
+        "https://go.dev/ref/spec#Selectors"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/embedding/main.go",
+    "command": "./run embedding",
+    "supportFiles": [],
+    "target": "fmt\\.Println\\(\"promoted\",\\ person\\.City,\\ \"nested\",\\ person\\.Address\\.City\\)"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "type-assertions",
+    "title": "Check a value’s concrete type",
+    "purpose": "Use the two-result type assertion to handle a mismatch.",
+    "explanation": "any is an alias for the empty interface, so it can hold a value of any type. value.(string) asks whether the dynamic value is a string. With the two-result form, a mismatch returns the string zero value and false instead of panicking.",
+    "action": "Run and find text=\"Ada\" ok=true. Change the assignment to var value any = 42 and run again. Compare text and ok.",
+    "observe": "Text becomes empty and ok becomes false. Why is the boolean result needed before using the asserted value?",
+    "reference": "text=\"Ada\" ok=true",
+    "topics": [
+      [
+        "Type assertion",
+        "The second result reports whether the assertion succeeded.",
+        "text, ok := value.(string)",
+        "https://go.dev/ref/spec#Type_assertions"
+      ],
+      [
+        "Empty interface",
+        "any can hold a value of any type.",
+        "var value any = 42",
+        "https://go.dev/ref/spec#Interface_types"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/type-assertions/main.go",
+    "command": "./run type-assertions",
+    "supportFiles": [],
+    "target": "var\\ value\\ any\\ =\\ \"Ada\""
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "type-switch",
+    "title": "Select behavior by a dynamic type",
+    "purpose": "Use a type switch to handle several concrete types.",
+    "explanation": "A type switch checks the dynamic type held by an interface. Each case gives item the matching concrete type inside that branch. The default branch handles other types, so no unchecked assertion is needed.",
+    "action": "Run and find integer 7. Change describe(7) to describe(\"Ada\") and run again. Inspect the category and the printed value.",
+    "observe": "The edited output is text \"Ada\". Which case would handle a bool in this program?",
+    "reference": "integer 7",
+    "topics": [
+      [
+        "Type switch",
+        "Cases test concrete types held by an interface.",
+        "switch item := value.(type)",
+        "https://go.dev/ref/spec#Type_switches"
+      ],
+      [
+        "Default case",
+        "Types without their own case reach default.",
+        "default: return \"other\"",
+        "https://go.dev/ref/spec#Switch_statements"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/type-switch/main.go",
+    "command": "./run type-switch",
+    "supportFiles": [],
+    "target": "describe\\(7\\)"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "nil-interfaces",
+    "title": "Compare a nil pointer and an interface",
+    "purpose": "Account for an interface’s dynamic type as well as its value.",
+    "explanation": "The pointer has type *int and value nil. Assigning that pointer to any retains its dynamic type, so the interface value itself is not nil. An interface compares equal to nil only when it holds no dynamic type and no dynamic value.",
+    "action": "Run and compare pointer nil true with interface nil false. Change var value any = pointer to var value any = nil and run again. Inspect which comparison changes.",
+    "observe": "Both comparisons now report true. What information did the starter interface retain even though its pointer value was nil?",
+    "reference": "pointer nil true\ninterface nil false",
+    "topics": [
+      [
+        "Interface comparison",
+        "A nil interface is different from an interface holding a typed nil pointer.",
+        "value == nil",
+        "https://go.dev/ref/spec#Comparison_operators"
+      ],
+      [
+        "Pointer zero value",
+        "An uninitialised pointer is nil.",
+        "var pointer *int",
+        "https://go.dev/ref/spec#Pointer_types"
+      ]
+    ],
+    "mode": "run",
+    "diagram": {
+      "title": "Why is the interface not nil?",
+      "caption": "The starter interface retains dynamic type *int even though its pointer value is nil. Only an interface with no dynamic type and no dynamic value is nil.",
+      "nodes": [
+        {
+          "id": "pointer",
+          "x": 15,
+          "y": 45,
+          "label": "pointer",
+          "detail": "type *int; value nil",
+          "w": 220
+        },
+        {
+          "id": "value",
+          "x": 290,
+          "y": 45,
+          "label": "value (any)",
+          "detail": "dynamic *int; nil",
+          "w": 220
+        }
+      ],
+      "edges": [
+        {
+          "from": "pointer",
+          "to": "value",
+          "label": "assign to interface"
+        }
+      ]
+    },
+    "file": "cmd/nil-interfaces/main.go",
+    "command": "./run nil-interfaces",
+    "supportFiles": [],
+    "target": "var\\ value\\ any\\ =\\ pointer"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "generic-functions",
+    "title": "Reuse a calculation for two integer types",
+    "purpose": "Let type inference choose a permitted type parameter.",
+    "explanation": "T is a type parameter. The constraint int | int64 allows those two types, both of which support addition. Go infers T from each call’s arguments, so one implementation can return the corresponding input type.",
+    "action": "Run and find int 5 and int64 9. Change the int64 variable right from 5 to 7 and run again. Compare both results.",
+    "observe": "The int64 result becomes 11, while the int result stays 5. Which part of the function declaration limits the types callers can supply?",
+    "reference": "int 5\nint64 9",
+    "topics": [
+      [
+        "Type parameters",
+        "A constraint determines permitted type arguments and operations.",
+        "func add[T int | int64](left, right T) T",
+        "https://go.dev/ref/spec#Type_parameter_declarations"
+      ],
+      [
+        "Type inference",
+        "The compiler can infer type arguments from call arguments.",
+        "add(left, right)",
+        "https://go.dev/ref/spec#Type_inference"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/generic-functions/main.go",
+    "command": "./run generic-functions",
+    "supportFiles": [],
+    "target": "right\\ int64\\ =\\ 5"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "generic-sets",
+    "title": "Store unique values with a generic set",
+    "purpose": "Constrain a map-backed set to comparable keys.",
+    "explanation": "Set is a named map type parameterised by its key type. comparable allows the equality operations required for map keys. struct{} is an empty value: this set uses key presence, rather than a separate payload, to represent membership.",
+    "action": "Run and find go true rust false. Change names.Add(\"go\") to names.Add(\"rust\") and run again. Compare both membership results.",
+    "observe": "The results become go false rust true. What would adding the same key twice change about membership?",
+    "reference": "go true rust false",
+    "topics": [
+      [
+        "Comparable constraint",
+        "Map key types must support equality.",
+        "type Set[T comparable] map[T]struct{}",
+        "https://go.dev/ref/spec#Type_constraints"
+      ],
+      [
+        "Membership",
+        "Use the presence result rather than a payload.",
+        "_, found := s[value]",
+        "https://go.dev/ref/spec#Map_types"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/generic-sets/main.go",
+    "command": "./run generic-sets",
+    "supportFiles": [],
+    "target": "names\\.Add\\(\"go\"\\)"
+  },
+  {
+    "lab": "types-and-interfaces",
+    "id": "enum-constants",
+    "title": "Name related states with iota",
+    "purpose": "Observe the numeric values assigned by a constant group.",
+    "explanation": "iota starts at 0 within a parenthesised constant declaration and increases for each constant specification. Omitted expressions repeat the previous expression using the new iota value. The State names make call sites readable, but their numeric values depend on the declarations.",
+    "action": "Run and find idle 0 working 1 done 2. Change the first expression from iota to iota + 1 and run again. Inspect all three named values.",
+    "observe": "They become 1, 2 and 3. Why did changing the first expression affect the omitted expressions as well? Stable stored codes need deliberate values when declarations change.",
+    "reference": "idle 0 working 1 done 2",
+    "topics": [
+      [
+        "Iota",
+        "iota advances within a constant declaration group.",
+        "const ( Idle State = iota; Working; Done )",
+        "https://go.dev/ref/spec#Iota"
+      ],
+      [
+        "Repeated expression",
+        "An omitted expression repeats the preceding one with the current iota.",
+        "Working",
+        "https://go.dev/ref/spec#Constant_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/enum-constants/main.go",
+    "command": "./run enum-constants",
+    "supportFiles": [],
+    "target": "=\\ iota"
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "error-values",
+    "title": "Handle an error value",
+    "purpose": "Choose a result path by checking a returned error.",
+    "explanation": "error is an interface used to report a failure. nonNegative returns an int and an error; nil means no error was reported. main handles an error by printing it and returning normally, so a printed error message here is not a compiler or runner startup failure.",
+    "action": "Run and find error negative value. Change nonNegative(-2) to nonNegative(2) and run again. Inspect whether main prints error or value.",
+    "observe": "The edited run prints value 2. In both cases the program executes normally; which branch decides what the caller prints?",
+    "reference": "error negative value",
+    "topics": [
+      [
+        "Error result",
+        "Check an error before using the accompanying result.",
+        "value, err := nonNegative(-2)",
+        "https://go.dev/blog/error-handling-and-go"
+      ],
+      [
+        "Nil error",
+        "nil indicates that this call reported no error.",
+        "if err != nil { ... }",
+        "https://go.dev/ref/spec#Interface_types"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/error-values/main.go",
+    "command": "./run error-values",
+    "supportFiles": [],
+    "target": "nonNegative\\(\\-2\\)"
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "wrapped-errors",
+    "title": "Preserve an error’s cause",
+    "purpose": "Compare error text with error identity after wrapping.",
+    "explanation": "This example constructs a missing-record error. fmt.Errorf with %w adds context while preserving its cause. errors.Is can find that cause through a wrapper. Formatting the same error with %v preserves the displayed text but does not wrap it.",
+    "action": "Run and find lookup: missing and missing true. In Errorf, replace %w with %v and run again. Compare the printed message with the missing field.",
+    "observe": "The message stays the same, but missing becomes false. Why is matching the displayed text a different question from checking the underlying error?",
+    "reference": "lookup: missing\nmissing true",
+    "topics": [
+      [
+        "Wrapping",
+        "%w preserves an error as a cause.",
+        "fmt.Errorf(\"lookup: %w\", err)",
+        "https://pkg.go.dev/fmt@go1.27.4#Errorf"
+      ],
+      [
+        "Error identity",
+        "errors.Is checks the error chain.",
+        "errors.Is(err, ErrMissing)",
+        "https://pkg.go.dev/errors@go1.27.4#Is"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/wrapped-errors/main.go",
+    "command": "./run wrapped-errors",
+    "supportFiles": [],
+    "target": "lookup:\\ %w"
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "typed-errors",
+    "title": "Read fields from a typed error",
+    "purpose": "Recover structured error details without parsing its message.",
+    "explanation": "LimitError supplies an Error method, so its pointer satisfies error. errors.As finds a matching concrete error through a wrapper and stores it in detail. The caller can then read the Limit field directly.",
+    "action": "Run and find limit 3. Change Limit: 3 to Limit: 5 in the constructed error and run again. Inspect the recovered field.",
+    "observe": "The result becomes limit 5. Would the caller need to parse the wording save failed to recover that field?",
+    "reference": "limit 3",
+    "topics": [
+      [
+        "Error method",
+        "A type with Error() string can describe a failure.",
+        "func (e *LimitError) Error() string",
+        "https://pkg.go.dev/builtin@go1.27.4#error"
+      ],
+      [
+        "Typed details",
+        "Pass a pointer to the target variable to errors.As.",
+        "errors.As(err, &detail)",
+        "https://pkg.go.dev/errors@go1.27.4#As"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/typed-errors/main.go",
+    "command": "./run typed-errors",
+    "supportFiles": [],
+    "target": "Limit:\\ 3"
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "validation-guards",
+    "title": "Reject an invalid value before using it",
+    "purpose": "Return a clear error at a range boundary.",
+    "explanation": "validateScore accepts scores from 0 through 100, including both endpoints. An early return rejects other values before the caller proceeds. This is a data-validation rule chosen for the example.",
+    "action": "Run with score := 101 and inspect the invalid message. Change score to 100 and run again. Compare the error path with valid 100.",
+    "observe": "The boundary value is accepted. Which comparisons keep exactly 0 and exactly 100 inside the allowed range?",
+    "reference": "invalid score must be 0..100",
+    "topics": [
+      [
+        "Guard",
+        "An early return handles an invalid input.",
+        "if score < 0 || score > 100 { ... }",
+        "https://go.dev/ref/spec#If_statements"
+      ],
+      [
+        "Error value",
+        "Return an error so the caller can choose a response.",
+        "return errors.New(\"score must be 0..100\")",
+        "https://pkg.go.dev/errors@go1.27.4#New"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/validation-guards/main.go",
+    "command": "./run validation-guards",
+    "supportFiles": [],
+    "target": "score\\ :=\\ 101"
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "panic-and-recover",
+    "title": "Observe panic unwinding and recovery",
+    "purpose": "Place recover inside a deferred call.",
+    "explanation": "panic interrupts normal execution and runs deferred calls while unwinding the current goroutine. A deferred function can call recover to handle that panic. Expected input failures should normally be returned as errors; this program demonstrates the separate panic mechanism.",
+    "action": "Run and find recovered stop, then continued. Replace panic(\"stop\") with fmt.Println(\"work\") and run again. Compare the recovered line with ordinary work output.",
+    "observe": "The edited program prints work and continued, with no recovered line. Which deferred function handles the starter’s panic before main continues?",
+    "reference": "recovered stop\ncontinued",
+    "topics": [
+      [
+        "Panic",
+        "panic unwinds the current goroutine while running deferred calls.",
+        "panic(\"stop\")",
+        "https://go.dev/ref/spec#Handling_panics"
+      ],
+      [
+        "Recover",
+        "recover handles a panic when called directly by a deferred function.",
+        "if value := recover(); value != nil { ... }",
+        "https://go.dev/blog/defer-panic-and-recover"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/panic-and-recover/main.go",
+    "command": "./run panic-and-recover",
+    "supportFiles": [],
+    "target": "panic\\(\"stop\"\\)"
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "packages-and-exports",
+    "title": "Call a function in a local package",
+    "purpose": "Distinguish an exported name from a package-private name.",
+    "explanation": "The project’s module name is example.com/go-foundry. The import points to its local internal/lessonmath package. An uppercase initial letter exports Double; lowercase double is private to that package. The internal directory also limits which other packages can import it.",
+    "action": "Run and find double 8. Use Editor tools → Other project files to inspect internal/lessonmath/math.go if needed. In the main source file, change lessonmath.Double(4) to lessonmath.double(4) and run. Read the visibility error, then restore the uppercase call.",
+    "observe": "Compilation rejects the lowercase name outside its package. The local import is resolved from this project; the example does not download a library.",
+    "reference": "double 8",
+    "topics": [
+      [
+        "Exported names",
+        "An uppercase initial letter exports a declared name.",
+        "lessonmath.Double(4)",
+        "https://go.dev/ref/spec#Exported_identifiers"
+      ],
+      [
+        "Module packages",
+        "The module path prefixes packages in this project.",
+        "module example.com/go-foundry",
+        "https://go.dev/ref/mod#module-path"
+      ]
+    ],
+    "mode": "run",
+    "supportFiles": [
+      "internal/lessonmath/math.go"
+    ],
+    "file": "cmd/packages-and-exports/main.go",
+    "command": "./run packages-and-exports",
+    "target": "lessonmath\\.Double\\(4\\)"
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "unit-tests",
+    "title": "Run a Go assertion",
+    "purpose": "Compare an expected value with a function’s actual result.",
+    "explanation": "Go discovers Test functions in files ending _test.go. The test calls double, compares its result with want, and reports a failure through testing.T. Run compiles and executes this test package. A failing assertion is different from a source compilation error or a runner startup failure.",
+    "action": "Run and find PASS. In TestDouble, change want := 6 to want := 7 and run again. Inspect the got and want values in the failure message. Restore the correct expectation afterward.",
+    "observe": "The edited assertion fails because double(3) still returns 6. Changing an expected value does not change the implementation. What additional input would you test?",
+    "reference": "PASS",
+    "referenceMode": "contains",
+    "topics": [
+      [
+        "Test function",
+        "A TestName function receives testing.T.",
+        "func TestDouble(t *testing.T)",
+        "https://pkg.go.dev/testing@go1.27.4"
+      ],
+      [
+        "Assertion failure",
+        "Fatalf marks the test failed and stops that test.",
+        "t.Fatalf(\"got %d want %d\", got, want)",
+        "https://pkg.go.dev/testing@go1.27.4#T.Fatalf"
+      ]
+    ],
+    "mode": "test",
+    "file": "cmd/unit-tests/main_test.go",
+    "command": "./run check:unit-tests",
+    "supportFiles": [],
+    "target": "want\\ :=\\ 6"
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "table-tests",
+    "title": "Name a set of boundary tests",
+    "purpose": "Run the same requirement against several named cases.",
+    "explanation": "A table-driven test keeps inputs and expected results together. Each t.Run names a subtest, making a failing case easier to find. clamp accepts 0 through 10 and maps values outside that range onto the nearest boundary.",
+    "action": "Run and inspect the low, middle and high subtests. Add {\"at limit\", 10, 10} to the cases slice, then run again. Find the new subtest and check that it passes.",
+    "observe": "The new case checks exactly 10; high checks a value above 10. Why are those two cases useful together?",
+    "reference": "PASS",
+    "referenceMode": "contains",
+    "topics": [
+      [
+        "Subtest",
+        "A named subtest identifies an individual case.",
+        "t.Run(test.name, func(t *testing.T) { ... })",
+        "https://pkg.go.dev/testing@go1.27.4#T.Run"
+      ],
+      [
+        "Boundary cases",
+        "Test below, inside and at a range boundary.",
+        "{\"at limit\", 10, 10}",
+        "https://go.dev/wiki/TableDrivenTests"
+      ]
+    ],
+    "mode": "test",
+    "file": "cmd/table-tests/main_test.go",
+    "command": "./run check:table-tests",
+    "supportFiles": [],
+    "target": "\\{\"high\",\\ 11,\\ 10\\},"
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "test-dependencies",
+    "title": "Supply a controlled dependency in a test",
+    "purpose": "Exercise a fallback without relying on an outside service.",
+    "explanation": "loadLabel receives a NameSource interface. fakeSource returns data or an error selected by the test. That lets the test exercise loadLabel’s fallback policy deterministically. The synthetic error is test input.",
+    "action": "Run and find PASS for a successful name lookup. Change the fake input to fakeSource{failed: true} and change the expected label to \"unavailable\". Run again and check that the fallback case passes.",
+    "observe": "The fake now supplies an error, so the policy returns unavailable. Which part of the test controls the dependency, and which part checks the policy?",
+    "reference": "PASS",
+    "referenceMode": "contains",
+    "topics": [
+      [
+        "Dependency injection",
+        "Pass the dependency through an interface.",
+        "loadLabel(source NameSource)",
+        "https://go.dev/ref/spec#Interface_types"
+      ],
+      [
+        "Controlled test input",
+        "A fake can return a chosen value or error.",
+        "fakeSource{failed: true}",
+        "https://pkg.go.dev/testing@go1.27.4"
+      ]
+    ],
+    "mode": "test",
+    "file": "cmd/test-dependencies/main_test.go",
+    "command": "./run check:test-dependencies",
+    "supportFiles": [],
+    "target": "loadLabel\\(fakeSource\\{value:\\ \"Ada\"\\}\\);\\ got\\ !=\\ \"loaded\\ Ada\""
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "fuzz-seeds",
+    "title": "Check a property against seed inputs",
+    "purpose": "Write an invariant and run its explicit seed cases.",
+    "explanation": "A Fuzz function registers seed inputs with f.Add and a property with f.Fuzz. This property says that trimming twice should equal trimming once. The browser Run executes the seed cases; it does not start a continuous random fuzzing campaign.",
+    "action": "Run and inspect the FuzzTrim seed subtests and PASS. Replace the seed \"  Ada \" with \"\\tLin\\n\" and run again. Check that the same property holds for that seed.",
+    "observe": "The new whitespace input still passes. Do a few passing seeds establish the property for every possible string? Continuous fuzzing explores further inputs, but it also needs its own bounded test plan.",
+    "reference": "PASS",
+    "referenceMode": "contains",
+    "topics": [
+      [
+        "Fuzz seed",
+        "Register concrete inputs for a property.",
+        "f.Add(\"  Ada \")",
+        "https://pkg.go.dev/testing@go1.27.4#F.Add"
+      ],
+      [
+        "Fuzz target",
+        "The target checks an invariant for an input.",
+        "f.Fuzz(func(t *testing.T, text string) { ... })",
+        "https://go.dev/doc/tutorial/fuzz"
+      ]
+    ],
+    "mode": "test",
+    "file": "cmd/fuzz-seeds/main_test.go",
+    "command": "./run check:fuzz-seeds",
+    "supportFiles": [],
+    "target": "f\\.Add\\(\"\\ \\ Ada\\ \"\\)"
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "benchmark-harness",
+    "title": "Inspect a benchmark’s measurements",
+    "purpose": "Separate the benchmark workload from its measured quantities.",
+    "explanation": "A Benchmark function repeats work using testing.B. The saved sink keeps the copied slice observable to the compiler. Run requests one benchmark iteration and allocation reporting to inspect the harness. Its emulated timing is not a native performance comparison or a statistically reliable estimate.",
+    "action": "Run and find BenchmarkCopy, ns/op, B/op and allocs/op. Extend the input slice from three to four ints and run again. Compare the reported allocation quantities, keeping the one-iteration limitation in mind.",
+    "observe": "B/op describes bytes allocated per operation; allocs/op counts allocations per operation. Timing can vary between runs. What would you need to control and repeat before comparing two implementations on a real machine?",
+    "reference": "PASS",
+    "referenceMode": "contains",
+    "topics": [
+      [
+        "Benchmark loop",
+        "b.N supplies the iteration count requested by the harness.",
+        "for index := 0; index < b.N; index++ { ... }",
+        "https://pkg.go.dev/testing@go1.27.4#B"
+      ],
+      [
+        "Allocation reporting",
+        "ReportAllocs adds allocation quantities to the report.",
+        "b.ReportAllocs()",
+        "https://pkg.go.dev/testing@go1.27.4#B.ReportAllocs"
+      ]
+    ],
+    "mode": "benchmark",
+    "file": "cmd/benchmark-harness/main_test.go",
+    "command": "./run bench:benchmark-harness",
+    "supportFiles": [],
+    "target": "\\[\\]int\\{1,\\ 2,\\ 3\\}"
+  },
+  {
+    "lab": "files-and-http",
+    "id": "file-roundtrip",
+    "title": "Write bytes and read them back",
+    "purpose": "Follow data from a string to a file and back.",
+    "explanation": "WriteFile replaces the named file with the supplied bytes. ReadFile returns the file bytes and an error. The starter creates data/ and replaces notes.txt on every run; other project files are unchanged. The runner saves project files after execution.",
+    "action": "Run and find bytes 4 text \"Ada\\n\". Change \"Ada\\n\" to \"Linus\\n\" in WriteFile and run again. Compare byte count and quoted text.",
+    "observe": "The edited file contains six bytes. Would reading an old file before replacing it demonstrate persistence better than this round trip? The TinyDB lab will do that.",
+    "reference": "bytes 4 text \"Ada\\n\"",
+    "topics": [
+      [
+        "File write",
+        "WriteFile replaces file contents.",
+        "os.WriteFile(path, data, 0644)",
+        "https://pkg.go.dev/os@go1.27.4#WriteFile"
+      ],
+      [
+        "File read",
+        "ReadFile returns bytes or an error.",
+        "os.ReadFile(path)",
+        "https://pkg.go.dev/os@go1.27.4#ReadFile"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/file-roundtrip/main.go",
+    "command": "./run file-roundtrip",
+    "supportFiles": [],
+    "target": "\\[\\]byte\\(\"Ada\\\\n\"\\)"
+  },
+  {
+    "lab": "files-and-http",
+    "id": "stream-lines",
+    "title": "Read text one line at a time",
+    "purpose": "Check the scanner error after processing its tokens.",
+    "explanation": "Scanner advances through tokens; its default tokens are lines without the ending newline. The prepared reader contains two names, so no keyboard input is needed. Scan returns false at end of input or on error; Err distinguishes those cases. Scanner has a token size limit.",
+    "action": "Run and find line 1 Ada and line 2 Lin. Change \"Ada\\nLin\\n\" to \"Ada\\n\\nLin\\n\" and run. Inspect the numbered empty line.",
+    "observe": "The blank line is still a token. Why must Err be checked after the loop instead of interpreting every false Scan result as successful completion?",
+    "reference": "line 1 Ada\nline 2 Lin",
+    "topics": [
+      [
+        "Scanner",
+        "Scan advances to the next token.",
+        "for scanner.Scan() { ... }",
+        "https://pkg.go.dev/bufio@go1.27.4#Scanner"
+      ],
+      [
+        "Read errors",
+        "Err reports scanning failures.",
+        "scanner.Err()",
+        "https://pkg.go.dev/bufio@go1.27.4#Scanner.Err"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/stream-lines/main.go",
+    "command": "./run stream-lines",
+    "supportFiles": [],
+    "target": "\"Ada\\\\nLin\\\\n\""
+  },
+  {
+    "lab": "files-and-http",
+    "id": "json-records",
+    "title": "Decode a JSON record",
+    "purpose": "Connect exported struct fields with JSON field names.",
+    "explanation": "JSON is a text format for structured values. The json tags choose field names. The decoder stores recognized fields into an exported Go struct field. Missing fields keep their zero values; this example validates age separately from decoding.",
+    "action": "Run and find Ada 37. Change the JSON age from 37 to 38 and run again. Inspect the decoded age rather than the JSON source alone.",
+    "observe": "The record now has age 38. Would successful JSON decoding by itself establish that a negative age meets your application’s rule?",
+    "reference": "Ada 37",
+    "topics": [
+      [
+        "JSON decode",
+        "Unmarshal parses JSON into a destination.",
+        "json.Unmarshal(data, &person)",
+        "https://pkg.go.dev/encoding/json@go1.27.4#Unmarshal"
+      ],
+      [
+        "Field tags",
+        "Tags select JSON field names.",
+        "Name string `json:\"name\"`",
+        "https://pkg.go.dev/encoding/json@go1.27.4#Marshal"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/json-records/main.go",
+    "command": "./run json-records",
+    "supportFiles": [],
+    "target": "\"age\":37"
+  },
+  {
+    "lab": "files-and-http",
+    "id": "strict-json",
+    "title": "Reject an unknown JSON field",
+    "purpose": "Distinguish permissive parsing from a strict schema boundary.",
+    "explanation": "A Decoder normally ignores unknown object fields when decoding into a struct. DisallowUnknownFields changes that policy. The starter includes nae, a misspelling of name, so strict decoding rejects it. Strict field checking is not full business validation.",
+    "action": "Run and find the unknown-field error for nae. Fix \"nae\" to \"name\" in the JSON source and run again. Check the decoded name.",
+    "observe": "The repaired input prints Ada. Which typo could a permissive decoder silently leave as an empty string?",
+    "reference": "invalid json: unknown field \"nae\"",
+    "topics": [
+      [
+        "Strict fields",
+        "Reject fields without a matching exported destination.",
+        "decoder.DisallowUnknownFields()",
+        "https://pkg.go.dev/encoding/json@go1.27.4#Decoder.DisallowUnknownFields"
+      ],
+      [
+        "Decoder",
+        "Decode one JSON value from a reader.",
+        "decoder.Decode(&person)",
+        "https://pkg.go.dev/encoding/json@go1.27.4#Decoder.Decode"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/strict-json/main.go",
+    "command": "./run strict-json",
+    "supportFiles": [],
+    "target": "\"nae\""
+  },
+  {
+    "lab": "files-and-http",
+    "id": "csv-fields",
+    "title": "Read a quoted CSV field",
+    "purpose": "Let the parser distinguish separators from quoted commas.",
+    "explanation": "CSV stores records as text fields separated by commas. A quoted field may itself contain a comma. csv.Reader handles that quoting; splitting every comma would lose the record structure. The reader checks that later records have the same field count as the first.",
+    "action": "Run and inspect fields 2 and the quoted name. Change Ada, Lovelace to Ada in the prepared input and run again. Compare field count with field content.",
+    "observe": "There are still two fields. Why is a comma inside quotes different from the comma between the name and score?",
+    "reference": "fields 2 name \"Ada, Lovelace\" score 42",
+    "topics": [
+      [
+        "CSV reader",
+        "Parse quoted fields rather than splitting commas.",
+        "csv.NewReader(reader)",
+        "https://pkg.go.dev/encoding/csv@go1.27.4#NewReader"
+      ],
+      [
+        "Records",
+        "ReadAll returns a slice of records.",
+        "reader.ReadAll()",
+        "https://pkg.go.dev/encoding/csv@go1.27.4#Reader.ReadAll"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/csv-fields/main.go",
+    "command": "./run csv-fields",
+    "supportFiles": [],
+    "target": "Ada,\\ Lovelace"
+  },
+  {
+    "lab": "files-and-http",
+    "id": "parse-flags",
+    "title": "Parse a prepared argument list",
+    "purpose": "Validate options without relying on interactive terminal input.",
+    "explanation": "flag.FlagSet parses named command options. This page prepares an argument slice in source because lesson jobs do not receive interactive input. Int registers an integer option and returns a pointer to its parsed value. The parse error is checked before using that value.",
+    "action": "Run and find count 3. In the prepared args, replace \"3\" with \"5\" and run. Then try \"many\", inspect the parser error and restore a numeric argument.",
+    "observe": "A valid numeric edit prints count 5. How is an invalid flag value different from a compiler error in the Go source?",
+    "reference": "count 3",
+    "topics": [
+      [
+        "Flag set",
+        "Register and parse a group of options.",
+        "options.Parse(args)",
+        "https://pkg.go.dev/flag@go1.27.4#FlagSet"
+      ],
+      [
+        "Pointer result",
+        "Read the parsed value through the registered pointer.",
+        "*count",
+        "https://pkg.go.dev/flag@go1.27.4#FlagSet.Int"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/parse-flags/main.go",
+    "command": "./run parse-flags",
+    "supportFiles": [],
+    "target": "\"\\-count\",\\ \"3\""
+  },
+  {
+    "lab": "files-and-http",
+    "id": "parse-time",
+    "title": "Parse a timestamp with its time zone",
+    "purpose": "Use a layout and compare instants in UTC.",
+    "explanation": "Go layouts use the reference date 2006-01-02 15:04:05 to describe a timestamp’s shape. RFC3339 includes a time-zone offset. UTC converts the representation to the zero-offset zone; Add changes the instant by a duration.",
+    "action": "Run and find 2026-01-02T08:00:00Z. Change time.Hour to 2*time.Hour and run again. Inspect the resulting UTC timestamp.",
+    "observe": "The edited result is one hour later. Why should a stored timestamp include a zone rather than relying on a reader’s local clock setting?",
+    "reference": "2026-01-02T08:00:00Z",
+    "topics": [
+      [
+        "Time parsing",
+        "A layout describes the accepted timestamp representation.",
+        "time.Parse(time.RFC3339, text)",
+        "https://pkg.go.dev/time@go1.27.4#Parse"
+      ],
+      [
+        "Duration",
+        "Add changes an instant by a duration.",
+        "start.Add(time.Hour)",
+        "https://pkg.go.dev/time@go1.27.4#Time.Add"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/parse-time/main.go",
+    "command": "./run parse-time",
+    "supportFiles": [],
+    "target": "Add\\(time\\.Hour\\)"
+  },
+  {
+    "lab": "files-and-http",
+    "id": "http-handler",
+    "title": "Handle an HTTP request locally",
+    "purpose": "Inspect the status code and body returned by a Go handler.",
+    "explanation": "HTTP pairs a request with a response containing a status code and body. A handler receives the request and writes the response. httptest creates a request and response recorder directly in this process. This example uses no network or outside service.",
+    "action": "Run and find status 200 body hello Ada. In the prepared request URL, change name=Ada to name=Lin and run. Compare the response body.",
+    "observe": "The status stays 200 while the body changes. Which value came from the request query, and which part of the handler chose the response text?",
+    "reference": "status 200 body hello Ada",
+    "topics": [
+      [
+        "Handler",
+        "A handler reads a request and writes a response.",
+        "func handler(w http.ResponseWriter, r *http.Request)",
+        "https://pkg.go.dev/net/http@go1.27.4#HandlerFunc"
+      ],
+      [
+        "Recorder",
+        "Inspect a handler without a listening socket.",
+        "httptest.NewRecorder()",
+        "https://pkg.go.dev/net/http/httptest@go1.27.4#NewRecorder"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/http-handler/main.go",
+    "command": "./run http-handler",
+    "supportFiles": [],
+    "target": "name=Ada"
+  },
+  {
+    "lab": "files-and-http",
+    "id": "http-status",
+    "title": "Return an HTTP error before the body",
+    "purpose": "Check method restrictions at the request boundary.",
+    "explanation": "This handler accepts GET. For another method it writes status 405, meaning method not allowed, and returns immediately. WriteHeader must precede the ordinary body write; writing a body first implicitly selects status 200.",
+    "action": "Run with POST and find 405 method not allowed. Change the prepared request method to GET and run again. Compare both the status code and body.",
+    "observe": "The valid method produces 200 ready. Why does the early return prevent an error response from also appending ready?",
+    "reference": "405 method not allowed",
+    "topics": [
+      [
+        "Status",
+        "An HTTP response has a numeric status and body.",
+        "http.StatusMethodNotAllowed",
+        "https://pkg.go.dev/net/http@go1.27.4#pkg-constants"
+      ],
+      [
+        "Early response",
+        "Write an error response and stop the handler.",
+        "http.Error(w, message, status)",
+        "https://pkg.go.dev/net/http@go1.27.4#Error"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/http-status/main.go",
+    "command": "./run http-status",
+    "supportFiles": [],
+    "target": "NewRequest\\(\"POST\""
+  },
+  {
+    "lab": "concurrency",
+    "id": "goroutine-wait",
+    "title": "Wait for concurrent work",
+    "purpose": "Keep main alive until a goroutine finishes.",
+    "explanation": "A goroutine executes a function concurrently with other goroutines in the process. go starts it; main does not automatically wait. WaitGroup tracks unfinished work. Add happens before starting the goroutine, and its deferred Done balances that count. This emulated run does not demonstrate multicore speedup.",
+    "action": "Run and find worker 6 followed by done. Change double(3) to double(4) in the worker and run again. Inspect the value and the placement of done.",
+    "observe": "Wait keeps done after the worker output. Why would a sleep be a weaker way to express that dependency?",
+    "reference": "worker 6\ndone",
+    "topics": [
+      [
+        "Coordination",
+        "Wait until tracked calls finish.",
+        "group.Wait()",
+        "https://pkg.go.dev/sync#WaitGroup@go1.27.4"
+      ],
+      [
+        "Goroutine",
+        "go starts a concurrent function call.",
+        "go func() { ... }()",
+        "https://go.dev/ref/spec#Go_statements"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/goroutine-wait/main.go",
+    "command": "./run goroutine-wait",
+    "supportFiles": [],
+    "target": "double\\(3\\)"
+  },
+  {
+    "lab": "concurrency",
+    "id": "channel-handoff",
+    "title": "Pass a result through a channel",
+    "purpose": "Connect a sending goroutine with a receiving caller.",
+    "explanation": "A channel carries values of one type. An unbuffered send waits for a receiver, and a receive waits for a sender. This program starts the sender before receiving in main. The received value is the evidence that the handoff completed.",
+    "action": "Run and find received 7. Change the sent value from 7 to 9 and run again. Locate the receive expression that supplies the printed value.",
+    "observe": "The sender and receiver rendezvous without a sleep. What would happen if main attempted to receive before any goroutine could send?",
+    "reference": "received 7",
+    "topics": [
+      [
+        "Send and receive",
+        "Unbuffered communication needs both participants.",
+        "values <- 7\nvalue := <-values",
+        "https://go.dev/ref/spec#Channel_types"
+      ],
+      [
+        "Typed channel",
+        "Only ints can pass through this channel.",
+        "make(chan int)",
+        "https://go.dev/ref/spec#Channel_types"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/channel-handoff/main.go",
+    "command": "./run channel-handoff",
+    "supportFiles": [],
+    "target": "values\\ <\\-\\ 7"
+  },
+  {
+    "lab": "concurrency",
+    "id": "buffered-channel",
+    "title": "Queue values in a buffered channel",
+    "purpose": "Distinguish capacity from the number currently queued.",
+    "explanation": "make(chan int, 2) reserves space for two queued values. A send can complete while that space is available, without a simultaneous receiver. len reports the number currently queued, not the capacity. The example uses one goroutine so the displayed queue sizes are deterministic.",
+    "action": "Run and inspect queued 2, first 4 and remaining 1. Change the buffer capacity from 2 to 3 and run. Keep the two sends unchanged and compare queued with capacity.",
+    "observe": "Capacity becomes 3 while queued stays 2. Why does adding space not create an extra message?",
+    "reference": "queued 2 capacity 2\nfirst 4\nremaining 1",
+    "topics": [
+      [
+        "Buffer",
+        "Capacity limits queued messages.",
+        "make(chan int, 2)",
+        "https://go.dev/ref/spec#Channel_types"
+      ],
+      [
+        "Queue length",
+        "len counts messages waiting in the channel.",
+        "len(values)",
+        "https://go.dev/ref/spec#Length_and_capacity"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/buffered-channel/main.go",
+    "command": "./run buffered-channel",
+    "supportFiles": [],
+    "target": "make\\(chan\\ int,\\ 2\\)"
+  },
+  {
+    "lab": "concurrency",
+    "id": "close-and-range",
+    "title": "Finish a stream of messages",
+    "purpose": "Let the sending side close a channel when no more values remain.",
+    "explanation": "range receives channel values until the channel is closed and drained. The producer owns closing jobs because it knows when sending is finished. Closing does not discard buffered values. Sending after close panics.",
+    "action": "Run and find sum 6. Change the producer’s loop bound from 3 to 4 and run again. Inspect the final sum after range ends.",
+    "observe": "The sum becomes 10. Which close call allows main’s range loop to finish rather than waiting for another message?",
+    "reference": "sum 6",
+    "topics": [
+      [
+        "Close",
+        "The sending side signals that no more messages follow.",
+        "close(jobs)",
+        "https://go.dev/ref/spec#Close"
+      ],
+      [
+        "Channel range",
+        "Receive until the closed channel is drained.",
+        "for value := range jobs { ... }",
+        "https://go.dev/ref/spec#For_range"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/close-and-range/main.go",
+    "command": "./run close-and-range",
+    "supportFiles": [],
+    "target": "value\\ <=\\ 3"
+  },
+  {
+    "lab": "concurrency",
+    "id": "select-default",
+    "title": "Choose a ready channel operation",
+    "purpose": "Use a default case when receiving would block.",
+    "explanation": "select chooses a ready communication case. If none is ready, default runs immediately when supplied. The buffered channel starts empty, so this starter takes default. With several ready cases the selection is not a priority ordering.",
+    "action": "Run and find no message. Uncomment messages <- \"ready\" immediately before select and run again. Inspect which case executes.",
+    "observe": "The prepared message makes the receive ready. Would default run just because it appears last if a communication can proceed?",
+    "reference": "no message",
+    "topics": [
+      [
+        "Select",
+        "Choose a communication that can proceed.",
+        "select { case value := <-messages: ... }",
+        "https://go.dev/ref/spec#Select_statements"
+      ],
+      [
+        "Default",
+        "Run immediately if no communication is ready.",
+        "default:",
+        "https://go.dev/ref/spec#Select_statements"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/select-default/main.go",
+    "command": "./run select-default",
+    "supportFiles": [],
+    "target": "//\\ messages\\ <\\-\\ \"ready\""
+  },
+  {
+    "lab": "concurrency",
+    "id": "context-cancel",
+    "title": "Cancel work and wait for its exit",
+    "purpose": "Keep cancellation separate from confirmation that work has stopped.",
+    "explanation": "context.WithCancel returns a context and a cancellation function. The worker waits for Done to close. cancel requests cancellation; receiving stopped confirms the worker reached its exit path. Cancellation is cooperative: code must check the context.",
+    "action": "Run and find cancelled context canceled. Change the worker’s message prefix from \"cancelled\" to \"stopped\" and run again. Keep cancel() and the final receive unchanged.",
+    "observe": "The message changes while shutdown still completes. Why is calling cancel alone insufficient evidence that the worker has already returned?",
+    "reference": "cancelled context canceled",
+    "topics": [
+      [
+        "Cancellation",
+        "cancel closes the context’s Done channel.",
+        "ctx, cancel := context.WithCancel(parent)",
+        "https://pkg.go.dev/context@go1.27.4#WithCancel"
+      ],
+      [
+        "Completion",
+        "Receive a separate confirmation after requesting cancellation.",
+        "fmt.Println(<-stopped)",
+        "https://go.dev/ref/spec#Receive_operator"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/context-cancel/main.go",
+    "command": "./run context-cancel",
+    "supportFiles": [],
+    "target": "\"cancelled\\ \""
+  },
+  {
+    "lab": "concurrency",
+    "id": "worker-pool",
+    "title": "Share jobs among a bounded set of workers",
+    "purpose": "Close results only after every worker finishes.",
+    "explanation": "Two workers read one jobs channel and send squared values to results. A coordinator closes results after WaitGroup confirms all workers are done. Completion order depends on scheduling, so main sorts results before printing. This demonstrates coordination rather than a throughput benchmark.",
+    "action": "Run and find [1 4 9 16]. Change value <= 4 to value <= 5 in the producer and run again. Check that every input contributes one square.",
+    "observe": "The edited output adds 25. Why would letting each worker close results risk another worker sending to a closed channel?",
+    "reference": "[1 4 9 16]",
+    "topics": [
+      [
+        "Coordination",
+        "Track all workers before closing results.",
+        "group.Wait()",
+        "https://pkg.go.dev/sync#WaitGroup@go1.27.4"
+      ],
+      [
+        "Channel ownership",
+        "Only one coordinator closes the shared results channel.",
+        "close(results)",
+        "https://go.dev/ref/spec#Close"
+      ]
+    ],
+    "mode": "run",
+    "diagram": {
+      "title": "Who sends values, and who closes results?",
+      "caption": "Workers send squares directly to main while it drains results. A separate coordinator waits for every worker, then closes results. The two workers can finish in either order.",
+      "nodes": [
+        {
+          "id": "jobs",
+          "x": 15,
+          "y": 25,
+          "w": 150,
+          "label": "Producer",
+          "detail": "send → close jobs"
+        },
+        {
+          "id": "workers",
+          "x": 245,
+          "y": 25,
+          "w": 210,
+          "label": "Two workers",
+          "detail": "read jobs → send squares"
+        },
+        {
+          "id": "main",
+          "x": 550,
+          "y": 25,
+          "w": 220,
+          "label": "main",
+          "detail": "drain results → sort → print"
+        },
+        {
+          "id": "coordinator",
+          "x": 550,
+          "y": 160,
+          "w": 220,
+          "label": "Coordinator",
+          "detail": "Wait → close results"
+        }
+      ],
+      "edges": [
+        {
+          "from": "jobs",
+          "to": "workers",
+          "label": "jobs"
+        },
+        {
+          "from": "workers",
+          "to": "main",
+          "label": "squares"
+        },
+        {
+          "from": "workers",
+          "to": "coordinator",
+          "label": "all workers Done"
+        },
+        {
+          "from": "coordinator",
+          "to": "main",
+          "label": "close results"
+        }
+      ]
+    },
+    "file": "cmd/worker-pool/main.go",
+    "command": "./run worker-pool",
+    "supportFiles": [],
+    "target": "value\\ <=\\ 4"
+  },
+  {
+    "lab": "concurrency",
+    "id": "mutex-counter",
+    "title": "Protect a shared read-modify-write",
+    "purpose": "Use a mutex around every access to a shared counter.",
+    "explanation": "count++ reads, adds and writes. Concurrent updates require synchronization. Mutex allows one goroutine into a critical section at a time. WaitGroup ensures all updates finish before main reads count. One correct result without synchronization would not prove that a race is absent.",
+    "action": "Run and find count 200. Change each worker’s repetition count from 100 to 150 and run again. Predict the total for two workers before running.",
+    "observe": "The total becomes 300. Which lock/unlock pair protects the update? The browser example does not run Go’s race detector.",
+    "reference": "count 200",
+    "topics": [
+      [
+        "Coordination",
+        "Only one holder enters the protected section.",
+        "lock.Lock(); count++; lock.Unlock()",
+        "https://pkg.go.dev/sync#Mutex@go1.27.4"
+      ],
+      [
+        "Coordination",
+        "Wait before reading the completed count.",
+        "group.Wait()",
+        "https://pkg.go.dev/sync#WaitGroup@go1.27.4"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/mutex-counter/main.go",
+    "command": "./run mutex-counter",
+    "supportFiles": [],
+    "target": "range\\ 100"
+  },
+  {
+    "lab": "concurrency",
+    "id": "pipeline-shutdown",
+    "title": "Stop an upstream producer when consuming only one result",
+    "purpose": "Propagate cancellation so an abandoned send can finish.",
+    "explanation": "The producer selects between sending a number and context cancellation. main consumes only one number, then cancels and waits for the producer’s done channel. Without the cancellation case, the next unbuffered send could wait forever after main stops receiving.",
+    "action": "Run and find first 1 and producer stopped. Change the producer’s starting value from 1 to 5 and run. Inspect the first value and the shutdown confirmation.",
+    "observe": "The producer still stops after only one consumed value. Which branch allows it to exit while no receiver is waiting?",
+    "reference": "first 1\nproducer stopped",
+    "topics": [
+      [
+        "Cancellable send",
+        "A send must have a cancellation path if its consumer may leave.",
+        "select { case values <- value: case <-ctx.Done(): return }",
+        "https://go.dev/blog/pipelines"
+      ],
+      [
+        "Wait for exit",
+        "A closed done channel confirms the producer returned.",
+        "<-done",
+        "https://go.dev/ref/spec#Receive_operator"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/pipeline-shutdown/main.go",
+    "command": "./run pipeline-shutdown",
+    "supportFiles": [],
+    "target": "value\\ :=\\ 1"
+  },
+  {
+    "lab": "data-structures",
+    "id": "stack",
+    "title": "Remove the most recently added value",
+    "purpose": "Implement last-in, first-out with a slice.",
+    "explanation": "A stack removes the last value pushed. The slice’s final element is the top. pop returns a boolean so an empty stack is distinguishable from a stored zero. This representation keeps push and pop at one end.",
+    "action": "Run and find top 8 true remaining [3]. Change the second pushed value from 8 to 9 and run. Inspect both the returned top and remaining stack.",
+    "observe": "The removed value changes while 3 remains. What should pop return when called twice more on this starter?",
+    "reference": "top 8 true remaining [3]",
+    "topics": [
+      [
+        "Representation",
+        "Implement last-in, first-out with a slice.",
+        "stack.push(8)",
+        "https://go.dev/ref/spec#Slice_types"
+      ],
+      [
+        "Operations",
+        "Inspect the implementation and its boundary checks.",
+        "stack",
+        "https://go.dev/ref/spec#Method_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/stack/main.go",
+    "command": "./run stack",
+    "supportFiles": [],
+    "target": "stack\\.push\\(8\\)"
+  },
+  {
+    "lab": "data-structures",
+    "id": "queue",
+    "title": "Remove the earliest queued value",
+    "purpose": "Implement first-in, first-out and inspect the retained slice.",
+    "explanation": "A queue removes the earliest value added. This simple queue advances a slice past its first element. The remaining slice can still keep the backing array alive, so this teaching representation is not a bounded-memory queue for an indefinitely running service.",
+    "action": "Run and find first 3 true remaining [8]. Swap the initial values from {3, 8} to {8, 3} and run. Compare the removed value with the stack lesson.",
+    "observe": "The queue removes 8 because it is now first. Which end would a stack remove from the same sequence?",
+    "reference": "first 3 true remaining [8]",
+    "topics": [
+      [
+        "Representation",
+        "Implement first-in, first-out and inspect the retained slice.",
+        "Queue{3, 8}",
+        "https://go.dev/ref/spec#Slice_types"
+      ],
+      [
+        "Operations",
+        "Inspect the implementation and its boundary checks.",
+        "queue",
+        "https://go.dev/ref/spec#Method_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/queue/main.go",
+    "command": "./run queue",
+    "supportFiles": [],
+    "target": "Queue\\{3,\\ 8\\}"
+  },
+  {
+    "lab": "data-structures",
+    "id": "ring-buffer",
+    "title": "Reuse a fixed queue buffer",
+    "purpose": "Wrap a queue index without shifting its elements.",
+    "explanation": "A ring buffer uses fixed slots, a head index and a count. The next insertion slot is (head + count) % capacity. Removing advances head with the same wraparound. Full and empty are explicit outcomes; this buffer does not overwrite unread values.",
+    "action": "Run and inspect accepted true true false, then removed 3. Change the capacity from 2 to 3 and run. Inspect whether the third insertion is accepted.",
+    "observe": "The larger buffer accepts all three values. Why is a count needed when a wrapped head index alone could describe both full and empty states?",
+    "reference": "accepted true true false\nremoved 3 true count 1",
+    "topics": [
+      [
+        "Representation",
+        "Wrap a queue index without shifting its elements.",
+        "make([]int, 2)",
+        "https://go.dev/ref/spec#Slice_types"
+      ],
+      [
+        "Operations",
+        "Inspect the implementation and its boundary checks.",
+        "ring-buffer",
+        "https://go.dev/ref/spec#Method_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/ring-buffer/main.go",
+    "command": "./run ring-buffer",
+    "supportFiles": [],
+    "target": "make\\(\\[\\]int,\\ 2\\)"
+  },
+  {
+    "lab": "data-structures",
+    "id": "linked-list",
+    "title": "Follow links rather than contiguous indexes",
+    "purpose": "Insert a node at the head of a linked list.",
+    "explanation": "A linked-list node stores a value and a pointer to the next node. nil marks the end. Prepending creates a new node pointing at the previous head. Traversal follows pointers one at a time; it does not provide constant-time indexed access.",
+    "action": "Run and find [3 8]. Change the new head’s Value from 3 to 5 and run. Inspect the traversal order.",
+    "observe": "The sequence becomes [5 8]. Which pointer would need changing to insert a value after the first node?",
+    "reference": "[3 8]",
+    "topics": [
+      [
+        "Representation",
+        "Insert a node at the head of a linked list.",
+        "Value: 3",
+        "https://go.dev/ref/spec#Slice_types"
+      ],
+      [
+        "Operations",
+        "Inspect the implementation and its boundary checks.",
+        "linked-list",
+        "https://go.dev/ref/spec#Method_declarations"
+      ]
+    ],
+    "mode": "run",
+    "diagram": {
+      "title": "Starter links",
+      "caption": "Prepending changes head; the old node stays at the end. This picture describes the starter.",
+      "nodes": [
+        {
+          "id": "head",
+          "x": 20,
+          "y": 50,
+          "w": 120,
+          "label": "head",
+          "detail": "points to 3"
+        },
+        {
+          "id": "three",
+          "x": 220,
+          "y": 50,
+          "w": 140,
+          "label": "Node: 3",
+          "detail": "Next → 8"
+        },
+        {
+          "id": "eight",
+          "x": 440,
+          "y": 50,
+          "w": 140,
+          "label": "Node: 8",
+          "detail": "Next → nil"
+        }
+      ],
+      "edges": [
+        {
+          "from": "head",
+          "to": "three",
+          "label": "pointer"
+        },
+        {
+          "from": "three",
+          "to": "eight",
+          "label": "Next"
+        }
+      ]
+    },
+    "file": "cmd/linked-list/main.go",
+    "command": "./run linked-list",
+    "supportFiles": [],
+    "target": "Value:\\ 3"
+  },
+  {
+    "lab": "data-structures",
+    "id": "hash-collisions",
+    "title": "Find a key inside a collision bucket",
+    "purpose": "Keep full keys when a hash maps different keys to one slot.",
+    "explanation": "This teaching table hashes a string by its byte length modulo two. Keys of equal-length parity collide, meaning they share a bucket. Lookup must compare the complete key within that bucket. This deliberately weak hash illustrates collisions; it is not a production hash table.",
+    "action": "Run and find bucket 1 entries 2, then Bob 8 true. Change the lookup key from Bob to Ada and run. Compare the returned value while the bucket count stays unchanged.",
+    "observe": "Both keys share one bucket, yet lookup distinguishes them. Why would returning the first entry without checking its key be wrong?",
+    "reference": "bucket 1 entries 2\nlookup 8 true",
+    "topics": [
+      [
+        "Representation",
+        "Keep full keys when a hash maps different keys to one slot.",
+        "table.get(\"Bob\")",
+        "https://go.dev/ref/spec#Slice_types"
+      ],
+      [
+        "Operations",
+        "Inspect the implementation and its boundary checks.",
+        "hash-collisions",
+        "https://go.dev/ref/spec#Method_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/hash-collisions/main.go",
+    "command": "./run hash-collisions",
+    "supportFiles": [],
+    "target": "table\\.get\\(\"Bob\"\\)"
+  },
+  {
+    "lab": "data-structures",
+    "id": "search-tree",
+    "title": "Keep smaller and larger values on separate branches",
+    "purpose": "Traverse a binary search tree in sorted order.",
+    "explanation": "Each node stores smaller distinct values on its left and larger values on its right. In-order traversal visits left, node, right, producing sorted values. Repeated values are ignored here. An unbalanced tree can become a chain, so this implementation does not guarantee logarithmic lookup.",
+    "action": "Run and find [2 4 6]. Change the inserted value 6 to 1 and run. Inspect its position in the sorted traversal.",
+    "observe": "The result becomes [1 2 4]. Which branch is taken when inserting 1 below the root 4?",
+    "reference": "[2 4 6]",
+    "topics": [
+      [
+        "Representation",
+        "Traverse a binary search tree in sorted order.",
+        "[]int{4, 2, 6}",
+        "https://go.dev/ref/spec#Slice_types"
+      ],
+      [
+        "Operations",
+        "Inspect the implementation and its boundary checks.",
+        "search-tree",
+        "https://go.dev/ref/spec#Method_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/search-tree/main.go",
+    "command": "./run search-tree",
+    "supportFiles": [],
+    "target": "\\[\\]int\\{4,\\ 2,\\ 6\\}"
+  },
+  {
+    "lab": "data-structures",
+    "id": "minimum-heap",
+    "title": "Remove the smallest priority",
+    "purpose": "Implement the heap interface for an integer priority queue.",
+    "explanation": "A min-heap keeps its smallest value at the root. container/heap rearranges elements using Len, Less and Swap; its Push and Pop methods supply storage operations. The backing slice is not fully sorted. Use heap.Pop rather than calling the storage Pop method directly.",
+    "action": "Run and find minimum 2 remaining 2. Change the input value 2 to 9 and run. Inspect which priority is removed.",
+    "observe": "The edited minimum is 4. Why can the queue return the minimum without sorting every remaining element?",
+    "reference": "minimum 2 remaining 2",
+    "topics": [
+      [
+        "Heap interface",
+        "Supply storage and ordering operations.",
+        "type IntHeap []int",
+        "https://pkg.go.dev/container/heap@go1.27.4#Interface"
+      ],
+      [
+        "Remove minimum",
+        "heap.Pop repairs the heap around removal.",
+        "heap.Pop(&values)",
+        "https://pkg.go.dev/container/heap@go1.27.4#Pop"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/minimum-heap/main.go",
+    "command": "./run minimum-heap",
+    "supportFiles": [],
+    "target": "IntHeap\\{4,\\ 2,\\ 6\\}"
+  },
+  {
+    "lab": "data-structures",
+    "id": "graph-neighbors",
+    "title": "Represent directed edges explicitly",
+    "purpose": "Read an adjacency list before traversing a graph.",
+    "explanation": "An adjacency list maps each vertex to its outgoing neighbors. A directed edge A → B permits travel from A to B; it does not imply B → A. Empty neighbor lists represent vertices with no outgoing edges.",
+    "action": "Run and inspect A to [B C] and B to [C]. Remove C from A’s neighbor slice and run again. Keep B’s neighbors unchanged.",
+    "observe": "A now has one outgoing edge. Can C still be reached from A through B? The algorithms lab will calculate that reachability.",
+    "reference": "A to [B C]\nB to [C]\nC to []",
+    "topics": [
+      [
+        "Representation",
+        "Read an adjacency list before traversing a graph.",
+        "\"A\": {\"B\", \"C\"}",
+        "https://go.dev/ref/spec#Slice_types"
+      ],
+      [
+        "Operations",
+        "Inspect the implementation and its boundary checks.",
+        "graph-neighbors",
+        "https://go.dev/ref/spec#Method_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/graph-neighbors/main.go",
+    "command": "./run graph-neighbors",
+    "supportFiles": [],
+    "target": "\"A\":\\ \\{\"B\",\\ \"C\"\\}"
+  },
+  {
+    "lab": "algorithms",
+    "id": "linear-search",
+    "title": "Search an unsorted sequence",
+    "purpose": "Count how many values are inspected before finding a match.",
+    "explanation": "Linear search checks values from the beginning until it finds the target or reaches the end. The returned index is -1 when missing. checks counts inspected values. This algorithm needs no sorted-input assumption.",
+    "action": "Run and find index 2 checks 3. Change target from 7 to 9 and run again. Compare the missing result and the number of checks.",
+    "observe": "All four values are inspected for the missing target. How many checks would finding the first value require?",
+    "reference": "index 2 checks 3",
+    "topics": [
+      [
+        "Algorithm contract",
+        "Count how many values are inspected before finding a match.",
+        "search(values, 7)",
+        "https://go.dev/ref/spec#For_statements"
+      ],
+      [
+        "Implementation",
+        "The editable function implements the algorithm; counters describe this input, not elapsed native performance.",
+        "linear-search",
+        "https://go.dev/ref/spec#Function_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/linear-search/main.go",
+    "command": "./run linear-search",
+    "supportFiles": [],
+    "target": "search\\(values,\\ 7\\)"
+  },
+  {
+    "lab": "algorithms",
+    "id": "binary-search",
+    "title": "Discard half a sorted search interval",
+    "purpose": "Maintain a half-open interval that may contain the target.",
+    "explanation": "Binary search requires ascending input. low is included and high is excluded. Each comparison chooses the lower or upper remaining interval, or returns a match. The function counts midpoint checks. Duplicate values may return any matching index.",
+    "action": "Run and find index 5 checks 3. Change target from 11 to 4 and run again. Inspect the missing result without changing the sorted input.",
+    "observe": "The target is absent after three midpoint checks. Why would using an unsorted slice invalidate the choice of which half to discard?",
+    "reference": "index 5 checks 3",
+    "topics": [
+      [
+        "Algorithm contract",
+        "Maintain a half-open interval that may contain the target.",
+        "search(values, 11)",
+        "https://go.dev/ref/spec#For_statements"
+      ],
+      [
+        "Implementation",
+        "The editable function implements the algorithm; counters describe this input, not elapsed native performance.",
+        "binary-search",
+        "https://go.dev/ref/spec#Function_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/binary-search/main.go",
+    "command": "./run binary-search",
+    "supportFiles": [],
+    "target": "search\\(values,\\ 11\\)"
+  },
+  {
+    "lab": "algorithms",
+    "id": "insertion-sort",
+    "title": "Insert each value into a sorted prefix",
+    "purpose": "Count shifts when sorting a small slice.",
+    "explanation": "Insertion sort keeps the prefix before i sorted. It shifts larger preceding values right, then inserts the saved value. shifts counts moves inside the inner loop; it does not count every assignment. Already sorted input needs no such shifts.",
+    "action": "Run and find [1 2 3 4] shifts 6. Change the input from descending to ascending order and run. Compare the shift count while keeping the final result identical.",
+    "observe": "Ascending input needs zero shifts. Why does input order affect this algorithm’s work even when the number of values stays four?",
+    "reference": "[1 2 3 4] shifts 6",
+    "topics": [
+      [
+        "Algorithm contract",
+        "Count shifts when sorting a small slice.",
+        "[]int{4, 3, 2, 1}",
+        "https://go.dev/ref/spec#For_statements"
+      ],
+      [
+        "Implementation",
+        "The editable function implements the algorithm; counters describe this input, not elapsed native performance.",
+        "insertion-sort",
+        "https://go.dev/ref/spec#Function_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/insertion-sort/main.go",
+    "command": "./run insertion-sort",
+    "supportFiles": [],
+    "target": "\\[\\]int\\{4,\\ 3,\\ 2,\\ 1\\}"
+  },
+  {
+    "lab": "algorithms",
+    "id": "merge-sort",
+    "title": "Merge two sorted halves",
+    "purpose": "Connect recursive division with an ordered merge.",
+    "explanation": "Merge sort divides until each part has at most one value, recursively sorts each half, then merges them. The merge repeatedly takes the smaller front value. This implementation returns fresh slices, leaving the input unchanged. It uses extra storage.",
+    "action": "Run and compare original [4 1 3 2] with sorted [1 2 3 4]. Change the first value from 4 to 0 and run. Check both the original and sorted lines.",
+    "observe": "The output becomes [0 1 2 3] while original retains its input order. Which base case stops recursion on an empty input?",
+    "reference": "sorted [1 2 3 4]\noriginal [4 1 3 2]",
+    "topics": [
+      [
+        "Algorithm contract",
+        "Connect recursive division with an ordered merge.",
+        "[]int{4, 1, 3, 2}",
+        "https://go.dev/ref/spec#For_statements"
+      ],
+      [
+        "Implementation",
+        "The editable function implements the algorithm; counters describe this input, not elapsed native performance.",
+        "merge-sort",
+        "https://go.dev/ref/spec#Function_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/merge-sort/main.go",
+    "command": "./run merge-sort",
+    "supportFiles": [],
+    "target": "\\[\\]int\\{4,\\ 1,\\ 3,\\ 2\\}"
+  },
+  {
+    "lab": "algorithms",
+    "id": "breadth-first-search",
+    "title": "Visit a graph by distance in edges",
+    "purpose": "Use a queue and mark vertices when enqueuing them.",
+    "explanation": "Breadth-first search explores all vertices one edge away before vertices two edges away. The queue preserves that order. seen prevents duplicate work when two paths reach the same vertex. This computes reachability in a directed, unweighted graph; neighbor order breaks ties.",
+    "action": "Run and find [A B C D]. Change A’s neighbor order from B, C to C, B and run. Compare visit order without changing the set of reached vertices.",
+    "observe": "C appears before B but D remains last. Why should a vertex be marked seen when queued rather than each time a later path discovers it?",
+    "reference": "[A B C D]",
+    "topics": [
+      [
+        "Algorithm contract",
+        "Use a queue and mark vertices when enqueuing them.",
+        "\"A\": {\"B\", \"C\"}",
+        "https://go.dev/ref/spec#For_statements"
+      ],
+      [
+        "Implementation",
+        "The editable function implements the algorithm; counters describe this input, not elapsed native performance.",
+        "breadth-first-search",
+        "https://go.dev/ref/spec#Function_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/breadth-first-search/main.go",
+    "command": "./run breadth-first-search",
+    "supportFiles": [],
+    "target": "\"A\":\\ \\{\"B\",\\ \"C\"\\}"
+  },
+  {
+    "lab": "algorithms",
+    "id": "depth-first-search",
+    "title": "Follow one branch before its siblings",
+    "purpose": "Use recursive calls and a visited set to avoid cycles.",
+    "explanation": "Depth-first search visits a vertex, then recursively visits its outgoing neighbors. seen prevents following a cycle forever. The order depends on neighbor order. Unlike breadth-first search, first discovery here does not establish the shortest number of edges from the start.",
+    "action": "Run and find [A B D C]. Reverse A’s neighbors from B, C to C, B and run. Compare which branch is fully explored first.",
+    "observe": "The edited visit order is [A C D B]. Why does D appear before the other direct neighbor of A?",
+    "reference": "[A B D C]",
+    "topics": [
+      [
+        "Algorithm contract",
+        "Use recursive calls and a visited set to avoid cycles.",
+        "\"A\": {\"B\", \"C\"}",
+        "https://go.dev/ref/spec#For_statements"
+      ],
+      [
+        "Implementation",
+        "The editable function implements the algorithm; counters describe this input, not elapsed native performance.",
+        "depth-first-search",
+        "https://go.dev/ref/spec#Function_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/depth-first-search/main.go",
+    "command": "./run depth-first-search",
+    "supportFiles": [],
+    "target": "\"A\":\\ \\{\"B\",\\ \"C\"\\}"
+  },
+  {
+    "lab": "algorithms",
+    "id": "shortest-path",
+    "title": "Choose the least-cost unsettled vertex",
+    "purpose": "Apply Dijkstra’s rule with nonnegative edge weights.",
+    "explanation": "Dijkstra’s algorithm settles the reachable vertex with the smallest known distance, then relaxes its outgoing edges. Relaxing means replacing a distance when a cheaper route is found. This small implementation scans vertices rather than using a heap. Weights must be nonnegative, and the example’s small sums fit int.",
+    "action": "Run and find distance to C 3. Change the direct A-to-C weight from 5 to 1 and run again. Compare the direct route with A → B → C.",
+    "observe": "The new direct route costs 1, less than the route through B. Which assumption would be broken by introducing a negative-weight edge?",
+    "reference": "distance to C 3",
+    "topics": [
+      [
+        "Algorithm contract",
+        "Apply Dijkstra’s rule with nonnegative edge weights.",
+        "{2, 5}",
+        "https://go.dev/ref/spec#For_statements"
+      ],
+      [
+        "Implementation",
+        "The editable function implements the algorithm; counters describe this input, not elapsed native performance.",
+        "shortest-path",
+        "https://go.dev/ref/spec#Function_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/shortest-path/main.go",
+    "command": "./run shortest-path",
+    "supportFiles": [],
+    "target": "\\{2,\\ 5\\}"
+  },
+  {
+    "lab": "algorithms",
+    "id": "topological-order",
+    "title": "Schedule tasks only after prerequisites",
+    "purpose": "Detect when a directed cycle prevents a complete ordering.",
+    "explanation": "A topological order puts every prerequisite before the task that depends on it. This implementation repeatedly chooses a vertex with zero remaining incoming edges. If none exists before all tasks are emitted, a cycle prevents completion. Ties follow vertex index order.",
+    "action": "Run and find order [0 1 2] complete true. Add the edge from task 2 back to 0 by changing the final neighbor slice to {0}. Run and inspect complete.",
+    "observe": "No task can start in the cycle, so complete is false. Why is a partial ordering different from evidence that every dependency can be satisfied?",
+    "reference": "order [0 1 2] complete true",
+    "topics": [
+      [
+        "Algorithm contract",
+        "Detect when a directed cycle prevents a complete ordering.",
+        "[][]int{{1}, {2}, {}}",
+        "https://go.dev/ref/spec#For_statements"
+      ],
+      [
+        "Implementation",
+        "The editable function implements the algorithm; counters describe this input, not elapsed native performance.",
+        "topological-order",
+        "https://go.dev/ref/spec#Function_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/topological-order/main.go",
+    "command": "./run topological-order",
+    "supportFiles": [],
+    "target": "\\[\\]\\[\\]int\\{\\{1\\},\\ \\{2\\},\\ \\{\\}\\}"
+  },
+  {
+    "lab": "algorithms",
+    "id": "dynamic-programming",
+    "title": "Reuse solved subproblems",
+    "purpose": "Build a table of minimum coin counts from smaller amounts.",
+    "explanation": "Dynamic programming stores answers to overlapping subproblems. best[amount] uses already solved smaller amounts after removing one allowed coin. -1 means unreachable. Coins are positive integers, reuse is unlimited, and target is nonnegative. Greedily taking the largest coin can miss the minimum.",
+    "action": "Run with coins 1, 3, 4 and target 6; find minimum 2. Change target from 6 to 5 and run. Compare the minimum with taking the largest coin first.",
+    "observe": "For 6, two 3 coins beat 4+1+1. For 5, 4+1 uses two coins. Which smaller table entries are consulted when solving amount 6?",
+    "reference": "minimum 2",
+    "topics": [
+      [
+        "Algorithm contract",
+        "Build a table of minimum coin counts from smaller amounts.",
+        "minimumCoins(coins, 6)",
+        "https://go.dev/ref/spec#For_statements"
+      ],
+      [
+        "Implementation",
+        "The editable function implements the algorithm; counters describe this input, not elapsed native performance.",
+        "dynamic-programming",
+        "https://go.dev/ref/spec#Function_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/dynamic-programming/main.go",
+    "command": "./run dynamic-programming",
+    "supportFiles": [],
+    "target": "minimumCoins\\(coins,\\ 6\\)"
+  },
+  {
+    "lab": "tinydb",
+    "id": "db-validation",
+    "title": "Validate a record before insertion",
+    "purpose": "Keep invalid scores out of a snapshot.",
+    "explanation": "The course store accepts IDs up to 2147483647, names of 1–32 UTF-8 bytes and scores from 0 through 100. Insert validates before changing data. This lesson starts from a fresh in-memory snapshot each run; it does not overwrite a saved database.",
+    "action": "Run with Score: 101 and inspect the rejection. Change the score to 100 and run again. Compare the error with inserted 7.",
+    "observe": "Exactly 100 is accepted. Which additional test would check the lower score boundary?",
+    "reference": "rejected score must be from 0 to 100",
+    "topics": [
+      [
+        "Store operation",
+        "Keep invalid scores out of a snapshot.",
+        "Score: 101",
+        "https://github.com/snowch/go-foundry/blob/main/internal/store/store.go"
+      ],
+      [
+        "Data boundary",
+        "The educational store checks rows before publishing a snapshot.",
+        "store.Snapshot",
+        "https://pkg.go.dev/encoding/json@go1.27.4"
+      ]
+    ],
+    "mode": "run",
+    "supportFiles": [
+      "internal/store/store.go",
+      "internal/store/course.go"
+    ],
+    "file": "cmd/db-validation/main.go",
+    "command": "./run db-validation",
+    "target": "Score:\\ 101"
+  },
+  {
+    "lab": "tinydb",
+    "id": "db-duplicates",
+    "title": "Reject a duplicate primary key",
+    "purpose": "Distinguish a unique record identifier from its other values.",
+    "explanation": "ID is the primary key: at most one row may use it. Changing a name does not make an existing ID new. Insert returns a new snapshot on success, preserving the previous snapshot. The prepared first row uses ID 7.",
+    "action": "Run and find duplicate true rows before 1. Change the second insertion ID from 7 to 8 and run. Inspect rows after.",
+    "observe": "The edited snapshot has two rows. Why is duplicate detection based on ID rather than on the name?",
+    "reference": "duplicate true rows before 1",
+    "topics": [
+      [
+        "Store operation",
+        "Distinguish a unique record identifier from its other values.",
+        "ID: 7, Name: \"Lin\"",
+        "https://github.com/snowch/go-foundry/blob/main/internal/store/store.go"
+      ],
+      [
+        "Data boundary",
+        "The educational store checks rows before publishing a snapshot.",
+        "store.Snapshot",
+        "https://pkg.go.dev/encoding/json@go1.27.4"
+      ]
+    ],
+    "mode": "run",
+    "supportFiles": [
+      "internal/store/store.go",
+      "internal/store/course.go"
+    ],
+    "file": "cmd/db-duplicates/main.go",
+    "command": "./run db-duplicates",
+    "target": "ID:\\ 7,\\ Name:\\ \"Lin\""
+  },
+  {
+    "lab": "tinydb",
+    "id": "db-lookup",
+    "title": "Look up an ID in sorted records",
+    "purpose": "Use sorted primary keys for binary search.",
+    "explanation": "Insert keeps rows sorted by ID. Get uses binary search and returns a separate found boolean. A missing ID must not be confused with a zero-valued record. The starter constructs three records in a different order from their final storage order.",
+    "action": "Run and inspect stored [3 7 9], then found Ada true. Change Get(7) to Get(8) and run. Inspect the found flag.",
+    "observe": "The missing lookup returns false. Which invariant lets Get discard half the remaining rows at each step?",
+    "reference": "stored [3 7 9]\nfound Ada true",
+    "topics": [
+      [
+        "Store operation",
+        "Use sorted primary keys for binary search.",
+        "db.Get(7)",
+        "https://github.com/snowch/go-foundry/blob/main/internal/store/store.go"
+      ],
+      [
+        "Data boundary",
+        "The educational store checks rows before publishing a snapshot.",
+        "store.Snapshot",
+        "https://pkg.go.dev/encoding/json@go1.27.4"
+      ]
+    ],
+    "mode": "run",
+    "supportFiles": [
+      "internal/store/store.go",
+      "internal/store/course.go"
+    ],
+    "file": "cmd/db-lookup/main.go",
+    "command": "./run db-lookup",
+    "target": "db\\.Get\\(7\\)"
+  },
+  {
+    "lab": "tinydb",
+    "id": "db-update",
+    "title": "Update a row without changing the old snapshot",
+    "purpose": "Copy rows before replacing a record.",
+    "explanation": "Update requires an existing ID and validates the replacement row. It returns a new snapshot with a higher generation. The old snapshot retains its original row. These are in-memory snapshots; Save is a separate operation.",
+    "action": "Run and find old 42 new 60. Change the replacement score from 60 to 70 and run again. Compare old with new.",
+    "observe": "The old score remains 42. Why would modifying a shared Rows slice in place break snapshot isolation?",
+    "reference": "old 42 new 60",
+    "topics": [
+      [
+        "Store operation",
+        "Copy rows before replacing a record.",
+        "Score: 60",
+        "https://github.com/snowch/go-foundry/blob/main/internal/store/store.go"
+      ],
+      [
+        "Data boundary",
+        "The educational store checks rows before publishing a snapshot.",
+        "store.Snapshot",
+        "https://pkg.go.dev/encoding/json@go1.27.4"
+      ]
+    ],
+    "mode": "run",
+    "supportFiles": [
+      "internal/store/store.go",
+      "internal/store/course.go"
+    ],
+    "file": "cmd/db-update/main.go",
+    "command": "./run db-update",
+    "target": "Score:\\ 60"
+  },
+  {
+    "lab": "tinydb",
+    "id": "db-delete",
+    "title": "Remove an existing record",
+    "purpose": "Make missing deletion an explicit outcome.",
+    "explanation": "Delete returns a new snapshot without the requested ID. A missing ID returns ErrMissing instead of silently claiming a deletion. The starter still retains the original snapshot, letting you compare row counts.",
+    "action": "Run and find old rows 1 new rows 0. Change Delete(7) to Delete(8) and run. Inspect missing true and the unchanged old row count.",
+    "observe": "Deleting a missing key does not publish a changed snapshot. Should your own API choose this error policy or idempotent deletion? State that contract before testing it.",
+    "reference": "old rows 1 new rows 0",
+    "topics": [
+      [
+        "Store operation",
+        "Make missing deletion an explicit outcome.",
+        "db.Delete(7)",
+        "https://github.com/snowch/go-foundry/blob/main/internal/store/store.go"
+      ],
+      [
+        "Data boundary",
+        "The educational store checks rows before publishing a snapshot.",
+        "store.Snapshot",
+        "https://pkg.go.dev/encoding/json@go1.27.4"
+      ]
+    ],
+    "mode": "run",
+    "supportFiles": [
+      "internal/store/store.go",
+      "internal/store/course.go"
+    ],
+    "file": "cmd/db-delete/main.go",
+    "command": "./run db-delete",
+    "target": "db\\.Delete\\(7\\)"
+  },
+  {
+    "lab": "tinydb",
+    "id": "db-filter",
+    "title": "Scan records against a predicate",
+    "purpose": "Compare every row with a query threshold.",
+    "explanation": "A predicate is a true/false rule for selecting records. This query scans every row and keeps IDs whose score is at least minimum. Output order follows the store’s sorted primary keys. This is a scan, not an index-assisted query.",
+    "action": "Run with minimum := 50 and find matching [8]. Change the threshold to 40 and run. Inspect the returned IDs.",
+    "observe": "Both records now match. Why does a more selective threshold not reduce the number of rows this implementation inspects?",
+    "reference": "matching [8]",
+    "topics": [
+      [
+        "Store operation",
+        "Compare every row with a query threshold.",
+        "minimum := 50",
+        "https://github.com/snowch/go-foundry/blob/main/internal/store/store.go"
+      ],
+      [
+        "Data boundary",
+        "The educational store checks rows before publishing a snapshot.",
+        "store.Snapshot",
+        "https://pkg.go.dev/encoding/json@go1.27.4"
+      ]
+    ],
+    "mode": "run",
+    "supportFiles": [
+      "internal/store/store.go",
+      "internal/store/course.go"
+    ],
+    "file": "cmd/db-filter/main.go",
+    "command": "./run db-filter",
+    "target": "minimum\\ :=\\ 50"
+  },
+  {
+    "lab": "tinydb",
+    "id": "db-index",
+    "title": "Build a secondary lookup by name",
+    "purpose": "Keep an index tied to the snapshot it describes.",
+    "explanation": "This secondary index maps each name to matching primary IDs. Names need not be unique, so the value is a slice. The index is rebuilt from one snapshot. Updating records without rebuilding or maintaining that index would leave stale entries.",
+    "action": "Run and find Ada [7 8]. Change the second row’s name from Ada to Lin and run. Inspect Ada’s index entry.",
+    "observe": "The rebuilt index now lists only ID 7 for Ada. Which other entry would need updating if a row changed its name after the index was built?",
+    "reference": "Ada [7 8]",
+    "topics": [
+      [
+        "Store operation",
+        "Keep an index tied to the snapshot it describes.",
+        "ID: 8, Name: \"Ada\"",
+        "https://github.com/snowch/go-foundry/blob/main/internal/store/store.go"
+      ],
+      [
+        "Data boundary",
+        "The educational store checks rows before publishing a snapshot.",
+        "store.Snapshot",
+        "https://pkg.go.dev/encoding/json@go1.27.4"
+      ]
+    ],
+    "mode": "run",
+    "supportFiles": [
+      "internal/store/store.go",
+      "internal/store/course.go"
+    ],
+    "file": "cmd/db-index/main.go",
+    "command": "./run db-index",
+    "target": "ID:\\ 8,\\ Name:\\ \"Ada\""
+  },
+  {
+    "lab": "tinydb",
+    "id": "db-checksum",
+    "title": "Detect changed snapshot bytes",
+    "purpose": "Verify integrity before interpreting persisted rows.",
+    "explanation": "Save encodes rows into a payload and stores its SHA-256 checksum in an envelope. Open checks that checksum before validating rows. The lesson uses a temporary directory and deliberately changes Ada to Eve in the file. A checksum detects accidental byte changes; it does not authenticate an untrusted writer who can recompute it.",
+    "action": "Run and find rejected true. Change corrupt := true to false and run again. Inspect the successful reopened name.",
+    "observe": "The unchanged file reopens as Ada. Why should a checksum match still be followed by format and row validation?",
+    "reference": "rejected true",
+    "topics": [
+      [
+        "Store operation",
+        "Verify integrity before interpreting persisted rows.",
+        "corrupt := true",
+        "https://github.com/snowch/go-foundry/blob/main/internal/store/store.go"
+      ],
+      [
+        "Data boundary",
+        "The educational store checks rows before publishing a snapshot.",
+        "store.Snapshot",
+        "https://pkg.go.dev/encoding/json@go1.27.4"
+      ]
+    ],
+    "mode": "run",
+    "supportFiles": [
+      "internal/store/store.go",
+      "internal/store/course.go"
+    ],
+    "file": "cmd/db-checksum/main.go",
+    "command": "./run db-checksum",
+    "target": "corrupt\\ :=\\ true"
+  },
+  {
+    "lab": "tinydb",
+    "id": "db-publish",
+    "title": "Publish a validated replacement snapshot",
+    "purpose": "Keep the previous file when a candidate fails validation.",
+    "explanation": "Save validates a candidate before writing a temporary file, closing it and renaming it over the destination. A rename publishes one complete virtual file. This is not a promise about physical power-loss durability. The starter supplies an invalid replacement score, so Save must leave the old file intact.",
+    "action": "Run and find rejected true saved score 42. Change candidate.Rows[0].Score from 101 to 70 and run. Inspect both rejection and reopened score.",
+    "observe": "The valid replacement is published with score 70. Which step prevents invalid rows from reaching the destination file?",
+    "reference": "rejected true\nsaved score 42",
+    "topics": [
+      [
+        "Store operation",
+        "Keep the previous file when a candidate fails validation.",
+        "Score = 101",
+        "https://github.com/snowch/go-foundry/blob/main/internal/store/store.go"
+      ],
+      [
+        "Data boundary",
+        "The educational store checks rows before publishing a snapshot.",
+        "store.Snapshot",
+        "https://pkg.go.dev/encoding/json@go1.27.4"
+      ]
+    ],
+    "mode": "run",
+    "supportFiles": [
+      "internal/store/store.go",
+      "internal/store/course.go"
+    ],
+    "diagram": {
+      "title": "Publish only a valid complete candidate",
+      "caption": "Validation failure leaves the previous destination intact. Rename here concerns the guest filesystem, not physical-disk durability.",
+      "nodes": [
+        {
+          "id": "candidate",
+          "x": 10,
+          "y": 50,
+          "w": 150,
+          "label": "Candidate",
+          "detail": "validate rows"
+        },
+        {
+          "id": "temp",
+          "x": 220,
+          "y": 50,
+          "w": 150,
+          "label": "Temporary file",
+          "detail": "write → close"
+        },
+        {
+          "id": "rename",
+          "x": 430,
+          "y": 50,
+          "w": 150,
+          "label": "Rename",
+          "detail": "publish replacement"
+        },
+        {
+          "id": "browser",
+          "x": 640,
+          "y": 50,
+          "w": 160,
+          "label": "Browser archive",
+          "detail": "after the job finishes"
+        }
+      ],
+      "edges": [
+        {
+          "from": "candidate",
+          "to": "temp",
+          "label": "valid"
+        },
+        {
+          "from": "temp",
+          "to": "rename",
+          "label": "complete"
+        },
+        {
+          "from": "rename",
+          "to": "browser",
+          "label": "project save"
+        }
+      ]
+    },
+    "file": "cmd/db-publish/main.go",
+    "command": "./run db-publish",
+    "target": "Score\\ =\\ 101"
+  },
+  {
+    "lab": "tinydb",
+    "id": "db-transaction",
+    "title": "Commit related changes together or keep the old snapshot",
+    "purpose": "Discard a candidate when one operation fails.",
+    "explanation": "Transaction clones the initial rows before invoking the callback. The callback updates one row, then tries an insertion. An error returns the original snapshot; successful validation returns the candidate. This is single-process copy-on-write behavior, not concurrent multi-writer transaction isolation.",
+    "action": "Run and find rolled back true score 42 rows 1. Change the inserted ID from 7 to 8 inside the callback and run. Inspect score and row count together.",
+    "observe": "The successful transaction returns score 60 and two rows. Why should the first update be discarded when the later insertion fails?",
+    "reference": "rolled back true score 42 rows 1",
+    "topics": [
+      [
+        "Store operation",
+        "Discard a candidate when one operation fails.",
+        "ID: 7, Name: \"Lin\"",
+        "https://github.com/snowch/go-foundry/blob/main/internal/store/store.go"
+      ],
+      [
+        "Data boundary",
+        "The educational store checks rows before publishing a snapshot.",
+        "store.Snapshot",
+        "https://pkg.go.dev/encoding/json@go1.27.4"
+      ]
+    ],
+    "mode": "run",
+    "supportFiles": [
+      "internal/store/store.go",
+      "internal/store/course.go"
+    ],
+    "file": "cmd/db-transaction/main.go",
+    "command": "./run db-transaction",
+    "target": "ID:\\ 7,\\ Name:\\ \"Lin\""
+  },
+  {
+    "lab": "tinydb",
+    "id": "db-single-writer",
+    "title": "Reject a second writer in one guest filesystem",
+    "purpose": "Use exclusive creation as a bounded lock-file demonstration.",
+    "explanation": "O_CREATE|O_EXCL creates a file only if its path is absent. A writer can use that outcome to refuse a second writer, then remove its own lock after closing. This temporary-directory demonstration does not implement crash recovery for abandoned locks or coordination across separate browser projects.",
+    "action": "Run and find second rejected true. Change releaseFirst := false to true and run. Inspect whether the second open succeeds after removing the first lock.",
+    "observe": "Releasing the first lock permits the second writer. What recovery policy would be needed if a process died before removing its lock?",
+    "reference": "second rejected true",
+    "topics": [
+      [
+        "Store operation",
+        "Use exclusive creation as a bounded lock-file demonstration.",
+        "releaseFirst := false",
+        "https://github.com/snowch/go-foundry/blob/main/internal/store/store.go"
+      ],
+      [
+        "Data boundary",
+        "The educational store checks rows before publishing a snapshot.",
+        "store.Snapshot",
+        "https://pkg.go.dev/encoding/json@go1.27.4"
+      ]
+    ],
+    "mode": "run",
+    "supportFiles": [
+      "internal/store/store.go",
+      "internal/store/course.go"
+    ],
+    "file": "cmd/db-single-writer/main.go",
+    "command": "./run db-single-writer",
+    "target": "releaseFirst\\ :=\\ false"
+  },
+  {
+    "lab": "tinydb",
+    "id": "db-persistence",
+    "title": "Reopen your database after stopping the runner",
+    "purpose": "Separate saving a guest file from saving the guest project in the browser.",
+    "explanation": "This capstone uses data/course-capstone.gdb and keeps it between runs. On first use it inserts ID 7; later runs update that row. Save writes the guest file. After execution, the runner archives project files into browser storage. Wait for the project-saved message before stopping. Other TinyDB lesson data is unchanged.",
+    "action": "Run and find saved name Ada score 42. Change desiredScore := 42 to 73 and run again. Wait for the project-saved message. In Code runner choose Stop runner and confirm saving, then reload this page. Keep the edited source and Run again; inspect reopened before 73 and saved name Ada score 73. A fresh browser profile has no saved project.",
+    "observe": "The reopened-before field shows what was read before the current update. To check persistence independently of a repeated update, change desiredScore to 74 only after reopening; reopened before should still show 73. Browser storage can be cleared or evicted, so export important work through Runner tools.",
+    "reference": "saved name Ada score 42",
+    "topics": [
+      [
+        "Store operation",
+        "Separate saving a guest file from saving the guest project in the browser.",
+        "desiredScore := 42",
+        "https://github.com/snowch/go-foundry/blob/main/internal/store/store.go"
+      ],
+      [
+        "Data boundary",
+        "The educational store checks rows before publishing a snapshot.",
+        "store.Snapshot",
+        "https://pkg.go.dev/encoding/json@go1.27.4"
+      ]
+    ],
+    "mode": "run",
+    "supportFiles": [
+      "internal/store/store.go",
+      "internal/store/course.go"
+    ],
+    "referenceMode": "contains",
+    "file": "cmd/db-persistence/main.go",
+    "command": "./run db-persistence",
+    "target": "desiredScore\\ :=\\ 42"
+  }
+]

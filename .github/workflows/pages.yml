@@ -1,4 +1,4 @@
-name: Verify and publish runtime prototype
+name: Verify and publish Go Foundry
 on:
   push:
     branches: [main]
@@ -45,20 +45,86 @@ jobs:
             npx playwright install --with-deps chromium
           fi
       - run: npm run test:browser
-      - name: Verify self-hosted Linux, edited source and work recovery
-        run: npm run test:linux
+      - uses: actions/upload-artifact@v4
+        with:
+          name: verified-site
+          path: .build/site
+          retention-days: 3
+  starters:
+    needs: verify
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        lab: [first-programs, values-and-types, conditions-and-loops, functions-and-pointers, collections-and-text, types-and-interfaces, errors-and-testing, files-and-http, concurrency, data-structures, algorithms, tinydb]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: verified-site
+          path: .build/site
+      - name: Select browser
+        run: echo "CHROMIUM_PATH=$(command -v google-chrome)" >> "$GITHUB_ENV"
+      - name: Execute each starter in real browser Linux
+        run: node tests/self-hosted-linux.cjs go --lab ${{ matrix.lab }} --examples-only
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: guest-${{ matrix.lab }}
+          path: test-results
+          retention-days: 3
+  runner:
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: verified-site
+          path: .build/site
+      - name: Select browser
+        run: echo "CHROMIUM_PATH=$(command -v google-chrome)" >> "$GITHUB_ENV"
+      - name: Verify edits, errors, cancellation, saved project and fresh VM recovery
+        run: node tests/self-hosted-linux.cjs go --runner-only
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: guest-runner-recovery
+          path: test-results
+          retention-days: 3
+  package:
+    if: github.ref == 'refs/heads/main'
+    needs: [verify, starters, runner]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/download-artifact@v4
+        with:
+          name: verified-site
+          path: .build/site
       - name: Preserve cached HTML compatibility
-        if: github.ref == 'refs/heads/main'
         run: node tools/retain-frontend.mjs
         env:
           GH_TOKEN: ${{ github.token }}
       - uses: actions/upload-pages-artifact@v3
-        if: github.ref == 'refs/heads/main'
         with:
           path: .build/site
   deploy:
     if: github.ref == 'refs/heads/main'
-    needs: verify
+    needs: package
     runs-on: ubuntu-latest
     permissions:
       pages: write

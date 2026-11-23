@@ -118,3 +118,24 @@ for observed results. Functional success is not evidence of learning efficacy.
 - Exercise transaction abort **after** a successful IndexedDB put request. The
   guest must stay alive until the transaction, including durable storage failure,
   has completed successfully.
+
+## Complete-series execution
+
+The course data selects a real package below `cmd/`. The helper validates a bare
+lesson name, rejects path traversal and the helper's own package, and resolves
+`main.go` for programs or `main_test.go` for `check:`/`bench:` jobs. Tests are
+compiled first, then the test binary executes. Compilation, test assertion and
+program failures have separate status labels. Benchmark mode requests one
+iteration with allocation reporting; emulated ns/op is not native performance.
+All output still comes from Go, and successful edited output is not compared to
+a fixed original-answer checker.
+
+Before packaging, the build warms dependencies for all lesson packages. It
+ships no fabricated outputs or remote build service. Current jobs keep their
+captured lesson/source while the learner navigates. The runner, saved project,
+archive format and existing draft keys remain shared across all twelve labs.
+
+An older saved project can contain the unedited previous helper source. Upgrade
+only its exact known checksum, using the helper source embedded in the running
+image; preserve any customized bytes. New store operations live in a separate
+package file, so an older restored original `store.go` remains compatible.
