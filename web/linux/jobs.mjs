@@ -12,8 +12,8 @@ export function jobScript(data) {
   return `#!/bin/sh
 export FOUNDRY_STATUS_FILE=${quote(stem + '.phase')}
 # Finite file output; interactive input is available in the optional terminal.
-(cd ${quote(workspace)} && ${data.source === undefined ? '' : 'cp ' + quote(stem + '.source') + ' ' + quote(data.path) + ' && '}( ${data.command}\n); printf '%s' "$?" >${quote(stem + '.command-exit')}) </dev/null 2>&1 | head -c 2097152 >${quote(stem + '.output')}
-job_code=$(cat ${quote(stem + '.command-exit')})
+(cd ${quote(workspace)} && ${data.source === undefined ? '' : 'cp ' + quote(stem + '.source') + ' ' + quote(data.path) + ' && '}( ${data.command}\n)) </dev/null >${quote(stem + '.output')} 2>&1
+job_code=$?
 printf 'saving' >${quote(stem + '.phase')}
 tar czf ${quote(stem + '.archive')} --exclude='go-foundry/.bin' --exclude='go-foundry/.go-cache' --exclude='go-foundry/.go-path' -C /root/work go-foundry
 printf '%s' "$?" >${quote(stem + '.saved')}

@@ -22,8 +22,9 @@ unique IDs. Source bytes and shell scripts travel through 9P files, not pasted
 terminal text. Source destinations are bounded Go paths below the project root.
 One job runs at a time; edits and lesson navigation cannot mutate a queued source
 snapshot. Status, stdout/stderr and exit files are polled from the share. The Go
-helper supplies explicit compile/run/test phases. Captured output is bounded by a 2 MiB pipe reader (not a process file-size
-limit, which would also prevent the compiler from linking executables) and the UI retains at most 200,000 characters per result.
+helper supplies explicit compile/run/test phases. The Go helper copies each child process’s combined stdout/stderr immediately
+to the job file and stops that child after 2 MiB (not a process file-size limit,
+which would also prevent the compiler from linking executables) and the UI retains at most 200,000 characters per result.
 Transient share files are removed after snapshot acknowledgement.
 
 Cancelling freezes the job shell, recursively freezes/kills its descendants, and
@@ -87,6 +88,10 @@ for observed results. Functional success is not evidence of learning efficacy.
 
 - An output limit must apply to the output stream, not `ulimit -f` on the compiler:
   a process-wide file-size limit also prevents the Go linker writing its binary.
+- A stream limiter must not buffer short output until process exit. The Go helper
+  now copies output directly to the shared file, limits it per child process, and
+  cancels the process group on overflow. A real long-running program must print
+  before it finishes so learners can see progress and choose Stop run.
 - xterm emits cursor-position/device replies through `onData` without a human
   typing. Forward those protocol replies, but do not mark them as terminal work
   or reset the idle clock. Otherwise normal shell prompts can disable Run forever.

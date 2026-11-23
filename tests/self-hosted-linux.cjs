@@ -17,7 +17,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
    assert.match(await page.locator('#workspace-status').textContent(),/saved in this browser/);return output;
   }
   // Every starter runs through the real hidden VM and actual Go compiler.
-  for(const lesson of lessons){await navigate(lesson.id);const output=await run(lesson.reference);assert(await page.locator('#terminal-region').evaluate(element=>element.inert));checks.push({lesson:lesson.id,status:'passed',output});console.log('PASS real guest starter '+lesson.id);}
+  for(const lesson of (process.argv.includes('--runner-only')?[]:lessons)){await navigate(lesson.id);const output=await run(lesson.reference);assert(await page.locator('#terminal-region').evaluate(element=>element.inert));checks.push({lesson:lesson.id,status:'passed',output});console.log('PASS real guest starter '+lesson.id);}
   await navigate('first-program');const source=await page.locator('#source').inputValue();
   await page.locator('#source').fill(source.replace('Hello, Go!','Hello, saved Go!')+'\n// café 漢字 $(touch /tmp/SHOULD_NOT_EXIST)\n');await page.locator('#source').dispatchEvent('input');await run('Hello, saved Go!');
   await page.locator('#source').fill('package main\nfunc main() { this is not Go }');await page.locator('#source').dispatchEvent('input');await run('main.go:',{error:true});

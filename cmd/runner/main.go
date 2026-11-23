@@ -5,26 +5,71 @@ import (
 	"context"
 	"crypto/sha256"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"sync"
 	"syscall"
 	"time"
 )
+
+var errOutputLimit = errors.New("output limit reached")
+
+// os.File writes are immediate: a pipe reader such as head can buffer a short
+// greeting until EOF, hiding progress and preventing timely cancellation.
+type boundedOutput struct {
+	mu        sync.Mutex
+	target    io.Writer
+	remaining int
+	exceeded  bool
+	cancel    context.CancelFunc
+}
+
+func (w *boundedOutput) Write(data []byte) (int, error) {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+	if len(data) > w.remaining {
+		n, err := w.target.Write(data[:w.remaining])
+		w.remaining -= n
+		w.exceeded = true
+		w.cancel()
+		if err != nil {
+			return n, err
+		}
+		return n, errOutputLimit
+	}
+	n, err := w.target.Write(data)
+	w.remaining -= n
+	return n, err
+}
 
 func execute(env []string, seconds int, program string, args ...string) (int, int64) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(seconds)*time.Second)
 	defer cancel()
 	cmd := exec.CommandContext(ctx, program, args...)
 	cmd.Env, cmd.Stdin, cmd.Stdout, cmd.Stderr = env, os.Stdin, os.Stdout, os.Stderr
+	var output *boundedOutput
+	for _, value := range env {
+		if strings.HasPrefix(value, "FOUNDRY_STATUS_FILE=") {
+			output = &boundedOutput{target: os.Stdout, remaining: 2 * 1024 * 1024, cancel: cancel}
+			cmd.Stdout, cmd.Stderr = output, output
+			break
+		}
+	}
 	cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
 	cmd.Cancel = func() error { return syscall.Kill(-cmd.Process.Pid, syscall.SIGKILL) }
 	err := cmd.Run()
 	var rss int64
 	if cmd.ProcessState != nil {
 		rss = int64(cmd.ProcessState.SysUsage().(*syscall.Rusage).Maxrss)
+	}
+	if output != nil && output.exceeded {
+		fmt.Fprintln(os.Stderr, "Output limit reached (2 MiB). The command was stopped.")
+		return 125, rss
 	}
 	if ctx.Err() != nil {
 		fmt.Fprintln(os.Stderr, "Command exceeded its time limit. Existing data is kept.")
