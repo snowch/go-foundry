@@ -32,9 +32,28 @@ function state(){
   $('runner-dialog').querySelector('[data-stop]').disabled=!active||busy;
   $('workspace-status').textContent=workspaceError|| (savedWorkspace?'Project files and data are saved in this browser.':'Project files and data will be saved in this browser after each run.');
   $('workspace-status').dataset.error=String(!!workspaceError);$('fresh-project').hidden=!restorationFailed;
-  renderResult();
+  renderActivity();renderResult();
 }
 function phaseLabel(phase){return ({starting:'Starting',restoring:'Restoring project',compiling:'Compiling',running:'Running',testing:'Running tests',saving:'Saving project',stopping:'Stopping run'})[phase]||'Working';}
+let activityToken=null,activityStarted=0;
+function updateActivityTime(){if(!$('run-progress').hidden)$('run-progress-time').textContent=Math.floor((performance.now()-activityStarted)/60000)+':'+String(Math.floor((performance.now()-activityStarted)/1000)%60).padStart(2,'0');}
+function renderActivity(){
+  const task=current?.kind==='run'?current:current?.queued?.kind==='run'?current.queued:null;
+  const visible=!!current||manualBusy||starting||!!frame&&!ready;
+  const phase=current?.phase||(!ready?'starting':'running'),token=task?.id||current?.id||frame||'starting';
+  $('run-progress').hidden=!visible;$('runner-open').dataset.working=String(visible);$('runner-open').setAttribute('aria-busy',String(visible));
+  $('run-source').classList.toggle('is-working',!!task||manualBusy);
+  $('run-source').textContent=task?(task.probeID===probe?.id?phaseLabel(phase)+'…':'Runner busy'):current||manualBusy?'Runner busy':'Run';
+  if(!visible){activityToken=null;return;}
+  if(activityToken!==token){activityToken=token;activityStarted=task?.startedAt??performance.now();}
+  const labels={starting:'Starting code runner',restoring:'Restoring saved project',compiling:'Compiling Go source',testing:'Compiling and running Go tests',running:'Running program',saving:'Saving project',stopping:'Stopping program'};
+  const descriptions={starting:task?'Loading Linux and the Go compiler. The first start can take several minutes. Your run will continue automatically.':'Loading Linux and the Go compiler. Choose Run to queue an example, or use Code runner to stop loading.',restoring:'Loading the project files saved in this browser. Your queued run will continue automatically.',compiling:'Building an executable from the source you submitted. Output appears below.',testing:'The Go toolchain is compiling and executing the tests. Results appear below.',running:'Output appears below as the program writes it. Choose Stop run to cancel.',saving:'Saving project files before making the runner ready for another run.',stopping:'Stopping the program, then saving the project.'};
+  const owner=task&&task.probeID!==probe?.id?probes.find(entry=>entry.id===task.probeID)?.title:null;
+  $('run-progress-label').textContent=(manualBusy?'Running terminal command':labels[phase]||'Working')+(owner?' — '+owner:'');
+  $('run-progress-detail').textContent=manualBusy?'Wait for the terminal command to finish before submitting another run.':phase==='restoring'&&!task?'Loading the project files saved in this browser. The runner will be ready when restoration finishes.':descriptions[phase]||'Wait for the current operation to finish.';
+  updateActivityTime();
+}
+setInterval(updateActivityTime,1000);
 function renderResult(){
   if(!probe)return;
   const result=results.get(probe.id), running=current?.probeID===probe.id;
@@ -73,7 +92,7 @@ async function start(){
     frame=document.createElement('iframe');frame.title='Optional Go Foundry Linux terminal';frame.src=$('external-linux').href;frame.setAttribute('sandbox','allow-scripts allow-same-origin allow-downloads');frame.setAttribute('allow','fullscreen');frame.allowFullscreen=true;$('terminal').append(frame);
     $('session-state').textContent='Starting the runner. Your editor text has been kept.';activity();state();
   } catch(error){releaseLock?.();releaseLock=null;current=null;feedback(error.message);state();}
-  finally{starting=false;}
+  finally{starting=false;state();}
 }
 function stop(){
   frame?.remove();frame=null;ready=false;manualBusy=false;current=null;restorationFailed=false;releaseLock?.();releaseLock=null;
@@ -185,7 +204,7 @@ function show(id){
 function sendPending(){if(ready&&frame&&current&&current.phase==='starting'){current.phase='compiling';post({...current,type:'job'});state();}}
 function queueRun(){
   if(current||manualBusy){feedback('Wait for the current run or terminal command to finish.');return;}
-  activity();current={id:crypto.randomUUID(),type:'job',kind:'run',probeID:probe.id,path:'/root/work/go-foundry/'+sourcePath,source:$('source').value,command:probe.command,phase:ready?'compiling':'starting'};
+  activity();current={id:crypto.randomUUID(),type:'job',kind:'run',startedAt:performance.now(),probeID:probe.id,path:'/root/work/go-foundry/'+sourcePath,source:$('source').value,command:probe.command,phase:ready?'compiling':'starting'};
   results.set(probe.id,{output:'',diagnostics:'',status:''});
   if(frame&&ready)post(current);else start();state();
 }

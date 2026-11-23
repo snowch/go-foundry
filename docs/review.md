@@ -1,5 +1,25 @@
 # First chapters and runner review
 
+## Visible run activity: plan
+
+A disabled Run button and small status line can look inactive during a cold
+startup or compilation. Add a visible indeterminate progress bar beside the
+execution controls, with the actual startup/restore/compile/run/save phase and
+elapsed time. Keep the Run button busy state and header indicator consistent,
+identify the lesson that owns a background job, and avoid invented percentages
+or completion estimates. Preserve Stop, edited source, output and project-saving
+semantics. Check cold/warm runs, phase changes, cancellation, failure, course
+switches, keyboard, reduced motion and phone/desktop themes.
+
+The interface checks passed with a held cold startup, indeterminate progress,
+elapsed time during a pending run, owner labels after switching courses, and
+cleanup after cancellation/completion. The pending-run panel fits a 320px phone;
+reduced motion stops the decorative spinner. Existing warm-run, storage failure,
+cross-tab, keyboard and theme checks passed, as did native/reference checks.
+These interface tests use a bridge fixture; actual guest execution is checked
+independently by the publication workflow. No learning-effectiveness claim is
+made by a visible activity indicator.
+
 The learner route assumes no Go or terminal experience. It has one primary Run
 button, line-numbered editable source, visible definitions/actions/results, and
 optional original-output comparisons. Compiler errors replace prior output and
