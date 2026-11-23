@@ -8,12 +8,12 @@
     },
     {
       "name": "busybox-1.37.0.tar.bz2",
-      "url": "https://busybox.net/downloads/busybox-1.37.0.tar.bz2",
+      "url": "https://distfiles.alpinelinux.org/distfiles/v3.23/busybox-1.37.0.tar.bz2",
       "sha256": "3311dff32e746499f4df0d5df04d7eb396382d7e108bb9250e7b519b837043a4"
     },
     {
       "name": "aports-busybox.tar.gz",
-      "url": "https://gitlab.alpinelinux.org/alpine/aports/-/archive/1e823a60eb85606954b3a5af5f8e5bbd1ea680cf/aports-1e823a60eb85606954b3a5af5f8e5bbd1ea680cf.tar.gz",
+      "url": "https://codeload.github.com/alpinelinux/aports/tar.gz/1e823a60eb85606954b3a5af5f8e5bbd1ea680cf",
       "sha256": "a16bcaf28b3a177197552eadeba7b71cdf1697e399b4c7311ac52767c53794c7"
     },
     {

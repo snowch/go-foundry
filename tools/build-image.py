@@ -3,8 +3,22 @@
 The format follows TinyEMU's MIT-licensed build_filelist utility. Original
 serialization here is sorted and reproducible, including normalized cache times.
 """
-import argparse,hashlib,json,os,pathlib,re,shutil,stat,subprocess,tarfile,urllib.request
+import argparse,hashlib,json,os,pathlib,re,shutil,stat,subprocess,tarfile,time,urllib.request
 root=pathlib.Path(__file__).resolve().parent.parent
+
+def download(url,target,digest):
+ if target.exists() and hashlib.sha256(target.read_bytes()).hexdigest()==digest:return
+ temporary=target.with_suffix(target.suffix+'.part')
+ for attempt in range(3):
+  try:
+   print('Fetching '+target.name,flush=True)
+   with urllib.request.urlopen(url,timeout=90) as response,temporary.open('wb') as out:shutil.copyfileobj(response,out)
+   if hashlib.sha256(temporary.read_bytes()).hexdigest()!=digest:raise ValueError('Checksum mismatch: '+target.name)
+   temporary.replace(target);return
+  except Exception:
+   temporary.unlink(missing_ok=True)
+   if attempt==2:raise
+   time.sleep(attempt+1)
 
 def make_filesystem(source,target):
  target.mkdir(parents=True,exist_ok=True);blobs=target/'files';blobs.mkdir(exist_ok=True)
@@ -40,9 +54,7 @@ def make_filesystem(source,target):
 def main():
  parser=argparse.ArgumentParser();parser.add_argument('--output',default='.build/site/runtime/images');args=parser.parse_args()
  cache=root/'.cache';cache.mkdir(exist_ok=True);metadata=json.loads((root/'tools/go-toolchain.json').read_text());record=metadata['file'];archive=cache/record['filename']
- if not archive.exists():
-  with urllib.request.urlopen('https://go.dev/dl/'+record['filename']) as response,archive.open('wb') as out:shutil.copyfileobj(response,out)
- if hashlib.sha256(archive.read_bytes()).hexdigest()!=record['sha256']:raise SystemExit('Go SDK checksum mismatch')
+ download('https://go.dev/dl/'+record['filename'],archive,record['sha256'])
  sdk=cache/'sdk/go'
  if not (sdk/'bin/go').exists():
   with tarfile.open(archive) as package:package.extractall(cache/'sdk',filter='data')
@@ -51,9 +63,7 @@ def main():
  osmeta=json.loads((root/'tools/guest-packages.json').read_text())
  for item in osmeta['downloads']:
   downloaded=cache/item['name']
-  if not downloaded.exists():
-   with urllib.request.urlopen(item['url']) as response,downloaded.open('wb') as out:shutil.copyfileobj(response,out)
-  if hashlib.sha256(downloaded.read_bytes()).hexdigest()!=item['sha256']:raise SystemExit('Guest package checksum mismatch: '+item['name'])
+  download(item['url'],downloaded,item['sha256'])
  with tarfile.open(cache/osmeta['downloads'][0]['name']) as package:
   for path in ['bin/busybox','lib/ld-musl-x86_64.so.1']:
    (layer/path).write_bytes(package.extractfile('./'+path).read());(layer/path).chmod(0o755)

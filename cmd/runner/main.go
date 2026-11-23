@@ -78,11 +78,11 @@ func main() {
 	var code int
 	var rss int64
 	if name == "test" {
-		fmt.Println("Running Go tests…")
+		fmt.Println("Running Go tests...")
 		code, rss = execute(env, 600, filepath.Join(sdk, "bin/go"), "test", "-p=1", "-buildvcs=false", "-trimpath", "-count=1", "-timeout=60s", "./...")
 		buildTime = time.Since(started)
 	} else {
-		fmt.Println("Building " + name + " with the Go compiler…")
+		fmt.Println("Building " + name + " with the Go compiler...")
 		bin := name
 		if name == "db-insert" || name == "db-read" {
 			bin = "tinydb"
