@@ -17,7 +17,7 @@ function state(){
   $('stop-run').hidden=!current||current.kind!=='run';
   $('stop-run').disabled=['saving','stopping'].includes(current?.phase);
   $('runner-state').textContent=active?(current?phaseLabel(current.phase):(ready?(manualBusy?'Terminal command active':'Ready'):'Starting')):'Stopped';
-  $('runner-description').textContent=active?(ready?'The runner is ready for another run.':'The runner is loading or restoring your saved project.'):'The runner starts when you choose Run.';
+  $('runner-description').textContent=current?(current.phase==='saving'?'Saving the project before returning to Ready.':current.kind==='run'?'A lesson job is active. Close this dialog to inspect Output or choose Stop run.':'The runner is restoring or saving the project. Wait for it to finish.'):manualBusy?'A terminal command is active. Wait for its prompt before submitting another run.':active?(ready?'The runner is ready for another run.':'The runner is loading or restoring your saved project.'):'The runner starts when you choose Run.';
   $('linux-start').hidden=active;$('linux-start').disabled=!image||busy;
   $('linux-stop').hidden=!active;$('linux-stop').disabled=busy;
   $('runner-dialog').querySelector('[data-start]').disabled=active||!image||busy;
