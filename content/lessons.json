@@ -1432,5 +1432,331 @@
     "command": "./run enum-constants",
     "supportFiles": [],
     "target": "=\\ iota"
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "error-values",
+    "title": "Handle an error value",
+    "purpose": "Choose a result path by checking a returned error.",
+    "explanation": "error is an interface used to report a failure. nonNegative returns an int and an error; nil means no error was reported. main handles an error by printing it and returning normally, so a printed error message here is not a compiler or runner startup failure.",
+    "action": "Run and find error negative value. Change nonNegative(-2) to nonNegative(2) and run again. Inspect whether main prints error or value.",
+    "observe": "The edited run prints value 2. In both cases the program executes normally; which branch decides what the caller prints?",
+    "reference": "error negative value",
+    "topics": [
+      [
+        "Error result",
+        "Check an error before using the accompanying result.",
+        "value, err := nonNegative(-2)",
+        "https://go.dev/blog/error-handling-and-go"
+      ],
+      [
+        "Nil error",
+        "nil indicates that this call reported no error.",
+        "if err != nil { ... }",
+        "https://go.dev/ref/spec#Interface_types"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/error-values/main.go",
+    "command": "./run error-values",
+    "supportFiles": [],
+    "target": "nonNegative\\(\\-2\\)"
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "wrapped-errors",
+    "title": "Preserve an error’s cause",
+    "purpose": "Compare error text with error identity after wrapping.",
+    "explanation": "This example constructs a missing-record error. fmt.Errorf with %w adds context while preserving its cause. errors.Is can find that cause through a wrapper. Formatting the same error with %v preserves the displayed text but does not wrap it.",
+    "action": "Run and find lookup: missing and missing true. In Errorf, replace %w with %v and run again. Compare the printed message with the missing field.",
+    "observe": "The message stays the same, but missing becomes false. Why is matching the displayed text a different question from checking the underlying error?",
+    "reference": "lookup: missing\nmissing true",
+    "topics": [
+      [
+        "Wrapping",
+        "%w preserves an error as a cause.",
+        "fmt.Errorf(\"lookup: %w\", err)",
+        "https://pkg.go.dev/fmt@go1.27.4#Errorf"
+      ],
+      [
+        "Error identity",
+        "errors.Is checks the error chain.",
+        "errors.Is(err, ErrMissing)",
+        "https://pkg.go.dev/errors@go1.27.4#Is"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/wrapped-errors/main.go",
+    "command": "./run wrapped-errors",
+    "supportFiles": [],
+    "target": "lookup:\\ %w"
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "typed-errors",
+    "title": "Read fields from a typed error",
+    "purpose": "Recover structured error details without parsing its message.",
+    "explanation": "LimitError supplies an Error method, so its pointer satisfies error. errors.As finds a matching concrete error through a wrapper and stores it in detail. The caller can then read the Limit field directly.",
+    "action": "Run and find limit 3. Change Limit: 3 to Limit: 5 in the constructed error and run again. Inspect the recovered field.",
+    "observe": "The result becomes limit 5. Would the caller need to parse the wording save failed to recover that field?",
+    "reference": "limit 3",
+    "topics": [
+      [
+        "Error method",
+        "A type with Error() string can describe a failure.",
+        "func (e *LimitError) Error() string",
+        "https://pkg.go.dev/builtin@go1.27.4#error"
+      ],
+      [
+        "Typed details",
+        "Pass a pointer to the target variable to errors.As.",
+        "errors.As(err, &detail)",
+        "https://pkg.go.dev/errors@go1.27.4#As"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/typed-errors/main.go",
+    "command": "./run typed-errors",
+    "supportFiles": [],
+    "target": "Limit:\\ 3"
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "validation-guards",
+    "title": "Reject an invalid value before using it",
+    "purpose": "Return a clear error at a range boundary.",
+    "explanation": "validateScore accepts scores from 0 through 100, including both endpoints. An early return rejects other values before the caller proceeds. This is a data-validation rule chosen for the example.",
+    "action": "Run with score := 101 and inspect the invalid message. Change score to 100 and run again. Compare the error path with valid 100.",
+    "observe": "The boundary value is accepted. Which comparisons keep exactly 0 and exactly 100 inside the allowed range?",
+    "reference": "invalid score must be 0..100",
+    "topics": [
+      [
+        "Guard",
+        "An early return handles an invalid input.",
+        "if score < 0 || score > 100 { ... }",
+        "https://go.dev/ref/spec#If_statements"
+      ],
+      [
+        "Error value",
+        "Return an error so the caller can choose a response.",
+        "return errors.New(\"score must be 0..100\")",
+        "https://pkg.go.dev/errors@go1.27.4#New"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/validation-guards/main.go",
+    "command": "./run validation-guards",
+    "supportFiles": [],
+    "target": "score\\ :=\\ 101"
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "panic-and-recover",
+    "title": "Observe panic unwinding and recovery",
+    "purpose": "Place recover inside a deferred call.",
+    "explanation": "panic interrupts normal execution and runs deferred calls while unwinding the current goroutine. A deferred function can call recover to handle that panic. Expected input failures should normally be returned as errors; this program demonstrates the separate panic mechanism.",
+    "action": "Run and find recovered stop, then continued. Replace panic(\"stop\") with fmt.Println(\"work\") and run again. Compare the recovered line with ordinary work output.",
+    "observe": "The edited program prints work and continued, with no recovered line. Which deferred function handles the starter’s panic before main continues?",
+    "reference": "recovered stop\ncontinued",
+    "topics": [
+      [
+        "Panic",
+        "panic unwinds the current goroutine while running deferred calls.",
+        "panic(\"stop\")",
+        "https://go.dev/ref/spec#Handling_panics"
+      ],
+      [
+        "Recover",
+        "recover handles a panic when called directly by a deferred function.",
+        "if value := recover(); value != nil { ... }",
+        "https://go.dev/blog/defer-panic-and-recover"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/panic-and-recover/main.go",
+    "command": "./run panic-and-recover",
+    "supportFiles": [],
+    "target": "panic\\(\"stop\"\\)"
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "packages-and-exports",
+    "title": "Call a function in a local package",
+    "purpose": "Distinguish an exported name from a package-private name.",
+    "explanation": "The project’s module name is example.com/go-foundry. The import points to its local internal/lessonmath package. An uppercase initial letter exports Double; lowercase double is private to that package. The internal directory also limits which other packages can import it.",
+    "action": "Run and find double 8. Use Editor tools → Other project files to inspect internal/lessonmath/math.go if needed. In the main source file, change lessonmath.Double(4) to lessonmath.double(4) and run. Read the visibility error, then restore the uppercase call.",
+    "observe": "Compilation rejects the lowercase name outside its package. The local import is resolved from this project; the example does not download a library.",
+    "reference": "double 8",
+    "topics": [
+      [
+        "Exported names",
+        "An uppercase initial letter exports a declared name.",
+        "lessonmath.Double(4)",
+        "https://go.dev/ref/spec#Exported_identifiers"
+      ],
+      [
+        "Module packages",
+        "The module path prefixes packages in this project.",
+        "module example.com/go-foundry",
+        "https://go.dev/ref/mod#module-path"
+      ]
+    ],
+    "mode": "run",
+    "supportFiles": [
+      "internal/lessonmath/math.go"
+    ],
+    "file": "cmd/packages-and-exports/main.go",
+    "command": "./run packages-and-exports",
+    "target": "lessonmath\\.Double\\(4\\)"
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "unit-tests",
+    "title": "Run a Go assertion",
+    "purpose": "Compare an expected value with a function’s actual result.",
+    "explanation": "Go discovers Test functions in files ending _test.go. The test calls double, compares its result with want, and reports a failure through testing.T. Run compiles and executes this test package. A failing assertion is different from a source compilation error or a runner startup failure.",
+    "action": "Run and find PASS. In TestDouble, change want := 6 to want := 7 and run again. Inspect the got and want values in the failure message. Restore the correct expectation afterward.",
+    "observe": "The edited assertion fails because double(3) still returns 6. Changing an expected value does not change the implementation. What additional input would you test?",
+    "reference": "PASS",
+    "referenceMode": "contains",
+    "topics": [
+      [
+        "Test function",
+        "A TestName function receives testing.T.",
+        "func TestDouble(t *testing.T)",
+        "https://pkg.go.dev/testing@go1.27.4"
+      ],
+      [
+        "Assertion failure",
+        "Fatalf marks the test failed and stops that test.",
+        "t.Fatalf(\"got %d want %d\", got, want)",
+        "https://pkg.go.dev/testing@go1.27.4#T.Fatalf"
+      ]
+    ],
+    "mode": "test",
+    "file": "cmd/unit-tests/main_test.go",
+    "command": "./run check:unit-tests",
+    "supportFiles": [],
+    "target": "want\\ :=\\ 6"
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "table-tests",
+    "title": "Name a set of boundary tests",
+    "purpose": "Run the same requirement against several named cases.",
+    "explanation": "A table-driven test keeps inputs and expected results together. Each t.Run names a subtest, making a failing case easier to find. clamp accepts 0 through 10 and maps values outside that range onto the nearest boundary.",
+    "action": "Run and inspect the low, middle and high subtests. Add {\"at limit\", 10, 10} to the cases slice, then run again. Find the new subtest and check that it passes.",
+    "observe": "The new case checks exactly 10; high checks a value above 10. Why are those two cases useful together?",
+    "reference": "PASS",
+    "referenceMode": "contains",
+    "topics": [
+      [
+        "Subtest",
+        "A named subtest identifies an individual case.",
+        "t.Run(test.name, func(t *testing.T) { ... })",
+        "https://pkg.go.dev/testing@go1.27.4#T.Run"
+      ],
+      [
+        "Boundary cases",
+        "Test below, inside and at a range boundary.",
+        "{\"at limit\", 10, 10}",
+        "https://go.dev/wiki/TableDrivenTests"
+      ]
+    ],
+    "mode": "test",
+    "file": "cmd/table-tests/main_test.go",
+    "command": "./run check:table-tests",
+    "supportFiles": [],
+    "target": "\\{\"high\",\\ 11,\\ 10\\},"
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "test-dependencies",
+    "title": "Supply a controlled dependency in a test",
+    "purpose": "Exercise a fallback without relying on an outside service.",
+    "explanation": "loadLabel receives a NameSource interface. fakeSource returns data or an error selected by the test. That lets the test exercise loadLabel’s fallback policy deterministically. The synthetic error is test input.",
+    "action": "Run and find PASS for a successful name lookup. Change the fake input to fakeSource{failed: true} and change the expected label to \"unavailable\". Run again and check that the fallback case passes.",
+    "observe": "The fake now supplies an error, so the policy returns unavailable. Which part of the test controls the dependency, and which part checks the policy?",
+    "reference": "PASS",
+    "referenceMode": "contains",
+    "topics": [
+      [
+        "Dependency injection",
+        "Pass the dependency through an interface.",
+        "loadLabel(source NameSource)",
+        "https://go.dev/ref/spec#Interface_types"
+      ],
+      [
+        "Controlled test input",
+        "A fake can return a chosen value or error.",
+        "fakeSource{failed: true}",
+        "https://pkg.go.dev/testing@go1.27.4"
+      ]
+    ],
+    "mode": "test",
+    "file": "cmd/test-dependencies/main_test.go",
+    "command": "./run check:test-dependencies",
+    "supportFiles": [],
+    "target": "loadLabel\\(fakeSource\\{value:\\ \"Ada\"\\}\\);\\ got\\ !=\\ \"loaded\\ Ada\""
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "fuzz-seeds",
+    "title": "Check a property against seed inputs",
+    "purpose": "Write an invariant and run its explicit seed cases.",
+    "explanation": "A Fuzz function registers seed inputs with f.Add and a property with f.Fuzz. This property says that trimming twice should equal trimming once. The browser Run executes the seed cases; it does not start a continuous random fuzzing campaign.",
+    "action": "Run and inspect the FuzzTrim seed subtests and PASS. Replace the seed \"  Ada \" with \"\\tLin\\n\" and run again. Check that the same property holds for that seed.",
+    "observe": "The new whitespace input still passes. Do a few passing seeds establish the property for every possible string? Continuous fuzzing explores further inputs, but it also needs its own bounded test plan.",
+    "reference": "PASS",
+    "referenceMode": "contains",
+    "topics": [
+      [
+        "Fuzz seed",
+        "Register concrete inputs for a property.",
+        "f.Add(\"  Ada \")",
+        "https://pkg.go.dev/testing@go1.27.4#F.Add"
+      ],
+      [
+        "Fuzz target",
+        "The target checks an invariant for an input.",
+        "f.Fuzz(func(t *testing.T, text string) { ... })",
+        "https://go.dev/doc/tutorial/fuzz"
+      ]
+    ],
+    "mode": "test",
+    "file": "cmd/fuzz-seeds/main_test.go",
+    "command": "./run check:fuzz-seeds",
+    "supportFiles": [],
+    "target": "f\\.Add\\(\"\\ \\ Ada\\ \"\\)"
+  },
+  {
+    "lab": "errors-and-testing",
+    "id": "benchmark-harness",
+    "title": "Inspect a benchmark’s measurements",
+    "purpose": "Separate the benchmark workload from its measured quantities.",
+    "explanation": "A Benchmark function repeats work using testing.B. The saved sink keeps the copied slice observable to the compiler. Run requests one benchmark iteration and allocation reporting to inspect the harness. Its emulated timing is not a native performance comparison or a statistically reliable estimate.",
+    "action": "Run and find BenchmarkCopy, ns/op, B/op and allocs/op. Extend the input slice from three to four ints and run again. Compare the reported allocation quantities, keeping the one-iteration limitation in mind.",
+    "observe": "B/op describes bytes allocated per operation; allocs/op counts allocations per operation. Timing can vary between runs. What would you need to control and repeat before comparing two implementations on a real machine?",
+    "reference": "PASS",
+    "referenceMode": "contains",
+    "topics": [
+      [
+        "Benchmark loop",
+        "b.N supplies the iteration count requested by the harness.",
+        "for index := 0; index < b.N; index++ { ... }",
+        "https://pkg.go.dev/testing@go1.27.4#B"
+      ],
+      [
+        "Allocation reporting",
+        "ReportAllocs adds allocation quantities to the report.",
+        "b.ReportAllocs()",
+        "https://pkg.go.dev/testing@go1.27.4#B.ReportAllocs"
+      ]
+    ],
+    "mode": "benchmark",
+    "file": "cmd/benchmark-harness/main_test.go",
+    "command": "./run bench:benchmark-harness",
+    "supportFiles": [],
+    "target": "\\[\\]int\\{1,\\ 2,\\ 3\\}"
   }
 ]

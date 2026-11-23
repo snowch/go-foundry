@@ -320,5 +320,85 @@
       "after": "= iota + 1",
       "expected": "idle 1 working 2 done 3"
     }
+  ],
+  "error-values": [
+    {
+      "before": "nonNegative(-2)",
+      "after": "nonNegative(2)",
+      "expected": "value 2"
+    }
+  ],
+  "wrapped-errors": [
+    {
+      "before": "lookup: %w",
+      "after": "lookup: %v",
+      "expected": "lookup: missing\nmissing false"
+    }
+  ],
+  "typed-errors": [
+    {
+      "before": "Limit: 3",
+      "after": "Limit: 5",
+      "expected": "limit 5"
+    }
+  ],
+  "validation-guards": [
+    {
+      "before": "score := 101",
+      "after": "score := 100",
+      "expected": "valid 100"
+    }
+  ],
+  "panic-and-recover": [
+    {
+      "before": "panic(\"stop\")",
+      "after": "fmt.Println(\"work\")",
+      "expected": "work\ncontinued"
+    }
+  ],
+  "packages-and-exports": [
+    {
+      "before": "lessonmath.Double(4)",
+      "after": "lessonmath.double(4)",
+      "expected": null
+    }
+  ],
+  "unit-tests": [
+    {
+      "before": "want := 6",
+      "after": "want := 7",
+      "expected": {
+        "contains": "FAIL",
+        "exit": 1
+      }
+    }
+  ],
+  "table-tests": [
+    {
+      "before": "{\"high\", 11, 10},",
+      "after": "{\"high\", 11, 10},\n{\"at limit\", 10, 10},",
+      "expected": "PASS"
+    }
+  ],
+  "test-dependencies": [
+    {
+      "before": "loadLabel(fakeSource{value: \"Ada\"}); got != \"loaded Ada\"",
+      "after": "loadLabel(fakeSource{failed: true}); got != \"unavailable\"",
+      "expected": "PASS"
+    }
+  ],
+  "fuzz-seeds": [
+    {
+      "before": "f.Add(\"  Ada \")",
+      "after": "f.Add(\"\\tLin\\n\")",
+      "expected": "PASS"
+    }
+  ],
+  "benchmark-harness": [
+    {
+      "before": "[]int{1, 2, 3}",
+      "after": "[]int{1, 2, 3, 4}",
+      "expected": "PASS"
+    }
   ]
 }
