@@ -1,0 +1,3 @@
+#!/bin/sh
+# Run from the project directory. The image provides this inspectable Go helper.
+exec /usr/local/bin/go-foundry-runner "$@"

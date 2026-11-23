@@ -1,0 +1,6 @@
+{
+  "date": "2026-11-23",
+  "status": "pending",
+  "summary": "The native Go reference tests and interface checks pass. Acceptance of the prepared toolchain image in browser Linux is still being tested; it is not yet claimed verified.",
+  "results": []
+}
