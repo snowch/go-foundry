@@ -4,6 +4,7 @@ package main
 import (
 	"context"
 	"crypto/sha256"
+	_ "embed"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -11,11 +12,15 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"sync"
 	"syscall"
 	"time"
 )
+
+//go:embed main.go
+var canonicalHelper []byte
 
 var errOutputLimit = errors.New("output limit reached")
 
@@ -95,14 +100,9 @@ func main() {
 	if len(os.Args) == 2 {
 		name = os.Args[1]
 	}
-	packages := map[string]string{"hello": "./cmd/hello", "channels": "./cmd/channels", "db-insert": "./cmd/tinydb", "db-read": "./cmd/tinydb", "test": ""}
-
-	for _, lesson := range []string{"two-lines", "compiler-errors", "variables", "types", "division", "conditions", "loops", "running-total"} {
-		packages[lesson] = "./cmd/" + lesson
-	}
-	pkg, ok := packages[name]
+	mode, pkg, ok := resolveCommand(name)
 	if !ok {
-		fmt.Fprintln(os.Stderr, "Choose: ./run hello | channels | test | db-insert | db-read")
+		fmt.Fprintln(os.Stderr, "Choose a lesson name, check:<lesson>, bench:<lesson>, hello, channels, test, db-insert or db-read.")
 		os.Exit(2)
 	}
 	root, err := os.Getwd()
@@ -136,7 +136,9 @@ func main() {
 	var buildTime, runTime time.Duration
 	var code int
 	var rss int64
+	stage := "compiling"
 	if name == "test" {
+		stage = "testing"
 		phase("testing")
 		fmt.Println("Running Go tests...")
 		code, rss = execute(env, 600, filepath.Join(sdk, "bin/go"), "test", "-p=1", "-buildvcs=false", "-trimpath", "-count=1", "-timeout=60s", "./...")
@@ -144,12 +146,16 @@ func main() {
 	} else {
 		phase("compiling")
 		fmt.Println("Building " + name + " with the Go compiler...")
-		bin := name
+		bin := strings.TrimPrefix(strings.TrimPrefix(name, "check:"), "bench:")
 		if name == "db-insert" || name == "db-read" {
 			bin = "tinydb"
 		}
 		output := filepath.Join(root, ".bin", bin)
-		code, rss = execute(env, 600, filepath.Join(sdk, "bin/go"), "build", "-p=1", "-buildvcs=false", "-trimpath", "-o", output, pkg)
+		buildArgs := []string{"build", "-p=1", "-buildvcs=false", "-trimpath", "-o", output, pkg}
+		if mode != "run" {
+			buildArgs = []string{"test", "-c", "-p=1", "-buildvcs=false", "-trimpath", "-o", output, pkg}
+		}
+		code, rss = execute(env, 600, filepath.Join(sdk, "bin/go"), buildArgs...)
 		buildTime = time.Since(started)
 		if code == 0 {
 			args := []string{}
@@ -159,7 +165,15 @@ func main() {
 			if name == "db-read" {
 				args = []string{"data/people.gdb", "get", "7"}
 			}
-			phase("running")
+			stage = "running"
+			if mode != "run" {
+				stage = "testing"
+				args = []string{"-test.v", "-test.timeout=50s"}
+			}
+			if mode == "bench" {
+				args = append(args, "-test.run=^$", "-test.bench=.", "-test.benchtime=1x", "-test.benchmem")
+			}
+			phase(stage)
 			then := time.Now()
 			var peak int64
 			code, peak = execute(env, 60, output, args...)
@@ -169,7 +183,7 @@ func main() {
 			}
 		}
 	}
-	record := map[string]any{"case": name, "exit_code": code, "build_or_test_seconds": buildTime.Seconds(), "program_seconds": runTime.Seconds(), "total_seconds": time.Since(started).Seconds(), "max_child_process_rss_kib": rss, "utc": time.Now().UTC().Format(time.RFC3339)}
+	record := map[string]any{"case": name, "execution_stage": stage, "exit_code": code, "build_or_test_seconds": buildTime.Seconds(), "program_seconds": runTime.Seconds(), "total_seconds": time.Since(started).Seconds(), "max_child_process_rss_kib": rss, "utc": time.Now().UTC().Format(time.RFC3339)}
 	data, _ := json.Marshal(record)
 	if f, e := os.OpenFile("measurements.jsonl", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644); e == nil {
 		_, _ = f.Write(append(data, '\n'))
@@ -181,16 +195,46 @@ func main() {
 	os.Exit(code)
 }
 
-// Only the unedited helper shipped by the previous amd64 prototype needs this
-// portability change. Learner-edited files are never replaced by this migration.
+// A stock helper restored from a prior image may be upgraded. Never replace
+// learner-customized bytes. The running image embeds its matching helper source.
 func migrateLegacyHelper(root string) {
 	path := filepath.Join(root, "cmd", "runner", "main.go")
 	data, err := os.ReadFile(path)
-	if err != nil || fmt.Sprintf("%x", sha256.Sum256(data)) != "88b1e043e3b1fa433ced4eeb7020c0556cd88bc544d8a770b71b2e53fb3e6e5b" {
+	if err != nil {
 		return
 	}
-	fixed := strings.Replace(string(data), "rss = cmd.ProcessState.SysUsage().(*syscall.Rusage).Maxrss", "rss = int64(cmd.ProcessState.SysUsage().(*syscall.Rusage).Maxrss)", 1)
-	if err := os.WriteFile(path, []byte(fixed), 0644); err != nil {
+	digest := fmt.Sprintf("%x", sha256.Sum256(data))
+	if digest != "88b1e043e3b1fa433ced4eeb7020c0556cd88bc544d8a770b71b2e53fb3e6e5b" && digest != "d658ded22b97a847a22efd49d07846f5f50815eb82cc928e0e914589f1f3f96a" {
+		return
+	}
+	if err := os.WriteFile(path, canonicalHelper, 0644); err != nil {
 		fmt.Fprintln(os.Stderr, "Could not update the original runner helper:", err)
 	}
+}
+
+func resolveCommand(name string) (mode, pkg string, valid bool) {
+	switch name {
+	case "test":
+		return "test", "", true
+	case "db-insert", "db-read":
+		return "run", "./cmd/tinydb", true
+	}
+	mode = "run"
+	if strings.HasPrefix(name, "check:") {
+		mode, name = "check", strings.TrimPrefix(name, "check:")
+	}
+	if strings.HasPrefix(name, "bench:") {
+		mode, name = "bench", strings.TrimPrefix(name, "bench:")
+	}
+	if name == "runner" || !regexp.MustCompile(`^[a-z][a-z0-9-]*$`).MatchString(name) {
+		return "", "", false
+	}
+	filename := "main.go"
+	if mode != "run" {
+		filename = "main_test.go"
+	}
+	if info, err := os.Stat(filepath.Join("cmd", name, filename)); err != nil || !info.Mode().IsRegular() {
+		return "", "", false
+	}
+	return mode, "./cmd/" + name, true
 }

@@ -1,34 +1,34 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtemp, readFile, writeFile, rm} from 'node:fs/promises';
+import {mkdtemp,readFile,writeFile,rm,cp,mkdir} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
-import {join, resolve} from 'node:path';
+import {join,resolve,basename} from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {lessons} from '../web/course.js';
-const sdk=resolve('.cache/sdk/go');
-const edits={
- 'first-program':[['Hello, Go!','Hello, Ada!','Hello, Ada!']],
- 'two-lines':[['fmt.Println("Hello, Go!")\n\tfmt.Println("Ready to learn.")','fmt.Println("Ready to learn.")\n\tfmt.Println("Hello, Go!")','Ready to learn.\nHello, Go!']],
- 'compiler-errors':[['"Ready"','"Ready',null]],
- variables:[['count := 3','count := 8','count 8\nafter adding two 10']],
- types:[['price float64 = 2.5','price float64 = 3.75','count 3\nprice 3.75\nname Ada\navailable true'],['available bool = true','available bool = false','count 3\nprice 2.5\nname Ada\navailable false'],['count int = 3','count int = "three"',null]],
- division:[['items := 7','items := 8','complete groups 2\nleft over 2\ndecimal quotient 2.6666666666666665'],['items := 7','items := 9','complete groups 3\nleft over 0\ndecimal quotient 3']],
- conditions:[['score := 49','score := 50','threshold reached'],['score := 49','score := 51','threshold reached']],
- loops:[['step <= 3','step < 3','step 1\nstep 2\ndone'],['step <= 3','step <= 0','done']],
- 'running-total':[['value <= 3','value <= 4','value 1 total 1\nvalue 2 total 3\nvalue 3 total 6\nvalue 4 total 10'],['total := 0\n\tfor value := 1; value <= 3; value++ {','for value := 1; value <= 4; value++ {\n\t\ttotal := 0','value 1 total 1\nvalue 2 total 2\nvalue 3 total 3\nvalue 4 total 4']]
-};
-test('all lesson starters and documented source edits compile and produce the stated evidence',async()=>{
+import original from './fixtures/intro-edits.json' with {type:'json'};
+import added from './fixtures/lesson-edits.json' with {type:'json'};
+const sdk=resolve('.cache/sdk/go'),edits={...original,...added};
+test('every starter and documented edit produces the stated evidence in an isolated real Go project',async()=>{
  const directory=await mkdtemp(join(tmpdir(),'go-course-'));
- try {
+ const env={...process.env,GOROOT:sdk,GOCACHE:resolve('.cache/course-test'),GOTOOLCHAIN:'local',CGO_ENABLED:'0',GOMAXPROCS:'2',GOWORK:'off'};
+ try{
   for(const lesson of lessons){
-   const source=await readFile(lesson.file,'utf8');
-   for(const [index,variant]of [[-1,[null,null,lesson.reference]],...edits[lesson.id].map((value,index)=>[index,value])]){
-    const [before,after,expected]=variant; if(before)assert(source.includes(before),lesson.id+' edit must identify real source');
-    const file=join(directory,'main.go');await writeFile(file,before?source.replace(before,after):source);
-    const build=spawnSync(join(sdk,'bin/go'),['build','-o',join(directory,'example'),file],{encoding:'utf8',timeout:120000,env:{...process.env,GOROOT:sdk,GOCACHE:resolve('.cache/course-test'),GOTOOLCHAIN:'local',CGO_ENABLED:'0'}});
+   const folder=join(directory,lesson.id);await mkdir(folder);await writeFile(join(folder,'go.mod'),'module example.com/go-foundry\n\ngo 1.27.0\n');await cp('internal',join(folder,'internal'),{recursive:true});
+   const source=await readFile(lesson.file,'utf8'),file=join(folder,basename(lesson.file)),binary=join(folder,'example');
+   assert(edits[lesson.id]?.length,lesson.id+' has executable edits');
+   for(const support of lesson.supportFiles||[])if(!support.startsWith('internal/'))await cp(support,join(folder,basename(support)));
+   for(const variant of [null,...edits[lesson.id]]){
+    let expected=variant?variant.expected:lesson.reference,contains=lesson.referenceMode==='contains',exit=0;
+    if(variant)assert(source.includes(variant.before),lesson.id+' edit exists');
+    if(expected&&typeof expected==='object'){exit=expected.exit||0;expected=expected.contains;contains=true;}
+    await writeFile(file,variant?source.replace(variant.before,variant.after):source);
+    const tests=['test','benchmark'].includes(lesson.mode),args=[...(tests?['test','-c']:['build']),'-trimpath','-buildvcs=false','-p=1','-o',binary,'.'];
+    const build=spawnSync(join(sdk,'bin/go'),args,{cwd:folder,env,encoding:'utf8',timeout:120000});
     if(expected===null){assert.notEqual(build.status,0,lesson.id);assert.match(build.stderr,/main.go:\d+/);continue;}
-    assert.equal(build.status,0,lesson.id+' '+index+' '+build.stderr);
-    const run=spawnSync(join(directory,'example'),[],{encoding:'utf8',timeout:10000});assert.equal(run.status,0);assert.equal(run.stdout.trim(),expected,lesson.id+' '+index);
+    assert.equal(build.status,0,lesson.id+' '+build.stderr);
+    const flags=tests?['-test.v']:[];if(lesson.mode==='benchmark')flags.push('-test.run=^$','-test.bench=.','-test.benchtime=1x','-test.benchmem');
+    const run=spawnSync(binary,flags,{cwd:folder,env,encoding:'utf8',timeout:20000});assert.equal(run.status,exit,lesson.id+' '+run.stdout+' '+run.stderr);
+    if(contains)assert(run.stdout.includes(expected),lesson.id+' '+run.stdout);else assert.equal(run.stdout.trim(),expected,lesson.id);
    }
   }
  }finally{await rm(directory,{recursive:true,force:true});}

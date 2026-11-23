@@ -1,0 +1,95 @@
+{
+  "first-program": [
+    {
+      "before": "Hello, Go!",
+      "after": "Hello, Ada!",
+      "expected": "Hello, Ada!"
+    }
+  ],
+  "two-lines": [
+    {
+      "before": "fmt.Println(\"Hello, Go!\")\n\tfmt.Println(\"Ready to learn.\")",
+      "after": "fmt.Println(\"Ready to learn.\")\n\tfmt.Println(\"Hello, Go!\")",
+      "expected": "Ready to learn.\nHello, Go!"
+    }
+  ],
+  "compiler-errors": [
+    {
+      "before": "\"Ready\"",
+      "after": "\"Ready",
+      "expected": null
+    }
+  ],
+  "variables": [
+    {
+      "before": "count := 3",
+      "after": "count := 8",
+      "expected": "count 8\nafter adding two 10"
+    }
+  ],
+  "types": [
+    {
+      "before": "price float64 = 2.5",
+      "after": "price float64 = 3.75",
+      "expected": "count 3\nprice 3.75\nname Ada\navailable true"
+    },
+    {
+      "before": "available bool = true",
+      "after": "available bool = false",
+      "expected": "count 3\nprice 2.5\nname Ada\navailable false"
+    },
+    {
+      "before": "count int = 3",
+      "after": "count int = \"three\"",
+      "expected": null
+    }
+  ],
+  "division": [
+    {
+      "before": "items := 7",
+      "after": "items := 8",
+      "expected": "complete groups 2\nleft over 2\ndecimal quotient 2.6666666666666665"
+    },
+    {
+      "before": "items := 7",
+      "after": "items := 9",
+      "expected": "complete groups 3\nleft over 0\ndecimal quotient 3"
+    }
+  ],
+  "conditions": [
+    {
+      "before": "score := 49",
+      "after": "score := 50",
+      "expected": "threshold reached"
+    },
+    {
+      "before": "score := 49",
+      "after": "score := 51",
+      "expected": "threshold reached"
+    }
+  ],
+  "loops": [
+    {
+      "before": "step <= 3",
+      "after": "step < 3",
+      "expected": "step 1\nstep 2\ndone"
+    },
+    {
+      "before": "step <= 3",
+      "after": "step <= 0",
+      "expected": "done"
+    }
+  ],
+  "running-total": [
+    {
+      "before": "value <= 3",
+      "after": "value <= 4",
+      "expected": "value 1 total 1\nvalue 2 total 3\nvalue 3 total 6\nvalue 4 total 10"
+    },
+    {
+      "before": "total := 0\n\tfor value := 1; value <= 3; value++ {",
+      "after": "for value := 1; value <= 4; value++ {\n\t\ttotal := 0",
+      "expected": "value 1 total 1\nvalue 2 total 2\nvalue 3 total 3\nvalue 4 total 4"
+    }
+  ]
+}

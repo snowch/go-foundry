@@ -400,5 +400,336 @@
       "after": "[]int{1, 2, 3, 4}",
       "expected": "PASS"
     }
+  ],
+  "file-roundtrip": [
+    {
+      "before": "[]byte(\"Ada\\n\")",
+      "after": "[]byte(\"Linus\\n\")",
+      "expected": "bytes 6 text \"Linus\\n\""
+    }
+  ],
+  "stream-lines": [
+    {
+      "before": "\"Ada\\nLin\\n\"",
+      "after": "\"Ada\\n\\nLin\\n\"",
+      "expected": "line 1 Ada\nline 2 \nline 3 Lin"
+    }
+  ],
+  "json-records": [
+    {
+      "before": "\"age\":37",
+      "after": "\"age\":38",
+      "expected": "Ada 38"
+    }
+  ],
+  "strict-json": [
+    {
+      "before": "\"nae\"",
+      "after": "\"name\"",
+      "expected": "Ada"
+    }
+  ],
+  "csv-fields": [
+    {
+      "before": "Ada, Lovelace",
+      "after": "Ada",
+      "expected": "fields 2 name \"Ada\" score 42"
+    }
+  ],
+  "parse-flags": [
+    {
+      "before": "\"-count\", \"3\"",
+      "after": "\"-count\", \"5\"",
+      "expected": "count 5"
+    }
+  ],
+  "parse-time": [
+    {
+      "before": "Add(time.Hour)",
+      "after": "Add(2*time.Hour)",
+      "expected": "2026-01-02T09:00:00Z"
+    }
+  ],
+  "http-handler": [
+    {
+      "before": "name=Ada",
+      "after": "name=Lin",
+      "expected": "status 200 body hello Lin"
+    }
+  ],
+  "http-status": [
+    {
+      "before": "NewRequest(\"POST\"",
+      "after": "NewRequest(\"GET\"",
+      "expected": "200 ready"
+    }
+  ],
+  "goroutine-wait": [
+    {
+      "before": "double(3)",
+      "after": "double(4)",
+      "expected": "worker 8\ndone"
+    }
+  ],
+  "channel-handoff": [
+    {
+      "before": "values <- 7",
+      "after": "values <- 9",
+      "expected": "received 9"
+    }
+  ],
+  "buffered-channel": [
+    {
+      "before": "make(chan int, 2)",
+      "after": "make(chan int, 3)",
+      "expected": "queued 2 capacity 3\nfirst 4\nremaining 1"
+    }
+  ],
+  "close-and-range": [
+    {
+      "before": "value <= 3",
+      "after": "value <= 4",
+      "expected": "sum 10"
+    }
+  ],
+  "select-default": [
+    {
+      "before": "// messages <- \"ready\"",
+      "after": "messages <- \"ready\"",
+      "expected": "ready"
+    }
+  ],
+  "context-cancel": [
+    {
+      "before": "\"cancelled \"",
+      "after": "\"stopped \"",
+      "expected": "stopped context canceled"
+    }
+  ],
+  "worker-pool": [
+    {
+      "before": "value <= 4",
+      "after": "value <= 5",
+      "expected": "[1 4 9 16 25]"
+    }
+  ],
+  "mutex-counter": [
+    {
+      "before": "range 100",
+      "after": "range 150",
+      "expected": "count 300"
+    }
+  ],
+  "pipeline-shutdown": [
+    {
+      "before": "value := 1",
+      "after": "value := 5",
+      "expected": "first 5\nproducer stopped"
+    }
+  ],
+  "stack": [
+    {
+      "before": "stack.push(8)",
+      "after": "stack.push(9)",
+      "expected": "top 9 true remaining [3]"
+    }
+  ],
+  "queue": [
+    {
+      "before": "Queue{3, 8}",
+      "after": "Queue{8, 3}",
+      "expected": "first 8 true remaining [3]"
+    }
+  ],
+  "ring-buffer": [
+    {
+      "before": "make([]int, 2)",
+      "after": "make([]int, 3)",
+      "expected": "accepted true true true\nremoved 3 true count 2"
+    }
+  ],
+  "linked-list": [
+    {
+      "before": "Value: 3",
+      "after": "Value: 5",
+      "expected": "[5 8]"
+    }
+  ],
+  "hash-collisions": [
+    {
+      "before": "table.get(\"Bob\")",
+      "after": "table.get(\"Ada\")",
+      "expected": "bucket 1 entries 2\nlookup 3 true"
+    }
+  ],
+  "search-tree": [
+    {
+      "before": "[]int{4, 2, 6}",
+      "after": "[]int{4, 2, 1}",
+      "expected": "[1 2 4]"
+    }
+  ],
+  "minimum-heap": [
+    {
+      "before": "IntHeap{4, 2, 6}",
+      "after": "IntHeap{4, 9, 6}",
+      "expected": "minimum 4 remaining 2"
+    }
+  ],
+  "graph-neighbors": [
+    {
+      "before": "\"A\": {\"B\", \"C\"}",
+      "after": "\"A\": {\"B\"}",
+      "expected": "A to [B]\nB to [C]\nC to []"
+    }
+  ],
+  "linear-search": [
+    {
+      "before": "search(values, 7)",
+      "after": "search(values, 9)",
+      "expected": "index -1 checks 4"
+    }
+  ],
+  "binary-search": [
+    {
+      "before": "search(values, 11)",
+      "after": "search(values, 4)",
+      "expected": "index -1 checks 3"
+    }
+  ],
+  "insertion-sort": [
+    {
+      "before": "[]int{4, 3, 2, 1}",
+      "after": "[]int{1, 2, 3, 4}",
+      "expected": "[1 2 3 4] shifts 0"
+    }
+  ],
+  "merge-sort": [
+    {
+      "before": "[]int{4, 1, 3, 2}",
+      "after": "[]int{0, 1, 3, 2}",
+      "expected": "sorted [0 1 2 3]\noriginal [0 1 3 2]"
+    }
+  ],
+  "breadth-first-search": [
+    {
+      "before": "\"A\": {\"B\", \"C\"}",
+      "after": "\"A\": {\"C\", \"B\"}",
+      "expected": "[A C B D]"
+    }
+  ],
+  "depth-first-search": [
+    {
+      "before": "\"A\": {\"B\", \"C\"}",
+      "after": "\"A\": {\"C\", \"B\"}",
+      "expected": "[A C D B]"
+    }
+  ],
+  "shortest-path": [
+    {
+      "before": "{2, 5}",
+      "after": "{2, 1}",
+      "expected": "distance to C 1"
+    }
+  ],
+  "topological-order": [
+    {
+      "before": "[][]int{{1}, {2}, {}}",
+      "after": "[][]int{{1}, {2}, {0}}",
+      "expected": "order [] complete false"
+    }
+  ],
+  "dynamic-programming": [
+    {
+      "before": "minimumCoins(coins, 6)",
+      "after": "minimumCoins(coins, 5)",
+      "expected": "minimum 2"
+    }
+  ],
+  "db-validation": [
+    {
+      "before": "Score: 101",
+      "after": "Score: 100",
+      "expected": "inserted 7"
+    }
+  ],
+  "db-duplicates": [
+    {
+      "before": "ID: 7, Name: \"Lin\"",
+      "after": "ID: 8, Name: \"Lin\"",
+      "expected": "rows after 2"
+    }
+  ],
+  "db-lookup": [
+    {
+      "before": "db.Get(7)",
+      "after": "db.Get(8)",
+      "expected": "stored [3 7 9]\nfound  false"
+    }
+  ],
+  "db-update": [
+    {
+      "before": "Score: 60",
+      "after": "Score: 70",
+      "expected": "old 42 new 70"
+    }
+  ],
+  "db-delete": [
+    {
+      "before": "db.Delete(7)",
+      "after": "db.Delete(8)",
+      "expected": "missing true old rows 1"
+    }
+  ],
+  "db-filter": [
+    {
+      "before": "minimum := 50",
+      "after": "minimum := 40",
+      "expected": "matching [7 8]"
+    }
+  ],
+  "db-index": [
+    {
+      "before": "ID: 8, Name: \"Ada\"",
+      "after": "ID: 8, Name: \"Lin\"",
+      "expected": "Ada [7]"
+    }
+  ],
+  "db-checksum": [
+    {
+      "before": "corrupt := true",
+      "after": "corrupt := false",
+      "expected": "reopened Ada"
+    }
+  ],
+  "db-publish": [
+    {
+      "before": "Score = 101",
+      "after": "Score = 70",
+      "expected": "rejected false\nsaved score 70"
+    }
+  ],
+  "db-transaction": [
+    {
+      "before": "ID: 7, Name: \"Lin\"",
+      "after": "ID: 8, Name: \"Lin\"",
+      "expected": "rolled back false score 60 rows 2"
+    }
+  ],
+  "db-single-writer": [
+    {
+      "before": "releaseFirst := false",
+      "after": "releaseFirst := true",
+      "expected": "second rejected false"
+    }
+  ],
+  "db-persistence": [
+    {
+      "before": "desiredScore := 42",
+      "after": "desiredScore := 73",
+      "expected": {
+        "contains": "saved name Ada score 73"
+      }
+    }
   ]
 }

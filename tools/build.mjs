@@ -1,6 +1,7 @@
 import{createHash}from'node:crypto';
 import{cp,mkdir,readFile,readdir,writeFile,rm}from'node:fs/promises';import{execFileSync}from'node:child_process';
-import{labs}from'../web/lesson-presentation.js';
+import{labs,presentation}from'../web/lesson-presentation.js';
+import{lessons}from'../web/course.js';
 const site='.build/site';await mkdir(site,{recursive:true});await cp('web',site,{recursive:true});
 execFileSync('python',['tools/local-linux/build.py','go',site+'/linux'],{stdio:'inherit'});
 await mkdir(site+'/runtime',{recursive:true});await cp(site+'/linux/runtime/image.json',site+'/runtime/image.json');
@@ -16,9 +17,11 @@ await writeFile(site+'/linux/index.html','<!doctype html><meta charset="utf-8"><
 const runtimeMetadata=JSON.parse(await readFile(site+'/runtime/image.json'));runtimeMetadata.terminal_url=linuxPrefix+'index.html';await writeFile(site+'/runtime/image.json',JSON.stringify(runtimeMetadata,null,2)+'\n');
 
 async function asset(stem,extension,content){const bytes=Buffer.from(content),name=stem+'.'+hash(bytes).slice(0,16)+'.'+extension;await writeFile(site+'/'+name,bytes);assets.push({path:name,sha256:hash(bytes),bytes:bytes.length});return name;}
+const flatModules={course:'export const lessons='+JSON.stringify(lessons)+';\n','lesson-presentation':'export const labs='+JSON.stringify(labs)+';\nexport const presentation='+JSON.stringify(presentation,(_key,value)=>value instanceof RegExp?{regex:value.source}:value).replace(/\{\"regex\":(\"(?:[^\"\\]|\\.)*\")\}/g,'new RegExp($1)')+';\n'};
+for(const [name,content]of Object.entries(flatModules))await writeFile(site+'/'+name+'.js',content);
 const helper=await asset('source-transfer','js',await readFile('web/source-transfer.js'));
 let appSource=await readFile('web/app.js','utf8');
-for(const module of ['workspace-store','course','investigations','lesson-presentation','editor','routes']){const name=await asset(module,'js',await readFile('web/'+module+'.js'));appSource=appSource.replace('./'+module+'.js','./'+name);}
+for(const module of ['workspace-store','course','investigations','lesson-presentation','editor','routes']){const name=await asset(module,'js',flatModules[module]||await readFile('web/'+module+'.js'));appSource=appSource.replace('./'+module+'.js','./'+name);}
 const app=await asset('app','js',appSource);
 const css=await asset('style','css',await readFile('web/style.css'));
 const html=(await readFile('web/index.html','utf8')).replace('src="app.js"','src="'+app+'"').replace('href="style.css"','href="'+css+'"');

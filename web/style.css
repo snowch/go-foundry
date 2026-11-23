@@ -189,3 +189,5 @@ h1[tabindex="-1"]:focus-visible,h3[tabindex="-1"]:focus-visible{outline:none}
 .lesson-outline .outline-overview{display:inline-flex;align-items:center;min-height:44px;margin-right:24px}
 .lesson-outline .outline-group{margin-top:16px}
 .lesson-outline .lesson-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:8px 12px}
+
+.concept-diagram{margin:1.5rem 0;padding:1rem;border:1px solid var(--line);border-radius:.6rem;max-width:100%;overflow:hidden}.concept-diagram h3{margin:0 0 .5rem}.diagram-scroll{overflow-x:auto;max-width:100%}.diagram-scroll svg{display:block;width:100%;font-family:inherit}.diagram-node{fill:var(--surface);stroke:currentColor;stroke-opacity:.4}.diagram-label{fill:currentColor;font-size:15px;font-weight:600}.diagram-detail,.diagram-edge{fill:currentColor;font-size:12px}.concept-diagram figcaption{font-size:.95rem;margin-top:.5rem}

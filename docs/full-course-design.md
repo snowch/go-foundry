@@ -1,6 +1,6 @@
 # Go Foundry: complete core series
 
-The expansion is being authored and verified on the development branch. The
+The core series has 113 lessons in twelve independently addressable labs. The
 published introductory lesson IDs, course URLs and saved-work keys remain stable.
 New course links will be added to the public directory once their content and
 execution journeys are verified.

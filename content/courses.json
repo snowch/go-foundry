@@ -1,0 +1,257 @@
+[
+  {
+    "id": "first-programs",
+    "legacySection": "section-1",
+    "title": "First programs",
+    "description": "Print messages, follow statement order and repair compiler errors.",
+    "prerequisites": "No Go experience is required. You only need to be comfortable editing text.",
+    "before": [],
+    "lessons": [
+      "first-program",
+      "two-lines",
+      "compiler-errors",
+      "print-values",
+      "formatted-output",
+      "quoted-and-raw-strings"
+    ]
+  },
+  {
+    "id": "values-and-types",
+    "legacySection": "section-2",
+    "title": "Values and types",
+    "description": "Name values, choose types and control numeric conversions.",
+    "prerequisites": "Uses declarations and printed output from First programs.",
+    "before": [
+      "first-programs"
+    ],
+    "lessons": [
+      "variables",
+      "types",
+      "division",
+      "assignment",
+      "constants",
+      "zero-values",
+      "number-conversions",
+      "bounded-integers"
+    ]
+  },
+  {
+    "id": "conditions-and-loops",
+    "legacySection": "section-3",
+    "title": "Conditions and loops",
+    "description": "Choose paths, repeat work and build running totals.",
+    "prerequisites": "Uses variables, comparisons and arithmetic.",
+    "before": [
+      "values-and-types"
+    ],
+    "lessons": [
+      "conditions",
+      "loops",
+      "running-total",
+      "boolean-logic",
+      "else-if",
+      "switch",
+      "condition-loop",
+      "break-and-continue",
+      "integer-range"
+    ]
+  },
+  {
+    "id": "functions-and-pointers",
+    "legacySection": "section-4",
+    "title": "Functions and pointers",
+    "description": "Separate work into functions and decide when a function changes shared data.",
+    "prerequisites": "Uses values, conditions and loops.",
+    "before": [
+      "conditions-and-loops"
+    ],
+    "lessons": [
+      "function-result",
+      "multiple-results",
+      "scope-and-shadowing",
+      "value-and-pointer",
+      "function-values",
+      "closures",
+      "defer-order",
+      "recursion",
+      "function-practice"
+    ]
+  },
+  {
+    "id": "collections-and-text",
+    "legacySection": "section-5",
+    "title": "Collections and text",
+    "description": "Work with arrays, slices, maps and Unicode text.",
+    "prerequisites": "Uses functions and pointers.",
+    "before": [
+      "functions-and-pointers"
+    ],
+    "lessons": [
+      "arrays",
+      "slice-bounds",
+      "append-capacity",
+      "slice-aliases",
+      "copy-slices",
+      "map-lookup",
+      "map-delete-and-order",
+      "unicode-text",
+      "text-fields",
+      "variadic-functions",
+      "word-count-practice"
+    ]
+  },
+  {
+    "id": "types-and-interfaces",
+    "legacySection": "section-6",
+    "title": "Types and interfaces",
+    "description": "Model records and behavior with structs, methods, interfaces and generics.",
+    "prerequisites": "Uses functions, pointers and collections.",
+    "before": [
+      "collections-and-text"
+    ],
+    "lessons": [
+      "struct-values",
+      "value-methods",
+      "pointer-methods",
+      "named-types",
+      "implicit-interfaces",
+      "embedding",
+      "type-assertions",
+      "type-switch",
+      "nil-interfaces",
+      "generic-functions",
+      "generic-sets",
+      "enum-constants"
+    ]
+  },
+  {
+    "id": "errors-and-testing",
+    "legacySection": "section-7",
+    "title": "Errors and testing",
+    "description": "Return useful errors and verify behavior with real Go tests.",
+    "prerequisites": "Uses interfaces, functions and collections.",
+    "before": [
+      "types-and-interfaces"
+    ],
+    "lessons": [
+      "error-values",
+      "wrapped-errors",
+      "typed-errors",
+      "validation-guards",
+      "panic-and-recover",
+      "packages-and-exports",
+      "unit-tests",
+      "table-tests",
+      "test-dependencies",
+      "fuzz-seeds",
+      "benchmark-harness"
+    ]
+  },
+  {
+    "id": "files-and-http",
+    "legacySection": "section-8",
+    "title": "Files and HTTP",
+    "description": "Read and write structured data and handle local HTTP requests.",
+    "prerequisites": "Uses errors, tests and structs. HTTP examples need no external service.",
+    "before": [
+      "errors-and-testing"
+    ],
+    "lessons": [
+      "file-roundtrip",
+      "stream-lines",
+      "json-records",
+      "strict-json",
+      "csv-fields",
+      "parse-flags",
+      "parse-time",
+      "http-handler",
+      "http-status"
+    ]
+  },
+  {
+    "id": "concurrency",
+    "legacySection": "section-9",
+    "title": "Concurrency",
+    "description": "Coordinate goroutines, cancellation and shared state.",
+    "prerequisites": "Uses functions, channels introduced here, interfaces and error handling.",
+    "before": [
+      "files-and-http"
+    ],
+    "lessons": [
+      "goroutine-wait",
+      "channel-handoff",
+      "buffered-channel",
+      "close-and-range",
+      "select-default",
+      "context-cancel",
+      "worker-pool",
+      "mutex-counter",
+      "pipeline-shutdown"
+    ]
+  },
+  {
+    "id": "data-structures",
+    "legacySection": "section-10",
+    "title": "Data structures",
+    "description": "Build and inspect stacks, queues, trees, heaps and graphs.",
+    "prerequisites": "Uses slices, maps, pointers, methods and tests.",
+    "before": [
+      "concurrency"
+    ],
+    "lessons": [
+      "stack",
+      "queue",
+      "ring-buffer",
+      "linked-list",
+      "hash-collisions",
+      "search-tree",
+      "minimum-heap",
+      "graph-neighbors"
+    ]
+  },
+  {
+    "id": "algorithms",
+    "legacySection": "section-11",
+    "title": "Algorithms",
+    "description": "Search, sort and traverse data while counting work.",
+    "prerequisites": "Uses the data structures lab and recursion.",
+    "before": [
+      "data-structures"
+    ],
+    "lessons": [
+      "linear-search",
+      "binary-search",
+      "insertion-sort",
+      "merge-sort",
+      "breadth-first-search",
+      "depth-first-search",
+      "shortest-path",
+      "topological-order",
+      "dynamic-programming"
+    ]
+  },
+  {
+    "id": "tinydb",
+    "legacySection": "section-12",
+    "title": "Build a TinyDB",
+    "description": "Build a persistent record store with validation, indexes and checked snapshots.",
+    "prerequisites": "Uses files, errors, testing, maps and concurrency. This is an educational store, not a production database.",
+    "before": [
+      "algorithms"
+    ],
+    "lessons": [
+      "db-validation",
+      "db-duplicates",
+      "db-lookup",
+      "db-update",
+      "db-delete",
+      "db-filter",
+      "db-index",
+      "db-checksum",
+      "db-publish",
+      "db-transaction",
+      "db-single-writer",
+      "db-persistence"
+    ]
+  }
+]

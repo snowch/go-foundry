@@ -111,7 +111,7 @@ function closeOutline(returnFocus=false){
 function labFor(entry){return entry?labs.find(lab=>lab.lessons.includes(entry.id)):null;}
 let activeLab=null;
 function brand(lab){document.querySelector('.brand').href=routes.home(lab);$('brand-title').textContent=lab?'Go — '+lab.title:'Go Foundry';$('brand-subtitle').textContent=lab?'Go Foundry lab':'Learn Go in your browser';}
-function sourceOptions(lab){const paths=lab?lab.lessons.map(id=>lessons.find(entry=>entry.id===id).file):Object.keys(files);$('source-file').replaceChildren(...paths.map(path=>{const option=document.createElement('option');option.value=path;option.textContent=path;return option;}));}
+function sourceOptions(lab){const paths=lab?[...new Set(lab.lessons.flatMap(id=>{const entry=lessons.find(entry=>entry.id===id);return [entry.file,...(entry.supportFiles||[])];}))]:Object.keys(files);$('source-file').replaceChildren(...paths.map(path=>{const option=document.createElement('option');option.value=path;option.textContent=path;return option;}));}
 function icon(name,extra=''){const span=document.createElement('span');span.className='material-icon '+extra+' icon-'+name;span.setAttribute('aria-hidden','true');return span;}
 function makeLinks(entries){
   const list=document.createElement('ol');list.className='lesson-links';
@@ -173,6 +173,22 @@ function renderReferences(){
   $('references-subtitle').textContent=topics.map(topic=>topic.title).join(' · ');
   for(const topic of topics){const item=document.createElement('li'),heading=document.createElement('h3'),reminder=document.createElement('p'),code=document.createElement('code'),link=document.createElement('a');heading.textContent=topic.title;reminder.textContent=topic.reminder;code.textContent=topic.code;link.href=topic.url;link.target='_blank';link.rel='noopener';link.textContent=topic.title+' documentation (new tab)';item.append(heading,reminder,code,link);$('references').append(item);}
 }
+function renderDiagram(diagram){
+  if(!diagram)return;
+  const figure=document.createElement('figure'),heading=document.createElement('h3'),scroll=document.createElement('div'),caption=document.createElement('figcaption');
+  figure.className='concept-diagram';heading.textContent=diagram.title;caption.textContent=diagram.caption;scroll.className='diagram-scroll';scroll.tabIndex=0;scroll.setAttribute('role','region');scroll.setAttribute('aria-label',diagram.title+'; scroll horizontally if needed');
+  const ns='http://www.w3.org/2000/svg',make=(tag,attrs,text)=>{const node=document.createElementNS(ns,tag);for(const[key,value]of Object.entries(attrs))node.setAttribute(key,value);if(text)node.textContent=text;return node;};
+  const width=Math.max(...diagram.nodes.map(n=>n.x+n.w))+20,height=Math.max(...diagram.nodes.map(n=>n.y))+100;
+  const svg=make('svg',{viewBox:'0 0 '+width+' '+height,role:'img','aria-label':diagram.nodes.map(n=>n.label+': '+n.detail).join('. ')+'. '+diagram.edges.map(e=>e.from+' → '+e.to+': '+e.label).join('. ')});svg.style.minWidth=width+'px';
+  for(const edge of diagram.edges){const from=diagram.nodes.find(n=>n.id===edge.from),to=diagram.nodes.find(n=>n.id===edge.to),vertical=from.y!==to.y;
+   const x1=vertical?from.x+from.w/2:from.x+from.w,y1=vertical?from.y+58:from.y+29,x2=vertical?to.x+to.w/2:to.x,y2=vertical?to.y:to.y+29;
+   svg.append(make('path',{d:'M'+x1+' '+y1+' L'+x2+' '+y2,fill:'none',stroke:'currentColor','stroke-width':2}));
+   const angle=Math.atan2(y2-y1,x2-x1),size=7;svg.append(make('path',{d:'M'+(x2-size*Math.cos(angle-.5))+' '+(y2-size*Math.sin(angle-.5))+' L'+x2+' '+y2+' L'+(x2-size*Math.cos(angle+.5))+' '+(y2-size*Math.sin(angle+.5)),fill:'none',stroke:'currentColor','stroke-width':2}));
+   svg.append(make('text',{x:(x1+x2)/2,y:(y1+y2)/2-9,'text-anchor':'middle',class:'diagram-edge'},edge.label));
+  }
+  for(const node of diagram.nodes)svg.append(make('rect',{x:node.x,y:node.y,width:node.w,height:58,rx:6,class:'diagram-node'}),make('text',{x:node.x+10,y:node.y+22,class:'diagram-label'},node.label),make('text',{x:node.x+10,y:node.y+43,class:'diagram-detail'},node.detail));
+  scroll.append(svg);figure.append(heading,scroll,caption);$('explanation').append(figure);
+}
 function completionStatus(){$('completion-status').textContent=unsavedCompletion.has(probe?.id)?'Storage is unavailable. This completion mark is kept in this tab only.':'Saved in this browser. Completion records your progress, not a test result.';}
 function navigationCard(node,entry,direction,lab=null){
   const label=document.createElement('span'),title=document.createElement('strong');label.className='card-direction';label.textContent=entry?direction:lab?'Lab overview':'Go Foundry labs';title.textContent=entry?entry.title:lab?lab.title:'Choose a lab';node.href=entry?routes.lesson(entry):routes.home(lab);node.replaceChildren(label,title);
@@ -189,7 +205,8 @@ function show(id){
   probe=entry;activeLab=labFor(probe);brand(activeLab);$('home-view').hidden=true;$('lab-view').hidden=true;$('lesson-view').hidden=false;
   document.title=probe.title+' · '+(activeLab?activeLab.title+' · ':'')+'Go Foundry';
   for(const [target,field]of[['check-title','title'],['purpose','purpose'],['action','action'],['run-command','command'],['observe','observe'],['reference-output','reference']])$(target).textContent=probe[field];
-  $('explanation').replaceChildren();for(const text of (probe.explanation||'').split('\n\n')){const paragraph=document.createElement('p');paragraph.textContent=text;$('explanation').append(paragraph);}$('explanation').hidden=!probe.explanation;
+  $('explanation').replaceChildren();for(const text of (probe.explanation||'').split('\n\n')){const paragraph=document.createElement('p');paragraph.textContent=text;$('explanation').append(paragraph);}$('explanation').hidden=!probe.explanation;renderDiagram(probe.diagram);
+  $('reference-output').previousElementSibling.textContent=probe.referenceMode==='contains'?'Evidence to find in the starter output (other lines and timings can vary)':'Starter output';
   const lab=labFor(probe);$('section-location').textContent=lab?.title||'Runtime investigations';$('section-location').href=lab?routes.home(lab):routes.home()+'#course/investigations';$('breadcrumb').textContent=probe.title;renderOutline(lab);
   renderReferences();$('prediction').value=notes.get(probe.id)??read('notes/'+probe.id,'');$('complete').checked=done.has(probe.id);
   const regular=lessons.some(item=>item.id===probe.id), sequence=lab?lab.lessons.map(id=>lessons.find(entry=>entry.id===id)):investigations,index=sequence.indexOf(probe);
@@ -244,7 +261,7 @@ addEventListener('message',async event=>{
       ready=true;current=finished.queued||null;sendPending();
     } else {
       if(finished.kind==='run'){
-        const result=results.get(finished.probeID)||{output:data.output};result.status=data.cancelled?'Run stopped.':data.exitCode===0?'Finished. Exit code 0.':'Program or compilation failed. Exit code '+data.exitCode+'. Inspect the errors below.';results.set(finished.probeID,result);save('result/'+finished.probeID,JSON.stringify(result));
+        const result=results.get(finished.probeID)||{output:data.output};let stage='Program or compilation';try{const line=(result.diagnostics||data.output||'').split('\n').findLast(line=>line.startsWith('Measurement:'));const detail=JSON.parse(line.slice('Measurement:'.length));stage=detail.execution_stage==='compiling'?'Compilation':detail.execution_stage==='testing'?'Go tests':'Program';}catch{}result.status=data.cancelled?'Run stopped.':data.exitCode===0?'Finished. Exit code 0.':stage+' failed. Exit code '+data.exitCode+'. Inspect the errors below.';results.set(finished.probeID,result);save('result/'+finished.probeID,JSON.stringify(result));
       }
       current=null;activity();
       if((finished.kind==='stop'||finished.kind==='idle-stop')&&data.saved){stop();return;}
