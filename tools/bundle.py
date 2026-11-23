@@ -1,7 +1,7 @@
 """Reproducible course-owned source bundle; no SDK, emulator or guest image."""
 import gzip,hashlib,io,json,pathlib,tarfile
 root=pathlib.Path(__file__).resolve().parent.parent
-names=['go.mod','setup','run','tools/go-toolchain.json','README.md','LICENSE']
+names=['go.mod','run','tools/go-toolchain.json','README.md','LICENSE']
 names+=sorted(str(p.relative_to(root)) for folder in ['cmd','internal'] for p in (root/folder).rglob('*.go'))
 manifest={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in names}
 buffer=io.BytesIO()

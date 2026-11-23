@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+case "${1-}" in
+ /*) file="$1" ;;
+ *) file="$PWD/${1-}" ;;
+esac
+if [ "$#" -ne 1 ] || [ ! -f "$file" ]; then
+ echo 'Use export_file /absolute/path/to/file' >&2
+ exit 2
+fi
+# Read first so a remote file is materialized before export.
+cat "$file" > /dev/null
+printf 'export_file "%s"' "$file" > /.fscmd

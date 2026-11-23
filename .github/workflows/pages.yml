@@ -25,9 +25,9 @@ jobs:
         with:
           path: |
             .cache/sdk
-            .cache/go1.27.4.linux-amd64.tar.gz
+            .cache/*tar*
             .build/site/runtime
-          key: go-image-${{ runner.os }}-${{ hashFiles('tools/build-image.py', 'tools/go-toolchain.json', 'cmd/**', 'internal/**', 'go.mod', 'run', 'setup', 'README.md', 'LICENSE') }}
+          key: go-image-${{ runner.os }}-${{ hashFiles('tools/build-image.py', 'tools/guest/**', 'tools/guest-packages.json', 'tools/go-toolchain.json', 'cmd/**', 'internal/**', 'go.mod', 'run', 'README.md', 'THIRD_PARTY.md', 'LICENSE') }}
       - run: npm ci
       - run: npm run build
       - name: Run the real Go tests on the native reference host

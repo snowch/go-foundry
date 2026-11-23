@@ -1,0 +1,15 @@
+#!/bin/sh
+export PATH=/opt/go/bin:/usr/local/bin:/bin
+export HOME=/root TERM=xterm GOTOOLCHAIN=local CGO_ENABLED=0 GOAMD64=v1
+mount -t proc proc /proc
+mount -t sysfs sysfs /sys
+mkdir -p /dev/pts
+mount -t devpts devpts /dev/pts
+hostname go-foundry
+printf 'set_import_dir /root' > /.fscmd
+cd /root/work/go-foundry
+export PS1='go-foundry:~# '
+printf '\nGo workspace prepared. Run ./run hello to compile your first program.\n'
+while :; do
+ /bin/setsid /bin/sh -c 'exec /bin/sh -i </dev/hvc0 >/dev/hvc0 2>&1'
+done
