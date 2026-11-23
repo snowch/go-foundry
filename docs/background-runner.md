@@ -2,6 +2,16 @@
 
 ## Learner interface
 
+Run activity stays visible next to the execution controls: an indeterminate
+progress bar, the reported startup/restore/compile/run/save phase, and elapsed
+time. The Run button and header also show activity. No percentage or completion
+estimate is invented. Phase changes are announced politely; the elapsed clock is
+not an announcement every second. A run in another course names its owner and
+offers the existing return link. Cancellation, compiler/program errors and
+project-save failures retain their separate meanings. Reduced-motion settings
+stop the decorative spinner. Activity settles only when the existing operation
+finishes, fails or is cancelled; the indicator does not submit work itself.
+
 Run captures the current editor bytes and selected lesson command. It starts the
 runner on demand, restores the last committed project, applies that captured file,
 and invokes the real Go compiler. The lesson shows starting, restoring, compiling,
