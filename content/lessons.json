@@ -1,0 +1,1059 @@
+[
+  {
+    "lab": "first-programs",
+    "id": "print-values",
+    "title": "Print values and expressions",
+    "purpose": "Read the values produced by simple expressions.",
+    "explanation": "Println can print more than one value, separated by spaces. The compiler evaluates an expression, such as 2 + 3, before passing its result to Println. Quoted text is a string; unquoted numbers can take part in arithmetic.",
+    "action": "Run the starter and find sum 5 and product 12 in Output. In the first Println call, change 2 + 3 to 2 * 3, then run again. Compare the sum-labelled line with the unchanged product-labelled line.",
+    "observe": "The first value becomes 6; the second stays 12. The label is text you chose: changing the calculation does not automatically rename sum. What label would describe the edited calculation?",
+    "reference": "sum 5\nproduct 12",
+    "topics": [
+      [
+        "Expressions",
+        "Operators combine values before printing.",
+        "2 + 3",
+        "https://go.dev/ref/spec#Arithmetic_operators"
+      ],
+      [
+        "Print several values",
+        "Println separates its arguments with spaces.",
+        "fmt.Println(\"sum\", 5)",
+        "https://pkg.go.dev/fmt@go1.27.4#Println"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/print-values/main.go",
+    "command": "./run print-values",
+    "supportFiles": [],
+    "target": "2\\+3"
+  },
+  {
+    "lab": "first-programs",
+    "id": "formatted-output",
+    "title": "Choose how a number is printed",
+    "purpose": "Use a format string to label and round printed values.",
+    "explanation": "Printf uses a format string to choose how its other values appear. %s prints a string, %d an integer, and %.2f a floating-point value with two digits after the decimal point. Unlike Println, Printf needs \\n in its format string to end the line. Printing fewer digits changes the displayed text, not the value used in the calculation.",
+    "action": "Run and find Ada has 3 items; price 2.35. In the format string, change %.2f to %.1f and run again. Inspect only the printed price; keep the input value 2.345 unchanged.",
+    "observe": "The price is displayed as 2.3. Did choosing fewer displayed digits change the number of items? What format would show three digits after the decimal point?",
+    "reference": "Ada has 3 items; price 2.35",
+    "topics": [
+      [
+        "Formatted output",
+        "The format string determines how values appear.",
+        "fmt.Printf(\"%.2f\\n\", price)",
+        "https://pkg.go.dev/fmt@go1.27.4"
+      ],
+      [
+        "String escapes",
+        "\\n represents a newline inside a quoted string.",
+        "\"first\\nsecond\"",
+        "https://go.dev/ref/spec#String_literals"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/formatted-output/main.go",
+    "command": "./run formatted-output",
+    "supportFiles": [],
+    "target": "%\\.2f"
+  },
+  {
+    "lab": "first-programs",
+    "id": "quoted-and-raw-strings",
+    "title": "Distinguish quoted and raw strings",
+    "purpose": "Choose whether a backslash sequence becomes a newline.",
+    "explanation": "Inside a double-quoted string, \\n represents one newline character. A raw string is enclosed by backticks; its backslashes remain literal characters. Go prints the characters stored in the string, so two strings that look similar in source can produce different lines.",
+    "action": "Run and compare the lines after quoted: and raw:. In the raw string, replace the two characters \\n with a real line break between first and second. Run again and compare the two outputs.",
+    "observe": "Both strings now put second on a new line. A real line break can appear inside a raw string; a double-quoted string uses an escape instead. Which representation would you choose for a Windows-style path containing backslashes?",
+    "reference": "quoted:\nfirst\nsecond\nraw:\nfirst\\nsecond",
+    "topics": [
+      [
+        "Quoted strings",
+        "Backslash escapes represent characters such as newline.",
+        "\"first\\nsecond\"",
+        "https://go.dev/ref/spec#String_literals"
+      ],
+      [
+        "Raw strings",
+        "Backticks preserve backslashes and line breaks.",
+        "`first\\nsecond`",
+        "https://go.dev/ref/spec#String_literals"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/quoted-and-raw-strings/main.go",
+    "command": "./run quoted-and-raw-strings",
+    "supportFiles": [],
+    "target": "`first\\\\nsecond`"
+  },
+  {
+    "lab": "values-and-types",
+    "id": "assignment",
+    "title": "Change a stored value",
+    "purpose": "Distinguish an expression from an assignment.",
+    "explanation": "The expression count + 2 calculates a value. The assignment count = count + 2 also stores that value back in count. A declaration with := creates a name; a later assignment with = updates the existing variable.",
+    "action": "Run and find before 3 and after 5. Change count = count + 2 to count = count * 2, then run again. Compare the before and after fields.",
+    "observe": "Before stays 3 and after becomes 6. The first print happens before the assignment. What would a second identical multiplication do to the stored value?",
+    "reference": "before 3\nafter 5",
+    "topics": [
+      [
+        "Assignment",
+        "The right-hand expression is evaluated before its result is stored.",
+        "count = count * 2",
+        "https://go.dev/ref/spec#Assignment_statements"
+      ],
+      [
+        "Declaration",
+        "A short declaration introduces a variable in its scope.",
+        "count := 3",
+        "https://go.dev/ref/spec#Short_variable_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/assignment/main.go",
+    "command": "./run assignment",
+    "supportFiles": [],
+    "target": "count\\ =\\ count\\ \\+\\ 2"
+  },
+  {
+    "lab": "values-and-types",
+    "id": "constants",
+    "title": "Name a value that cannot change",
+    "purpose": "Use a constant for a fixed calculation input.",
+    "explanation": "const gives a name to a constant value. A constant cannot receive a later assignment. Here itemsPerBox is fixed while Go evaluates the total for three boxes. Change the declaration to try a different fixed input.",
+    "action": "Run and find total items 12. In the const declaration, change itemsPerBox from 4 to 6 and run again. Inspect total items.",
+    "observe": "The total becomes 18. If the number must change while the program runs, it needs a variable instead. Which part of this example describes the number of boxes?",
+    "reference": "total items 12",
+    "topics": [
+      [
+        "Constants",
+        "A constant name denotes a value that cannot be reassigned.",
+        "const itemsPerBox = 4",
+        "https://go.dev/ref/spec#Constant_declarations"
+      ],
+      [
+        "Constant expressions",
+        "Arithmetic can combine named constants and literal values.",
+        "3 * itemsPerBox",
+        "https://go.dev/ref/spec#Constant_expressions"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/constants/main.go",
+    "command": "./run constants",
+    "supportFiles": [],
+    "target": "itemsPerBox\\ =\\ 4"
+  },
+  {
+    "lab": "values-and-types",
+    "id": "zero-values",
+    "title": "Inspect values before an explicit assignment",
+    "purpose": "Recognise the initial values supplied by a declaration.",
+    "explanation": "A var declaration without an initial expression supplies the type’s zero value. For int this is 0, for bool false, and for string the empty string. %q prints quoted text, making an empty string visible as two quotation marks.",
+    "action": "Run and find count=0 ready=false name=\"\". Below the declarations, change name = \"\" to name = \"Ada\" and run again. Compare all three labelled fields.",
+    "observe": "Only name changes. The other variables retain their zero values because no assignment changed them. How could you distinguish an empty name from a name containing one space using %q?",
+    "reference": "count=0 ready=false name=\"\"",
+    "topics": [
+      [
+        "Zero values",
+        "Each type has a defined initial zero value.",
+        "var count int",
+        "https://go.dev/ref/spec#The_zero_value"
+      ],
+      [
+        "Quoted output",
+        "%q makes empty strings and escape characters visible.",
+        "fmt.Printf(\"%q\", name)",
+        "https://pkg.go.dev/fmt@go1.27.4"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/zero-values/main.go",
+    "command": "./run zero-values",
+    "supportFiles": [],
+    "target": "name\\ =\\ \"\""
+  },
+  {
+    "lab": "values-and-types",
+    "id": "number-conversions",
+    "title": "Convert a decimal value to an integer",
+    "purpose": "Observe which part of a floating-point value survives conversion.",
+    "explanation": "int(value) converts a floating-point variable to an integer by discarding its fractional part toward zero. This is different from rounding to the nearest integer. The original variable keeps its floating-point value.",
+    "action": "Run and find decimal 3.9 and integer 3. Change value := 3.9 to value := -3.9 and run again. Compare the sign and fractional part in the two fields.",
+    "observe": "The integer is -3, not -4: the conversion moves toward zero. Which result would you expect from converting 0.9? Keep that prediction separate from a rounding rule.",
+    "reference": "decimal 3.9\ninteger 3",
+    "topics": [
+      [
+        "Numeric conversions",
+        "A floating-point to integer conversion discards the fraction toward zero.",
+        "whole := int(value)",
+        "https://go.dev/ref/spec#Conversions"
+      ],
+      [
+        "Original value",
+        "A conversion produces a value; it does not reassign its input.",
+        "value := 3.9",
+        "https://go.dev/ref/spec#Assignment_statements"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/number-conversions/main.go",
+    "command": "./run number-conversions",
+    "supportFiles": [],
+    "target": "value\\ :=\\ 3\\.9"
+  },
+  {
+    "lab": "values-and-types",
+    "id": "bounded-integers",
+    "title": "See an unsigned integer wrap",
+    "purpose": "Relate an integer type’s range to an arithmetic result.",
+    "explanation": "uint8 is an unsigned eight-bit integer type, with values from 0 through 255. Incrementing a variable already at 255 wraps its value to 0. The variable’s type determines this result; it does not automatically grow to hold 256.",
+    "action": "Run and find after increment 0. Change the initial value from 255 to 254 and run again. Compare after increment with the first run.",
+    "observe": "The edited result is 255. Which initial value crosses the type’s maximum after one increment? A count that must keep growing needs a suitable range and an explicit overflow policy.",
+    "reference": "after increment 0",
+    "topics": [
+      [
+        "Integer ranges",
+        "uint8 holds 0 through 255.",
+        "var value uint8 = 255",
+        "https://go.dev/ref/spec#Numeric_types"
+      ],
+      [
+        "Integer overflow",
+        "Unsigned arithmetic wraps modulo the type’s range.",
+        "value++",
+        "https://go.dev/ref/spec#Integer_overflow"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/bounded-integers/main.go",
+    "command": "./run bounded-integers",
+    "supportFiles": [],
+    "target": "value\\ uint8\\ =\\ 255"
+  },
+  {
+    "lab": "conditions-and-loops",
+    "id": "boolean-logic",
+    "title": "Combine two requirements",
+    "purpose": "Use a boolean expression to require both comparisons to pass.",
+    "explanation": "&& is logical AND: both operands must be true. || is logical OR: at least one must be true. ! negates a boolean value. Here eligibility requires a score of at least 50 and attendance of at least 80; these are this example’s rules.",
+    "action": "Run and find eligible false. Change attendance := 75 to attendance := 90 and run again. Inspect eligible and decide which comparison changed.",
+    "observe": "Eligibility becomes true because both requirements now pass. With the original inputs, would replacing && with || produce true or false?",
+    "reference": "eligible false",
+    "topics": [
+      [
+        "Logical operators",
+        "&& requires both conditions; || requires either.",
+        "score >= 50 && attendance >= 80",
+        "https://go.dev/ref/spec#Logical_operators"
+      ],
+      [
+        "Comparison",
+        "A comparison produces a boolean value.",
+        "attendance >= 80",
+        "https://go.dev/ref/spec#Comparison_operators"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/boolean-logic/main.go",
+    "command": "./run boolean-logic",
+    "supportFiles": [],
+    "target": "attendance\\ :=\\ 75"
+  },
+  {
+    "lab": "conditions-and-loops",
+    "id": "else-if",
+    "title": "Classify a value with ordered tests",
+    "purpose": "Follow the first true branch in an if/else-if chain.",
+    "explanation": "An else if checks another condition only when the preceding condition was false. These example temperature categories use degrees Celsius: below 0 is freezing; otherwise below 20 is cool; all remaining values are warm.",
+    "action": "Run with temperature := 0 and find cool. Change the temperature to -1 and run again. Explain which test now selects the output.",
+    "observe": "The result becomes freezing. Exactly 0 does not satisfy temperature < 0. Would a temperature of 20 enter the cool or warm branch?",
+    "reference": "cool",
+    "topics": [
+      [
+        "Ordered branches",
+        "Only the selected branch executes.",
+        "if first { ... } else if second { ... }",
+        "https://go.dev/ref/spec#If_statements"
+      ],
+      [
+        "Boundary tests",
+        "< excludes the boundary value.",
+        "temperature < 0",
+        "https://go.dev/ref/spec#Comparison_operators"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/else-if/main.go",
+    "command": "./run else-if",
+    "supportFiles": [],
+    "target": "temperature\\ :=\\ 0"
+  },
+  {
+    "lab": "conditions-and-loops",
+    "id": "switch",
+    "title": "Select an operation by name",
+    "purpose": "Use switch to choose one matching case.",
+    "explanation": "switch compares operation with its case values. Go executes a matching case and then leaves the switch; it does not automatically continue into the next case. default handles values with no matching case.",
+    "action": "Run and find result 7. Change operation := \"add\" to operation := \"subtract\" and run again. Keep left and right unchanged and inspect result.",
+    "observe": "The result becomes 3. Which branch would handle the name multiply in this program? A branch exists only when the source defines its case.",
+    "reference": "result 7",
+    "topics": [
+      [
+        "Switch",
+        "A matching case selects a block.",
+        "switch operation { case \"add\": ... }",
+        "https://go.dev/ref/spec#Switch_statements"
+      ],
+      [
+        "Default",
+        "default handles an unmatched value.",
+        "default:",
+        "https://go.dev/ref/spec#Expression_switches"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/switch/main.go",
+    "command": "./run switch",
+    "supportFiles": [],
+    "target": "operation\\ :=\\ \"add\""
+  },
+  {
+    "lab": "conditions-and-loops",
+    "id": "condition-loop",
+    "title": "Repeat while a condition remains true",
+    "purpose": "Use a condition-only loop and change the state that ends it.",
+    "explanation": "A for loop can contain just a condition. Go checks remaining > 0 before each repetition. remaining-- reduces the value, eventually making that condition false. Without a change that can end the loop, this form can run forever.",
+    "action": "Run and read 3, 2, 1, then launch. Change remaining := 3 to remaining := 0 and run again. Inspect whether any countdown numbers appear.",
+    "observe": "Only launch appears because the first condition is already false. Which statement in the original loop moves the countdown toward termination?",
+    "reference": "3\n2\n1\nlaunch",
+    "topics": [
+      [
+        "Condition-only loop",
+        "The condition is checked before the body.",
+        "for remaining > 0 { ... }",
+        "https://go.dev/ref/spec#For_statements"
+      ],
+      [
+        "Decrement",
+        "-- reduces an integer variable by one.",
+        "remaining--",
+        "https://go.dev/ref/spec#IncDec_statements"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/condition-loop/main.go",
+    "command": "./run condition-loop",
+    "supportFiles": [],
+    "target": "remaining\\ :=\\ 3"
+  },
+  {
+    "lab": "conditions-and-loops",
+    "id": "break-and-continue",
+    "title": "Skip an iteration or leave the loop",
+    "purpose": "Distinguish continue from break using printed values.",
+    "explanation": "continue skips the rest of the current iteration and starts the next one. break leaves the loop. This loop skips 2 and exits before printing 5, so the loop limit alone does not determine the printed values.",
+    "action": "Run and find 1, 3 and 4 on separate lines. Change the break condition from value == 5 to value == 4 and run again. Compare the last printed value.",
+    "observe": "The edited loop prints 1 and 3. Why is 4 not printed when the break test succeeds before Println?",
+    "reference": "1\n3\n4",
+    "topics": [
+      [
+        "Continue",
+        "Skip the rest of the current iteration.",
+        "continue",
+        "https://go.dev/ref/spec#Continue_statements"
+      ],
+      [
+        "Break",
+        "Leave the innermost loop.",
+        "break",
+        "https://go.dev/ref/spec#Break_statements"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/break-and-continue/main.go",
+    "command": "./run break-and-continue",
+    "supportFiles": [],
+    "target": "value\\ ==\\ 5"
+  },
+  {
+    "lab": "conditions-and-loops",
+    "id": "integer-range",
+    "title": "Repeat a fixed number of times",
+    "purpose": "Read the indexes produced by an integer range loop.",
+    "explanation": "In this course’s Go version, range count repeats with successive integers from 0 up to count - 1. A nonpositive count produces no iterations. The count is the number of iterations, rather than the final index.",
+    "action": "Run with count := 3 and find indexes 0, 1 and 2, then done. Change count to 0 and run again. Compare the number of index lines.",
+    "observe": "Only done appears after the edit. If count were 4, which index would be printed last?",
+    "reference": "index 0\nindex 1\nindex 2\ndone",
+    "topics": [
+      [
+        "Integer range",
+        "range n produces indexes from 0 through n-1.",
+        "for index := range count { ... }",
+        "https://go.dev/ref/spec#For_range"
+      ],
+      [
+        "Loop count",
+        "Zero iterations still allows the following statement to execute.",
+        "fmt.Println(\"done\")",
+        "https://go.dev/ref/spec#For_statements"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/integer-range/main.go",
+    "command": "./run integer-range",
+    "supportFiles": [],
+    "target": "count\\ :=\\ 3"
+  },
+  {
+    "lab": "functions-and-pointers",
+    "id": "function-result",
+    "title": "Pass a value into a function",
+    "purpose": "Use a parameter and returned value to reuse a calculation.",
+    "explanation": "A parameter names an input inside a function. The int after the parameter list declares the result type. return supplies that result to the caller; printing happens in main in this example.",
+    "action": "Run and find result 6. In double, change value * 2 to value * 3 and run again. Keep the argument 3 unchanged and inspect result.",
+    "observe": "The result becomes 9. Which expression belongs to the function, and which value is supplied by its caller?",
+    "reference": "result 6",
+    "topics": [
+      [
+        "Function result",
+        "A return statement supplies the declared result.",
+        "func double(value int) int { return value * 2 }",
+        "https://go.dev/ref/spec#Function_declarations"
+      ],
+      [
+        "Call arguments",
+        "The argument supplies the parameter’s initial value.",
+        "double(3)",
+        "https://go.dev/ref/spec#Calls"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/function-result/main.go",
+    "command": "./run function-result",
+    "supportFiles": [],
+    "target": "value\\ \\*\\ 2"
+  },
+  {
+    "lab": "functions-and-pointers",
+    "id": "multiple-results",
+    "title": "Return two related results",
+    "purpose": "Receive a quotient and remainder from one function call.",
+    "explanation": "A function can return multiple values. divide returns two ints, in the declared order. The assignment quotient, remainder := divide(...) receives both. This example uses a positive group size, so division is defined.",
+    "action": "Run and find quotient 2 remainder 2. Change divide(8, 3) to divide(9, 3) and run again. Inspect both named results.",
+    "observe": "The new results are quotient 3 and remainder 0. Which result accounts for items that do not fill a complete group?",
+    "reference": "quotient 2 remainder 2",
+    "topics": [
+      [
+        "Multiple results",
+        "The return list and receiving variables use the same order.",
+        "func divide(items, size int) (int, int)",
+        "https://go.dev/ref/spec#Function_types"
+      ],
+      [
+        "Receiving results",
+        "Each returned value receives its own name.",
+        "quotient, remainder := divide(8, 3)",
+        "https://go.dev/ref/spec#Assignments"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/multiple-results/main.go",
+    "command": "./run multiple-results",
+    "supportFiles": [],
+    "target": "divide\\(8,\\ 3\\)"
+  },
+  {
+    "lab": "functions-and-pointers",
+    "id": "scope-and-shadowing",
+    "title": "Choose which variable an assignment changes",
+    "purpose": "Distinguish a new inner variable from its outer namesake.",
+    "explanation": "A scope is the region where a declared name refers to its variable. The inner block can declare a different value with the same name. That declaration shadows the outer value until the block ends; it does not replace the outer storage.",
+    "action": "Run and find inner 3 and outer 10. Inside the inner block, change value := 3 to value = 3 and run again. Compare the outer result.",
+    "observe": "Outer now prints 3 because = updates the existing variable instead of declaring another one. Which declaration supplies that variable before the inner block begins?",
+    "reference": "inner 3\nouter 10",
+    "topics": [
+      [
+        "Scope",
+        "A declaration applies within its scope.",
+        "{ value := 3 }",
+        "https://go.dev/ref/spec#Declarations_and_scope"
+      ],
+      [
+        "Assignment versus declaration",
+        "= updates an existing variable; := can introduce a new one.",
+        "value = 3",
+        "https://go.dev/ref/spec#Short_variable_declarations"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/scope-and-shadowing/main.go",
+    "command": "./run scope-and-shadowing",
+    "supportFiles": [],
+    "target": "value\\ :=\\ 3"
+  },
+  {
+    "lab": "functions-and-pointers",
+    "id": "value-and-pointer",
+    "title": "Change a caller’s variable through a pointer",
+    "purpose": "Observe the difference between changing a copied int and pointed-to storage.",
+    "explanation": "Go passes argument values into parameters. An int parameter is a copy of the caller’s int. A pointer value identifies existing storage: &count obtains a pointer to count, and *value accesses the int through that pointer. Passing a pointer still copies the pointer value, while both pointers identify the same storage.",
+    "action": "Run and compare after value 3 with after pointer 4. In bumpPointer, change *value + 1 to *value + 5 and run again. Inspect which output changes.",
+    "observe": "After value stays 3 and after pointer becomes 8. The pointer operation updates count. Why did changing the value parameter in bumpValue leave count unchanged?",
+    "reference": "after value 3\nafter pointer 4",
+    "topics": [
+      [
+        "Pointers",
+        "& obtains an address; * accesses the pointed-to value.",
+        "bumpPointer(&count)",
+        "https://go.dev/ref/spec#Address_operators"
+      ],
+      [
+        "Argument values",
+        "Function arguments are assigned to parameters.",
+        "func bumpValue(value int)",
+        "https://go.dev/ref/spec#Calls"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/value-and-pointer/main.go",
+    "command": "./run value-and-pointer",
+    "supportFiles": [],
+    "target": "\\*value\\ \\+\\ 1"
+  },
+  {
+    "lab": "functions-and-pointers",
+    "id": "function-values",
+    "title": "Pass an operation as a value",
+    "purpose": "Use a function parameter to choose a calculation.",
+    "explanation": "func(int) int is the type of a function that accepts one int and returns one int. A function can be passed as an argument, just like another value. apply calls the operation it receives instead of naming a particular calculation internally.",
+    "action": "Run and find applied 8. In main, change apply(4, double) to apply(4, triple) and run again. Keep the input 4 unchanged.",
+    "observe": "The result becomes 12. What part of apply lets the caller choose the operation without changing apply’s body?",
+    "reference": "applied 8",
+    "topics": [
+      [
+        "Function types",
+        "A function type describes parameters and results.",
+        "operation func(int) int",
+        "https://go.dev/ref/spec#Function_types"
+      ],
+      [
+        "Function values",
+        "A function can be passed to another function.",
+        "apply(4, triple)",
+        "https://go.dev/ref/spec#Function_literals"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/function-values/main.go",
+    "command": "./run function-values",
+    "supportFiles": [],
+    "target": "apply\\(4,\\ double\\)"
+  },
+  {
+    "lab": "functions-and-pointers",
+    "id": "closures",
+    "title": "Keep state in a returned function",
+    "purpose": "Observe independent state captured by two function values.",
+    "explanation": "A closure is a function value that refers to variables from its surrounding scope. makeCounter returns a function that keeps access to its count. Calls through one returned function share that count; calling makeCounter again creates another count.",
+    "action": "Run and find first 1 second 2, then other 1. In makeCounter, change count := 0 to count := 10 and run again. Compare both counters’ first values.",
+    "observe": "The first counter produces 11 then 12; the other begins at 11. Why does other not continue from 12?",
+    "reference": "first 1 second 2\nother 1",
+    "topics": [
+      [
+        "Closures",
+        "A function literal can refer to variables outside its own body.",
+        "return func() int { count++; return count }",
+        "https://go.dev/ref/spec#Function_literals"
+      ],
+      [
+        "Returned function",
+        "The caller stores and invokes the function value.",
+        "next := makeCounter()",
+        "https://go.dev/ref/spec#Function_types"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/closures/main.go",
+    "command": "./run closures",
+    "supportFiles": [],
+    "target": "count\\ :=\\ 0"
+  },
+  {
+    "lab": "functions-and-pointers",
+    "id": "defer-order",
+    "title": "Run cleanup when a function returns",
+    "purpose": "Place a deferred call in the function’s execution order.",
+    "explanation": "defer schedules a call for the moment its surrounding function returns. Here cleanup is printed after work but before main continues. The call is delayed; the rest of the function still runs immediately.",
+    "action": "Run and read work, cleanup, finished. In work, remove defer from defer fmt.Println(\"cleanup\") and run again. Compare the first two lines.",
+    "observe": "Cleanup now prints before work. A deferred call belongs to the function that executes defer, so which return point triggers cleanup in the starter?",
+    "reference": "work\ncleanup\nfinished",
+    "topics": [
+      [
+        "Deferred calls",
+        "Deferred calls run when the surrounding function returns.",
+        "defer fmt.Println(\"cleanup\")",
+        "https://go.dev/ref/spec#Defer_statements"
+      ],
+      [
+        "Function return",
+        "Control returns to the statement following the call.",
+        "work()",
+        "https://go.dev/ref/spec#Return_statements"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/defer-order/main.go",
+    "command": "./run defer-order",
+    "supportFiles": [],
+    "target": "defer\\ fmt\\.Println\\(\"cleanup\"\\)"
+  },
+  {
+    "lab": "functions-and-pointers",
+    "id": "recursion",
+    "title": "Reduce a problem to a smaller call",
+    "purpose": "Trace the base case and recursive step of a running sum.",
+    "explanation": "A recursive function calls itself with a smaller problem. sumTo returns 0 for a nonpositive input. For a positive n, it adds n to sumTo(n - 1), so repeated calls eventually reach the base case.",
+    "action": "Run and find total 10 for sumTo(4). Change that call to sumTo(5) and run again. Work backward from the base case to explain the new total.",
+    "observe": "The total becomes 15. Which condition prevents another recursive call at 0? Each call needs a path toward that condition.",
+    "reference": "total 10",
+    "topics": [
+      [
+        "Recursive call",
+        "The function invokes itself with a smaller argument.",
+        "sumTo(n - 1)",
+        "https://go.dev/ref/spec#Calls"
+      ],
+      [
+        "Base case",
+        "A return can end the recursion without another call.",
+        "if n <= 0 { return 0 }",
+        "https://go.dev/ref/spec#Return_statements"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/recursion/main.go",
+    "command": "./run recursion",
+    "supportFiles": [],
+    "target": "sumTo\\(4\\)"
+  },
+  {
+    "lab": "functions-and-pointers",
+    "id": "function-practice",
+    "title": "Extend a function without changing other cases",
+    "purpose": "Apply conditions and parameters to add a lower bound.",
+    "explanation": "capAt currently enforces only an upper bound. main prints a low, middle and high input so you can see whether an edit changes a case it should preserve. The three examples are evidence for those inputs, not a proof for every integer.",
+    "action": "Run and inspect low -2 middle 3 high 5. Extend capAt so negative values return 0. Keep the existing upper bound and all middle values unchanged. Run again and inspect all three labelled results.",
+    "observe": "Look for low 0 middle 3 high 5. Did the new condition preserve the original middle and high behavior? What additional boundary inputs would you try?",
+    "reference": "low -2 middle 3 high 5",
+    "topics": [
+      [
+        "Parameters",
+        "Each call supplies its own value and limit.",
+        "capAt(-2, 5)",
+        "https://go.dev/ref/spec#Function_declarations"
+      ],
+      [
+        "Guard condition",
+        "An early return can handle a boundary case.",
+        "if value < 0 { return 0 }",
+        "https://go.dev/ref/spec#If_statements"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/function-practice/main.go",
+    "command": "./run function-practice",
+    "supportFiles": [],
+    "target": "if\\ value\\ >\\ limit\\ \\{"
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "arrays",
+    "title": "Change one array element",
+    "purpose": "Use an index to update a fixed-length array.",
+    "explanation": "An array stores a fixed number of values of one type. [3]int is an array of three ints. Indexes start at 0, so index 1 selects the second element. The length is part of an array’s type.",
+    "action": "Run and find [2 9 6]. Change the assignment values[1] = 9 to values[0] = 9 and run again. Compare the position of 9 in the printed array.",
+    "observe": "The edited result is [9 4 6]. Which index selects the final element of a three-element array?",
+    "reference": "[2 9 6]",
+    "topics": [
+      [
+        "Array type",
+        "The length and element type describe an array.",
+        "[3]int{2, 4, 6}",
+        "https://go.dev/ref/spec#Array_types"
+      ],
+      [
+        "Index",
+        "Index 0 selects the first element.",
+        "values[0] = 9",
+        "https://go.dev/ref/spec#Index_expressions"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/arrays/main.go",
+    "command": "./run arrays",
+    "supportFiles": [],
+    "target": "values\\[1\\]\\ =\\ 9"
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "slice-bounds",
+    "title": "Select a slice of a sequence",
+    "purpose": "Interpret an inclusive start and exclusive end index.",
+    "explanation": "A slice describes a sequence backed by an array. values[1:3] starts at index 1 and stops before index 3. len gives the number of elements in the slice, rather than the size of the whole backing array.",
+    "action": "Run and find len 2 values [4 6]. Change values[1:3] to values[1:4] and run again. Compare the length and final element.",
+    "observe": "The result becomes len 3 values [4 6 8]. Why is the element at the end index excluded?",
+    "reference": "len 2 values [4 6]",
+    "topics": [
+      [
+        "Slice bounds",
+        "The lower bound is included; the upper bound is excluded.",
+        "middle := values[1:3]",
+        "https://go.dev/ref/spec#Slice_expressions"
+      ],
+      [
+        "Slice length",
+        "len counts the slice’s elements.",
+        "len(middle)",
+        "https://go.dev/ref/spec#Length_and_capacity"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/slice-bounds/main.go",
+    "command": "./run slice-bounds",
+    "supportFiles": [],
+    "target": "values\\[1:3\\]"
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "append-capacity",
+    "title": "Grow a slice",
+    "purpose": "Distinguish a slice’s current length from its capacity.",
+    "explanation": "make([]int, 2, 4) creates a slice with two zero-valued elements and capacity for four. append returns the updated slice, so assign its result back. If the backing array lacks room, append allocates another array. The program reports whether capacity grew instead of assuming a particular allocation size.",
+    "action": "Run and inspect before, after length and grew. Change the initial capacity in make([]int, 2, 4) from 4 to 2 and run again. Compare grew while checking that values stay the same.",
+    "observe": "The edited run reports grew true. Both runs contain [0 0 7 8]. Why can the same four values require a new array in one run but fit the original array in the other?",
+    "reference": "before 2 4\nafter length 4 grew false\nvalues [0 0 7 8]",
+    "topics": [
+      [
+        "Append",
+        "append returns a slice containing the added elements.",
+        "values = append(values, 7, 8)",
+        "https://go.dev/ref/spec#Appending_and_copying_slices"
+      ],
+      [
+        "Capacity",
+        "cap reports space in the backing array from the slice’s start.",
+        "cap(values)",
+        "https://go.dev/ref/spec#Length_and_capacity"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/append-capacity/main.go",
+    "command": "./run append-capacity",
+    "supportFiles": [],
+    "target": "make\\(\\[\\]int,\\ 2,\\ 4\\)"
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "slice-aliases",
+    "title": "Follow two slices into shared storage",
+    "purpose": "Identify which slice indexes refer to the same array element.",
+    "explanation": "Slicing does not copy the elements. left and right describe overlapping parts of backing. left[1] and right[0] both refer to backing[1], so writing through one slice changes the value read through the other.",
+    "action": "Run and compare backing [2 9 6] with right [9 6]. Change left[1] = 9 to right[1] = 9 and run again. Find which backing element now changes.",
+    "observe": "Backing becomes [2 4 9], and right becomes [4 9]. Which index in backing corresponds to right[1]? Use the slice’s starting offset, not just the index written after right.",
+    "reference": "left [2 9]\nbacking [2 9 6]\nright [9 6]",
+    "topics": [
+      [
+        "Shared backing array",
+        "Overlapping slices can read and write the same storage.",
+        "left := backing[:2]",
+        "https://go.dev/ref/spec#Slice_types"
+      ],
+      [
+        "Slice offsets",
+        "right[0] begins at backing[1] in this example.",
+        "right := backing[1:]",
+        "https://go.dev/ref/spec#Slice_expressions"
+      ]
+    ],
+    "mode": "run",
+    "diagram": {
+      "title": "Which slice indexes share storage?",
+      "caption": "Before the assignment, left[1] and right[0] both reach backing[1], whose value is 4.",
+      "nodes": [
+        {
+          "id": "backing",
+          "x": 170,
+          "y": 110,
+          "label": "backing",
+          "detail": "[2, 4, 6]",
+          "w": 180
+        },
+        {
+          "id": "left",
+          "x": 20,
+          "y": 15,
+          "label": "left[:2]",
+          "detail": "indexes 0, 1",
+          "w": 180
+        },
+        {
+          "id": "right",
+          "x": 320,
+          "y": 15,
+          "label": "right[1:]",
+          "detail": "indexes 1, 2",
+          "w": 180
+        }
+      ],
+      "edges": [
+        {
+          "from": "left",
+          "to": "backing",
+          "label": "left[1] → slot 1"
+        },
+        {
+          "from": "right",
+          "to": "backing",
+          "label": "right[0] → slot 1"
+        }
+      ]
+    },
+    "file": "cmd/slice-aliases/main.go",
+    "command": "./run slice-aliases",
+    "supportFiles": [],
+    "target": "left\\[1\\]\\ =\\ 9"
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "copy-slices",
+    "title": "Copy values into separate storage",
+    "purpose": "Keep the original slice unchanged while editing a copied slice.",
+    "explanation": "make allocates destination storage. copy then copies as many elements as fit and returns the number copied; copy itself does not allocate the destination. Here both slices contain ints and use separate backing arrays.",
+    "action": "Run and find copied count 3, original [2 4 6] and copy [9 4 6]. Change copied[0] = 9 to copied[1] = 9 and run again. Check that original remains unchanged.",
+    "observe": "Only the copy becomes [2 9 6]. Which line creates separate storage, and which line fills it with values?",
+    "reference": "copied count 3\noriginal [2 4 6]\ncopy [9 4 6]",
+    "topics": [
+      [
+        "Copy",
+        "copy fills existing destination storage and returns a count.",
+        "count := copy(copied, original)",
+        "https://go.dev/ref/spec#Appending_and_copying_slices"
+      ],
+      [
+        "Allocation",
+        "make creates a slice with its own backing array here.",
+        "make([]int, len(original))",
+        "https://go.dev/ref/spec#Making_slices_maps_and_channels"
+      ]
+    ],
+    "mode": "run",
+    "diagram": {
+      "title": "Where does the copied value live?",
+      "caption": "make creates another array. copy copies three ints into it; changing copied[0] leaves original[0] unchanged.",
+      "nodes": [
+        {
+          "id": "a",
+          "x": 20,
+          "y": 55,
+          "label": "original",
+          "detail": "[2, 4, 6]",
+          "w": 190
+        },
+        {
+          "id": "b",
+          "x": 300,
+          "y": 55,
+          "label": "copied",
+          "detail": "[9, 4, 6]",
+          "w": 190
+        }
+      ],
+      "edges": [
+        {
+          "from": "a",
+          "to": "b",
+          "label": "copy, then edit"
+        }
+      ]
+    },
+    "file": "cmd/copy-slices/main.go",
+    "command": "./run copy-slices",
+    "supportFiles": [],
+    "target": "copied\\[0\\]\\ =\\ 9"
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "map-lookup",
+    "title": "Distinguish a missing map key from a zero value",
+    "purpose": "Use the second result of a map lookup to test presence.",
+    "explanation": "A map associates keys with values. map[string]int uses string keys and int values. A missing lookup produces the value type’s zero value; the optional second result tells whether the key exists. Ada is present with a stored value of 0.",
+    "action": "Run and find value=0 found=true. Change the lookup scores[\"Ada\"] to scores[\"Grace\"] and run again. Compare value and found.",
+    "observe": "Value is still 0, but found becomes false. Why would checking only value lose the distinction between these two cases?",
+    "reference": "value=0 found=true",
+    "topics": [
+      [
+        "Map lookup",
+        "The second result reports whether the key exists.",
+        "value, found := scores[\"Ada\"]",
+        "https://go.dev/ref/spec#Index_expressions"
+      ],
+      [
+        "Map literal",
+        "Each key is associated with a value.",
+        "map[string]int{\"Ada\": 0}",
+        "https://go.dev/ref/spec#Map_types"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/map-lookup/main.go",
+    "command": "./run map-lookup",
+    "supportFiles": [],
+    "target": "scores\\[\"Ada\"\\]"
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "map-delete-and-order",
+    "title": "Print remaining map keys in a stable order",
+    "purpose": "Remove one key and sort the keys before comparing output.",
+    "explanation": "delete removes a key if it is present. Go does not specify map iteration order, so this program collects the remaining keys and sorts them before printing. That makes changes to the contents easy to compare without confusing them with iteration order.",
+    "action": "Run and find names [Grace Lin]. Change delete(scores, \"Ada\") to delete(scores, \"Grace\") and run again. Inspect which names remain.",
+    "observe": "The result becomes names [Ada Lin]. Sorting is for the printed comparison; the map itself does not acquire a sorted iteration order. What would happen if the deleted key were absent?",
+    "reference": "names [Grace Lin]",
+    "topics": [
+      [
+        "Delete",
+        "Deleting an absent key is allowed and leaves the map unchanged.",
+        "delete(scores, \"Ada\")",
+        "https://go.dev/ref/spec#Deletion_of_map_elements"
+      ],
+      [
+        "Stable display",
+        "Sort a collected key slice when comparing map output.",
+        "sort.Strings(keys)",
+        "https://pkg.go.dev/sort@go1.27.4#Strings"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/map-delete-and-order/main.go",
+    "command": "./run map-delete-and-order",
+    "supportFiles": [],
+    "target": "delete\\(scores,\\ \"Ada\"\\)"
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "unicode-text",
+    "title": "Count bytes and Unicode code points",
+    "purpose": "Interpret string length and the indexes produced by range.",
+    "explanation": "A Go string contains bytes. len(text) counts those bytes. utf8.RuneCountInString counts Unicode code points, called runes. A range loop decodes UTF-8 runes and supplies each rune’s starting byte index, which can skip numbers when a rune occupies multiple bytes.",
+    "action": "Run and compare bytes 4 with runes 3. Inspect the byte indexes 0, 2 and 3. Change text := \"éGo\" to text := \"Go\" and run again.",
+    "observe": "The edited string has two bytes, two runes and indexes 0 and 1. What caused the jump from index 0 to index 2 in the starter? A rune count is not a general count of user-perceived written characters.",
+    "reference": "bytes 4 runes 3\n0:é\n2:G\n3:o",
+    "topics": [
+      [
+        "String range",
+        "The loop supplies a byte offset and decoded rune.",
+        "for byteIndex, value := range text",
+        "https://go.dev/ref/spec#For_range"
+      ],
+      [
+        "Rune count",
+        "Count UTF-8 code points rather than bytes.",
+        "utf8.RuneCountInString(text)",
+        "https://pkg.go.dev/unicode/utf8@go1.27.4#RuneCountInString"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/unicode-text/main.go",
+    "command": "./run unicode-text",
+    "supportFiles": [],
+    "target": "text\\ :=\\ \"éGo\""
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "text-fields",
+    "title": "Split and join words",
+    "purpose": "Normalise separating whitespace using standard string functions.",
+    "explanation": "strings.Fields splits text at runs of whitespace and leaves out empty fields at the ends. strings.Join combines the resulting strings using a chosen separator. The program prints quoted output so leading and trailing spaces are visible.",
+    "action": "Run and inspect words 2 [Ada Lin] and normalized=\"Ada Lin\". Change the input to \"  Ada Grace  Lin \" and run again. Compare the word count and normalised spacing.",
+    "observe": "The edited result has three words and one separating space. Which part of the pipeline removes repeated whitespace, and which part inserts the chosen separator?",
+    "reference": "words 2 [Ada Lin]\nnormalized=\"Ada Lin\"",
+    "topics": [
+      [
+        "Fields",
+        "Split around runs of whitespace.",
+        "strings.Fields(text)",
+        "https://pkg.go.dev/strings@go1.27.4#Fields"
+      ],
+      [
+        "Join",
+        "Choose the separator placed between fields.",
+        "strings.Join(words, \" \")",
+        "https://pkg.go.dev/strings@go1.27.4#Join"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/text-fields/main.go",
+    "command": "./run text-fields",
+    "supportFiles": [],
+    "target": "text\\ :=\\ \"\\ \\ Ada\\ \\ \\ Lin\\ \""
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "variadic-functions",
+    "title": "Pass several values or expand a slice",
+    "purpose": "Use ... at a variadic parameter and a slice argument.",
+    "explanation": "The final parameter values ...int accepts zero or more ints. Inside sum, values is a slice. At a call, more... expands a slice into those arguments; passing more without ... would supply a slice where the function expects ints.",
+    "action": "Run and find literal 6 and slice 9. Add 6 to the more slice, making []int{4, 5, 6}, and run again. Inspect which result changes.",
+    "observe": "The literal result stays 6 and the slice result becomes 15. How would sum behave if called without any arguments?",
+    "reference": "literal 6\nslice 9",
+    "topics": [
+      [
+        "Variadic parameter",
+        "Inside the function, the parameter holds a slice.",
+        "func sum(values ...int) int",
+        "https://go.dev/ref/spec#Passing_arguments_to_..._parameters"
+      ],
+      [
+        "Slice expansion",
+        "... supplies the slice elements as separate arguments.",
+        "sum(more...)",
+        "https://go.dev/ref/spec#Calls"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/variadic-functions/main.go",
+    "command": "./run variadic-functions",
+    "supportFiles": [],
+    "target": "\\[\\]int\\{4,\\ 5\\}"
+  },
+  {
+    "lab": "collections-and-text",
+    "id": "word-count-practice",
+    "title": "Combine word counts across letter case",
+    "purpose": "Apply slices, strings and map updates to a counting task.",
+    "explanation": "Fields produces the words, and counts[word]++ adds one to each word’s count. A missing key begins at the int zero value. The starter treats Go and go as different keys. strings.ToLower returns a lower-case string that can be used as a normalised key.",
+    "action": "Run and find go 2 Go 1. Make counting case-insensitive by converting each word with strings.ToLower before using it as the map key. Run again and compare both labelled counts.",
+    "observe": "Look for go 3 Go 0. Does the zero for Go prove that a Go key is present with a zero value? Use the presence result from a map lookup to decide.",
+    "reference": "go 2 Go 1",
+    "topics": [
+      [
+        "Map update",
+        "Increment reads a missing int value as zero, then stores the incremented value.",
+        "counts[word]++",
+        "https://go.dev/ref/spec#IncDec_statements"
+      ],
+      [
+        "Case conversion",
+        "Convert the key before counting.",
+        "strings.ToLower(word)",
+        "https://pkg.go.dev/strings@go1.27.4#ToLower"
+      ]
+    ],
+    "mode": "run",
+    "file": "cmd/word-count-practice/main.go",
+    "command": "./run word-count-practice",
+    "supportFiles": [],
+    "target": "counts\\[word\\]\\+\\+"
+  }
+]

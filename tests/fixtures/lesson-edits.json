@@ -1,0 +1,240 @@
+{
+  "print-values": [
+    {
+      "before": "2+3",
+      "after": "2*3",
+      "expected": "sum 6\nproduct 12"
+    }
+  ],
+  "formatted-output": [
+    {
+      "before": "%.2f",
+      "after": "%.1f",
+      "expected": "Ada has 3 items; price 2.3"
+    }
+  ],
+  "quoted-and-raw-strings": [
+    {
+      "before": "`first\\nsecond`",
+      "after": "`first\nsecond`",
+      "expected": "quoted:\nfirst\nsecond\nraw:\nfirst\nsecond"
+    }
+  ],
+  "assignment": [
+    {
+      "before": "count = count + 2",
+      "after": "count = count * 2",
+      "expected": "before 3\nafter 6"
+    }
+  ],
+  "constants": [
+    {
+      "before": "itemsPerBox = 4",
+      "after": "itemsPerBox = 6",
+      "expected": "total items 18"
+    }
+  ],
+  "zero-values": [
+    {
+      "before": "name = \"\"",
+      "after": "name = \"Ada\"",
+      "expected": "count=0 ready=false name=\"Ada\""
+    }
+  ],
+  "number-conversions": [
+    {
+      "before": "value := 3.9",
+      "after": "value := -3.9",
+      "expected": "decimal -3.9\ninteger -3"
+    }
+  ],
+  "bounded-integers": [
+    {
+      "before": "value uint8 = 255",
+      "after": "value uint8 = 254",
+      "expected": "after increment 255"
+    }
+  ],
+  "boolean-logic": [
+    {
+      "before": "attendance := 75",
+      "after": "attendance := 90",
+      "expected": "eligible true"
+    }
+  ],
+  "else-if": [
+    {
+      "before": "temperature := 0",
+      "after": "temperature := -1",
+      "expected": "freezing"
+    }
+  ],
+  "switch": [
+    {
+      "before": "operation := \"add\"",
+      "after": "operation := \"subtract\"",
+      "expected": "result 3"
+    }
+  ],
+  "condition-loop": [
+    {
+      "before": "remaining := 3",
+      "after": "remaining := 0",
+      "expected": "launch"
+    }
+  ],
+  "break-and-continue": [
+    {
+      "before": "value == 5",
+      "after": "value == 4",
+      "expected": "1\n3"
+    }
+  ],
+  "integer-range": [
+    {
+      "before": "count := 3",
+      "after": "count := 0",
+      "expected": "done"
+    }
+  ],
+  "function-result": [
+    {
+      "before": "value * 2",
+      "after": "value * 3",
+      "expected": "result 9"
+    }
+  ],
+  "multiple-results": [
+    {
+      "before": "divide(8, 3)",
+      "after": "divide(9, 3)",
+      "expected": "quotient 3 remainder 0"
+    }
+  ],
+  "scope-and-shadowing": [
+    {
+      "before": "value := 3",
+      "after": "value = 3",
+      "expected": "inner 3\nouter 3"
+    }
+  ],
+  "value-and-pointer": [
+    {
+      "before": "*value + 1",
+      "after": "*value + 5",
+      "expected": "after value 3\nafter pointer 8"
+    }
+  ],
+  "function-values": [
+    {
+      "before": "apply(4, double)",
+      "after": "apply(4, triple)",
+      "expected": "applied 12"
+    }
+  ],
+  "closures": [
+    {
+      "before": "count := 0",
+      "after": "count := 10",
+      "expected": "first 11 second 12\nother 11"
+    }
+  ],
+  "defer-order": [
+    {
+      "before": "defer fmt.Println(\"cleanup\")",
+      "after": "fmt.Println(\"cleanup\")",
+      "expected": "cleanup\nwork\nfinished"
+    }
+  ],
+  "recursion": [
+    {
+      "before": "sumTo(4)",
+      "after": "sumTo(5)",
+      "expected": "total 15"
+    }
+  ],
+  "function-practice": [
+    {
+      "before": "if value > limit {",
+      "after": "if value < 0 { return 0 }; if value > limit {",
+      "expected": "low 0 middle 3 high 5"
+    }
+  ],
+  "arrays": [
+    {
+      "before": "values[1] = 9",
+      "after": "values[0] = 9",
+      "expected": "[9 4 6]"
+    }
+  ],
+  "slice-bounds": [
+    {
+      "before": "values[1:3]",
+      "after": "values[1:4]",
+      "expected": "len 3 values [4 6 8]"
+    }
+  ],
+  "append-capacity": [
+    {
+      "before": "make([]int, 2, 4)",
+      "after": "make([]int, 2, 2)",
+      "expected": "before 2 2\nafter length 4 grew true\nvalues [0 0 7 8]"
+    }
+  ],
+  "slice-aliases": [
+    {
+      "before": "left[1] = 9",
+      "after": "right[1] = 9",
+      "expected": "left [2 4]\nbacking [2 4 9]\nright [4 9]"
+    }
+  ],
+  "copy-slices": [
+    {
+      "before": "copied[0] = 9",
+      "after": "copied[1] = 9",
+      "expected": "copied count 3\noriginal [2 4 6]\ncopy [2 9 6]"
+    }
+  ],
+  "map-lookup": [
+    {
+      "before": "scores[\"Ada\"]",
+      "after": "scores[\"Grace\"]",
+      "expected": "value=0 found=false"
+    }
+  ],
+  "map-delete-and-order": [
+    {
+      "before": "delete(scores, \"Ada\")",
+      "after": "delete(scores, \"Grace\")",
+      "expected": "names [Ada Lin]"
+    }
+  ],
+  "unicode-text": [
+    {
+      "before": "text := \"éGo\"",
+      "after": "text := \"Go\"",
+      "expected": "bytes 2 runes 2\n0:G\n1:o"
+    }
+  ],
+  "text-fields": [
+    {
+      "before": "text := \"  Ada   Lin \"",
+      "after": "text := \"  Ada Grace  Lin \"",
+      "expected": "words 3 [Ada Grace Lin]\nnormalized=\"Ada Grace Lin\""
+    }
+  ],
+  "variadic-functions": [
+    {
+      "before": "[]int{4, 5}",
+      "after": "[]int{4, 5, 6}",
+      "expected": "literal 6\nslice 15"
+    }
+  ],
+  "word-count-practice": [
+    {
+      "before": "counts[word]++",
+      "after": "counts[strings.ToLower(word)]++",
+      "expected": "go 3 Go 0"
+    }
+  ]
+}
