@@ -1,0 +1,169 @@
+[
+  {
+    "path": "parts.json",
+    "url": "https://raw.githubusercontent.com/snowch/c-network-programming-lab/d8d169c7edc335f1a1c7c2304fb9d849a61a8c03/runtime/files/parts.json",
+    "sha256": "9cd5ad2606a4ea2e542eee50bbb3dcfc3cc28d3ac812ec7fb2955f131d19ffba",
+    "bytes": 160,
+    "group": "base"
+  },
+  {
+    "path": "libv86.mjs",
+    "url": "https://raw.githubusercontent.com/snowch/c-network-programming-lab/d8d169c7edc335f1a1c7c2304fb9d849a61a8c03/runtime/files/libv86.mjs",
+    "sha256": "f9f3b4cae7dafb882e10e51aae9137ec52d5aed5ffbc9026f9081c73bbaae4c8",
+    "bytes": 359819,
+    "group": "base"
+  },
+  {
+    "path": "v86.wasm",
+    "url": "https://raw.githubusercontent.com/snowch/c-network-programming-lab/d8d169c7edc335f1a1c7c2304fb9d849a61a8c03/runtime/files/v86.wasm",
+    "sha256": "2f0c4150f266415b754a84a32e6f8e4c975a1d3abb94c78b047fa30027db1ef1",
+    "bytes": 2007347,
+    "group": "base"
+  },
+  {
+    "path": "v86-LICENSE.txt",
+    "url": "https://raw.githubusercontent.com/snowch/c-network-programming-lab/d8d169c7edc335f1a1c7c2304fb9d849a61a8c03/runtime/files/v86-LICENSE.txt",
+    "sha256": "3f61ba65e3215b09ef264ba8d777d73c19644309fbb705967634eb5147e500a0",
+    "bytes": 1306,
+    "group": "base"
+  },
+  {
+    "path": "seabios.bin",
+    "url": "https://raw.githubusercontent.com/snowch/c-network-programming-lab/d8d169c7edc335f1a1c7c2304fb9d849a61a8c03/runtime/files/seabios.bin",
+    "sha256": "73e3f359102e3a9982c35fce98eb7cd08f18303ac7f1ba6ebfbe6cdc1c244d98",
+    "bytes": 131072,
+    "group": "base"
+  },
+  {
+    "path": "vgabios.bin",
+    "url": "https://raw.githubusercontent.com/snowch/c-network-programming-lab/d8d169c7edc335f1a1c7c2304fb9d849a61a8c03/runtime/files/vgabios.bin",
+    "sha256": "a4bc0d80cc3ca028c73dafa8fee396b8d054ce87ebd8abfbd31b06b437607880",
+    "bytes": 36352,
+    "group": "base"
+  },
+  {
+    "path": "vmlinuz-virt",
+    "url": "https://raw.githubusercontent.com/snowch/c-network-programming-lab/d8d169c7edc335f1a1c7c2304fb9d849a61a8c03/runtime/files/vmlinuz-virt",
+    "sha256": "7df6dba6acdad76fa66aa6e4f7827acfe2b2943d7be321568f96251320d36146",
+    "bytes": 8110592,
+    "group": "base"
+  },
+  {
+    "path": "guest-00.bin",
+    "url": "https://raw.githubusercontent.com/snowch/c-network-programming-lab/d8d169c7edc335f1a1c7c2304fb9d849a61a8c03/runtime/files/guest-00.bin",
+    "sha256": "3d25c6aa9b53fdf09104194961a51d7b6cbd0574657fef8c6f6d2a4a70432088",
+    "bytes": 16777216,
+    "group": "base"
+  },
+  {
+    "path": "guest-01.bin",
+    "url": "https://raw.githubusercontent.com/snowch/c-network-programming-lab/d8d169c7edc335f1a1c7c2304fb9d849a61a8c03/runtime/files/guest-01.bin",
+    "sha256": "e7b681f481bb5580331c61dafcbf1aaf0025559c3c4fcdc0b158a21206c3397d",
+    "bytes": 16777216,
+    "group": "base"
+  },
+  {
+    "path": "guest-02.bin",
+    "url": "https://raw.githubusercontent.com/snowch/c-network-programming-lab/d8d169c7edc335f1a1c7c2304fb9d849a61a8c03/runtime/files/guest-02.bin",
+    "sha256": "8998320da4bf9b4f7fb8e8b6ed22834a80f3a34e857ca8a369e53d33cf0dea8c",
+    "bytes": 16777216,
+    "group": "base"
+  },
+  {
+    "path": "guest-03.bin",
+    "url": "https://raw.githubusercontent.com/snowch/c-network-programming-lab/d8d169c7edc335f1a1c7c2304fb9d849a61a8c03/runtime/files/guest-03.bin",
+    "sha256": "91f98ce0a18316392538905271496a7c38d53e220694c5545f0e5c493d1e662e",
+    "bytes": 16777216,
+    "group": "base"
+  },
+  {
+    "path": "guest-04.bin",
+    "url": "https://raw.githubusercontent.com/snowch/c-network-programming-lab/d8d169c7edc335f1a1c7c2304fb9d849a61a8c03/runtime/files/guest-04.bin",
+    "sha256": "bf1852353a9fec2aba60074c243a924daebc2a9f6b5c781d92f7e5a571a43770",
+    "bytes": 16777216,
+    "group": "base"
+  },
+  {
+    "path": "guest-05.bin",
+    "url": "https://raw.githubusercontent.com/snowch/c-network-programming-lab/d8d169c7edc335f1a1c7c2304fb9d849a61a8c03/runtime/files/guest-05.bin",
+    "sha256": "b5d3fbfc78a5bde53f247adb587d95bb4c736664595be6b25ac67a6ce5aa8ef9",
+    "bytes": 16777216,
+    "group": "base"
+  },
+  {
+    "path": "guest-06.bin",
+    "url": "https://raw.githubusercontent.com/snowch/c-network-programming-lab/d8d169c7edc335f1a1c7c2304fb9d849a61a8c03/runtime/files/guest-06.bin",
+    "sha256": "1d12aa4a65f112a12cf88b32570c3d1754458485fffc58b0b613afaf8c384a5a",
+    "bytes": 16777216,
+    "group": "base"
+  },
+  {
+    "path": "guest-07.bin",
+    "url": "https://raw.githubusercontent.com/snowch/c-network-programming-lab/d8d169c7edc335f1a1c7c2304fb9d849a61a8c03/runtime/files/guest-07.bin",
+    "sha256": "43fa817bfcf5cd9bde6d02637b5d55d2214f9c8605c609b4b5d0a81accd61a26",
+    "bytes": 13091711,
+    "group": "base"
+  },
+  {
+    "path": "COPYING.LESSER",
+    "url": "https://raw.githubusercontent.com/copy/v86/315b2b0b758703ef0e6cc7b4088d6068f83f3c20/bios/COPYING.LESSER",
+    "sha256": "a853c2ffec17057872340eee242ae4d96cbf2b520ae27d903e1b2fef1a5f9d1c",
+    "group": "base"
+  },
+  {
+    "path": "fetch-and-build-seabios.sh",
+    "url": "https://raw.githubusercontent.com/copy/v86/315b2b0b758703ef0e6cc7b4088d6068f83f3c20/bios/fetch-and-build-seabios.sh",
+    "sha256": "057856a817ae3dc85b18dc00f19274f6e877e6f28a36dce1afc5be751739e24a",
+    "group": "base"
+  },
+  {
+    "path": "seabios.config",
+    "url": "https://raw.githubusercontent.com/copy/v86/315b2b0b758703ef0e6cc7b4088d6068f83f3c20/bios/seabios.config",
+    "sha256": "7d1337b30591277356ca1b1bf1a192c2c1f17e15ec9e5740befcc57bb000339d",
+    "group": "base"
+  },
+  {
+    "path": "seabios-debug.config",
+    "url": "https://raw.githubusercontent.com/copy/v86/315b2b0b758703ef0e6cc7b4088d6068f83f3c20/bios/seabios-debug.config",
+    "sha256": "7fa7a757ac0ba4161bc6ecf8ca4af09463462db58c4717a79cea0db49be9c13d",
+    "group": "base"
+  },
+  {
+    "name": "@xterm/xterm",
+    "version": "6.0.0",
+    "url": "https://registry.npmjs.org/@xterm/xterm/-/xterm-6.0.0.tgz",
+    "sha256": "908e66e04af6c8dc6b00dd3b54de088e2e81e5ed866284fd6c2fb3c2d1c7a3f6",
+    "group": "xterm"
+  },
+  {
+    "name": "@xterm/addon-fit",
+    "version": "0.11.0",
+    "url": "https://registry.npmjs.org/@xterm/addon-fit/-/addon-fit-0.11.0.tgz",
+    "sha256": "26003b4517a132b64e4ff228fd88a5fda3fff5e606c76093f6dcff772e9ecec0",
+    "group": "xterm"
+  },
+  {
+    "path": "alpine-base.tar.gz",
+    "url": "https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86/alpine-minirootfs-3.23.8-x86.tar.gz",
+    "sha256": "2e8ba8a8801fb74cd0d32ab8ba8bae3f6ba9f271ed6a086f5ce4cb0226ee4ed4",
+    "group": "go"
+  },
+  {
+    "path": "go-host.tar.gz",
+    "url": "https://go.dev/dl/go1.27.4.linux-amd64.tar.gz",
+    "sha256": "7226736c2339719cda28fbf3a54d71aa63bcefe376e98cef00034268dab24840",
+    "group": "go"
+  },
+  {
+    "path": "go-guest.tar.gz",
+    "url": "https://go.dev/dl/go1.27.4.linux-386.tar.gz",
+    "sha256": "6ecb45737d2315acb0dbbc97ea8e13e7c19d4c796abe8d68907c40bce6f50bf7",
+    "group": "go"
+  },
+  {
+    "path": "qemu-i386-static",
+    "url": "https://github.com/multiarch/qemu-user-static/releases/download/v7.2.0-1/qemu-i386-static",
+    "sha256": "34f4268e06b87af48f434282caf9a03b162d98f10a1bd7125f92729cd82b41ca",
+    "group": "build-only"
+  }
+]

@@ -6,6 +6,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+  actions: read
 concurrency:
   group: go-foundry-${{ github.ref }}
   cancel-in-progress: true
@@ -25,9 +26,12 @@ jobs:
         with:
           path: |
             .cache/sdk
+            .cache/local-linux
             .cache/*tar*
             .build/site/runtime
-          key: go-image-${{ runner.os }}-${{ hashFiles('tools/build-image.py', 'tools/guest/**', 'tools/guest-packages.json', 'tools/go-toolchain.json', 'cmd/**', 'internal/**', 'go.mod', 'run', 'README.md', 'THIRD_PARTY.md', 'LICENSE') }}
+            .build/site/linux/releases
+          key: go-image-${{ runner.os }}-${{ hashFiles('tools/local-linux/**', 'tools/go-toolchain.json', 'cmd/**', 'internal/**', 'go.mod', 'run', 'README.md', 'THIRD_PARTY.md', 'LICENSE') }}
+          restore-keys: go-image-${{ runner.os }}-
       - run: npm ci
       - run: npm run build
       - name: Run the real Go tests on the native reference host
@@ -41,9 +45,13 @@ jobs:
             npx playwright install --with-deps chromium
           fi
       - run: npm run test:browser
+      - name: Verify self-hosted Linux, edited source and work recovery
+        run: npm run test:linux
       - name: Preserve cached HTML compatibility
         if: github.ref == 'refs/heads/main'
         run: node tools/retain-frontend.mjs
+        env:
+          GH_TOKEN: ${{ github.token }}
       - uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/main'
         with:

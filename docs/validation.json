@@ -1,79 +1,43 @@
 {
-  "date": "2026-11-23T13:43:01.435Z",
-  "status": "verified-components",
-  "summary": "Real browser Linux compiled original and edited Go, executed Go tests and channels, and saved/reopened database records. Upload guards and source/database archive recovery passed separate real-VM checks. This remains a runtime prototype: the first published-site build took about seven minutes on this desktop.",
-  "environment": "Chromium desktop, real externally hosted JSLinux x86-64 with a Go-equipped BusyBox/musl root, 768 MiB configured guest RAM",
-  "published_image": "537345a805ae4960d9b7f82b21290c78f933c6c675f104cce57dcce0e4e7d168",
-  "recovery_images": [
-    "9ceb4d62b37a582ffde55535db0df3f2595ed89fd32a222711e66f61e0d5b427"
-  ],
+  "date": "2026-11-23",
+  "summary": "The self-hosted v86/Alpine x86 guest compiled and ran Go 1.27.4, channels, the real Go tests and separate TinyDB writer/reader processes with requests outside the lab blocked. These timings describe the initial local browser investigation, not a performance-ready course or an offline claim. Edited-source transfer and fresh-session recovery are verified separately.",
   "results": [
     {
-      "name": "Published website: First prepared-cache build",
-      "status": "pass",
-      "host_seconds": 439.648
+      "name": "Cold Linux startup",
+      "host_seconds": 44.935,
+      "status": "passed"
     },
     {
-      "name": "Published website: Edited source compiled inside Linux",
-      "status": "pass",
-      "host_seconds": 89.752
+      "name": "Compile and run hello",
+      "host_seconds": 54.83015,
+      "status": "passed"
     },
     {
-      "name": "Go tests executed inside browser Linux",
-      "status": "pass",
-      "host_seconds": 182.015,
-      "environment": "Real hosted emulator with locally mirrored course files; source/compiler/output were not stubbed."
+      "name": "Compile and run channels",
+      "host_seconds": 52.0953,
+      "status": "passed"
     },
     {
-      "name": "Goroutines and channels",
-      "status": "pass",
-      "host_seconds": 64.033,
-      "environment": "Real hosted emulator with locally mirrored course files; source/compiler/output were not stubbed."
+      "name": "Real Go tests, count=1",
+      "host_seconds": 511.7299,
+      "status": "passed"
     },
     {
-      "name": "Database insert",
-      "status": "pass",
-      "host_seconds": 96.113,
-      "environment": "Real hosted emulator with locally mirrored course files; source/compiler/output were not stubbed."
+      "name": "TinyDB insert",
+      "host_seconds": 39.1438,
+      "status": "passed"
     },
     {
-      "name": "Separate-process database reopen",
-      "status": "pass",
-      "host_seconds": 63.98,
-      "environment": "Real hosted emulator with locally mirrored course files; source/compiler/output were not stubbed."
-    },
-    {
-      "name": "Missing upload gives a usable action and does not run",
-      "host_seconds": 0.644,
-      "status": "pass"
-    },
-    {
-      "name": "Matching uploaded editor source is installed",
-      "host_seconds": 0.832,
-      "status": "pass"
-    },
-    {
-      "name": "Large UTF-8 upload matches editor despite a renamed file",
-      "host_seconds": 0.921,
-      "status": "pass"
-    },
-    {
-      "name": "Restore archive in a fresh VM and reopen the database",
-      "host_seconds": 1.347,
-      "status": "pass"
+      "name": "Separate TinyDB read",
+      "host_seconds": 14.6133,
+      "status": "passed"
     }
   ],
-  "verification_scope": {
-    "compilation": "Original and edited source compiled from published GitHub Pages assets.",
-    "tests_and_patterns": "Actual Go tools executed in the hosted emulator with a local mirror of course-owned image files.",
-    "recovery": "Recovery-only check uses an uploaded native-compiled Go reference binary to isolate transfer and persistence from compilation. Compiler execution is verified separately.",
-    "journey": "The initial full journey passed Go checks but exposed a Stop interaction after export. Stop was moved beside the terminal; guarded transfer and fresh-session restore were then exercised separately."
+  "network": {
+    "external_requests": []
   },
-  "limits": [
-    "These are functional feasibility checks, not evidence of learning effectiveness.",
-    "Times are observed desktop waits with a prepared build cache, not controlled language benchmarks.",
-    "Physical Android/tablet performance and file-picker behavior remain unverified.",
-    "The externally hosted runtime is not a complete offline installation.",
-    "A direct Go compiler/linker WASI probe ran in Node, but browser integration for that route remains unverified."
+  "limitations": [
+    "Initial image was built with a host-emulated prepared cache. CI prepares the 386 cache natively where available.",
+    "No claim of native CPU performance or learning effectiveness."
   ]
 }

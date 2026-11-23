@@ -2,7 +2,7 @@
 import gzip,hashlib,io,json,pathlib,tarfile
 root=pathlib.Path(__file__).resolve().parent.parent
 names=['go.mod','run','tools/go-toolchain.json','README.md','LICENSE']
-names+=sorted(str(p.relative_to(root)) for folder in ['cmd','internal'] for p in (root/folder).rglob('*.go'))
+names+=sorted(str(p.relative_to(root)) for folder in ['cmd','internal'] for p in (root/folder).rglob('*.go') if 'testdata' not in p.parts and p.name != 'migrate_test.go')
 manifest={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in names}
 buffer=io.BytesIO()
 with tarfile.open(fileobj=buffer,mode='w') as archive:

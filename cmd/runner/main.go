@@ -3,11 +3,13 @@ package main
 
 import (
 	"context"
+	"crypto/sha256"
 	"encoding/json"
 	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 	"syscall"
 	"time"
 )
@@ -22,7 +24,7 @@ func execute(env []string, seconds int, program string, args ...string) (int, in
 	err := cmd.Run()
 	var rss int64
 	if cmd.ProcessState != nil {
-		rss = cmd.ProcessState.SysUsage().(*syscall.Rusage).Maxrss
+		rss = int64(cmd.ProcessState.SysUsage().(*syscall.Rusage).Maxrss)
 	}
 	if ctx.Err() != nil {
 		fmt.Fprintln(os.Stderr, "Command exceeded its time limit. Existing data is kept.")
@@ -52,6 +54,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	migrateLegacyHelper(root)
+
 	sdk := os.Getenv("FOUNDRY_GO_SDK")
 	if sdk == "" {
 		sdk = "/opt/go"
@@ -117,4 +121,18 @@ func main() {
 	}
 	fmt.Println("Measurement:", string(data))
 	os.Exit(code)
+}
+
+// Only the unedited helper shipped by the previous amd64 prototype needs this
+// portability change. Learner-edited files are never replaced by this migration.
+func migrateLegacyHelper(root string) {
+	path := filepath.Join(root, "cmd", "runner", "main.go")
+	data, err := os.ReadFile(path)
+	if err != nil || fmt.Sprintf("%x", sha256.Sum256(data)) != "88b1e043e3b1fa433ced4eeb7020c0556cd88bc544d8a770b71b2e53fb3e6e5b" {
+		return
+	}
+	fixed := strings.Replace(string(data), "rss = cmd.ProcessState.SysUsage().(*syscall.Rusage).Maxrss", "rss = int64(cmd.ProcessState.SysUsage().(*syscall.Rusage).Maxrss)", 1)
+	if err := os.WriteFile(path, []byte(fixed), 0644); err != nil {
+		fmt.Fprintln(os.Stderr, "Could not update the original runner helper:", err)
+	}
 }
