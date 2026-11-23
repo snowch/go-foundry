@@ -143,8 +143,12 @@ function renderOutline(lab){
 }
 function countComplete(lab){return lab.lessons.filter(id=>done.has(id)).length;}
 function lastInLab(lab){const id=read('last-lesson/'+lab.id,read('last-lesson',''));return lab.lessons.includes(id)?lessons.find(entry=>entry.id===id):null;}
+function lessonToOpen(lab){
+  const last=lastInLab(lab),unfinished=lab.lessons.find(id=>!done.has(id));
+  return last&&unfinished&&!done.has(last.id)?last:lessons.find(entry=>entry.id===(unfinished||lab.lessons[0]));
+}
 function updateLabStart(lab){
-  const last=lastInLab(lab),complete=countComplete(lab)===lab.lessons.length,target=complete?lessons.find(entry=>entry.id===lab.lessons[0]):last||lessons.find(entry=>lab.lessons.includes(entry.id)&&!done.has(entry.id))||lessons.find(entry=>entry.id===lab.lessons[0]);
+  const last=lastInLab(lab),complete=countComplete(lab)===lab.lessons.length,target=lessonToOpen(lab);
   $('start-lab').href=routes.lesson(target);$('start-lab').textContent=complete?'Review this lab':last||countComplete(lab)?'Continue: '+target.title:'Start the first lesson';
 }
 function progress(){
@@ -156,7 +160,8 @@ function progress(){
     if(!$('lesson-view').hidden&&link.dataset.lessonId===probe?.id)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');
   }
   const last=lessons.find(entry=>entry.id===read('last-lesson','')),recent=labFor(last),next=labs.find(lab=>countComplete(lab)<lab.lessons.length),continuation=recent&&countComplete(recent)<recent.lessons.length?recent:next||recent||labs[0],hasProgress=lessons.some(entry=>done.has(entry.id));
-  $('start-course').href=routes.home(continuation);$('start-course').textContent=!next?'Review: '+continuation.title:lastInLab(continuation)||countComplete(continuation)?'Continue: '+continuation.title:hasProgress?'Next lab: '+continuation.title:'Start the first lab';
+  const target=lessonToOpen(continuation);
+  $('start-course').href=routes.lesson(target);$('start-course').textContent=!next?'Review: '+target.title:lastInLab(continuation)||hasProgress?'Continue: '+target.title:'Start the first lesson';
   if(activeLab)updateLabStart(activeLab);
 }
 function showLab(lab){
