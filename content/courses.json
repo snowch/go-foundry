@@ -214,7 +214,7 @@
     "legacySection": "section-11",
     "title": "Algorithms",
     "description": "Search, sort and traverse data while counting work.",
-    "prerequisites": "Uses the data structures lab and recursion.",
+    "prerequisites": "Uses the data structures chapter and recursion.",
     "before": [
       "data-structures"
     ],
