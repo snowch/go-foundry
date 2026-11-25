@@ -1,10 +1,11 @@
 # Go Foundry
 
-Twelve independent labs contain 113 editable lessons, from first programs through
-functions, collections, interfaces, errors and tests, files and HTTP, concurrency,
-data structures and algorithms, and a persistent TinyDB project. Each lab has its
-own landing page, prerequisites, progress and lesson navigation, with one shared
-runner and saved project. See the [lab-series design](docs/lab-series.md) and
+Four parts contain 12 chapters and 113 editable lessons, from first programs
+through functions, collections, interfaces, errors and tests, files and HTTP,
+concurrency, data structures and algorithms, and a persistent TinyDB project.
+Part overviews group the chapters; chapter overviews list their lessons.
+Numbered parent links and scoped progress show where you are. Every part uses
+one shared runner and saved project. See the [navigation design](docs/navigation-review.md) and
 [learning plan](docs/full-course-design.md). No Go installation, account or shell
 commands are required. **Run** starts a self-hosted Linux guest, compiles the
 current editor source with real Go 1.27.4, and shows actual output or compiler
