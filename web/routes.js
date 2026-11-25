@@ -12,6 +12,7 @@ export function createRoutes(base, labs, entries) {
  function resolve(address){
   const url=new URL(address,root),hash=url.hash.slice(1),entry=entries.find(item=>item.id===hash);
   if(entry)return{id:entry.id,url:lesson(entry)};
+  if(/^part\/[a-z-]+$/.test(hash))return{id:hash,url:home()+'#'+hash};
   const alias=labs.find(lab=>hash==='lab/'+lab.id||hash==='course/'+lab.legacySection);
   if(alias)return{id:'lab/'+alias.id,url:home(alias)};
   if(hash==='course/investigations')return{id:hash,url:home()+'#'+hash};

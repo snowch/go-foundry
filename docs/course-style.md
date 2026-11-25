@@ -15,3 +15,9 @@ The course uses the shared colour roles, locally bundled IBM Plex fonts and offi
 The Linux frame is owned outside the home/lesson views and survives course-path and hash navigation. A running job keeps its captured source and lesson identity; its result remains attached to that lesson. The first startup notice appears immediately with a dimmed modal backdrop and remains until dismissed; starting manually from the explanatory Code runner settings acknowledges that notice. It does not reappear for the later Run. Runtime startup, cancellation, checkpointing, idle shutdown and storage namespaces retain the existing [runner contract](background-runner.md). Saving project files does not imply a complete offline course; no unsupported offline controls are introduced.
 
 Verification covers home and direct links, grouped/current/completed outline states, Escape/focus, section destinations, browser history/reload, independent saved state, references, source fidelity/target selection, both themes, 320–1440px layouts and zoom. Real guest execution and recovery remain separate publication checks.
+
+
+## Foundry navigation
+
+Use Course → Part → Chapter → Lesson. See the [navigation review](navigation-review.md)
+for reading order, learner actions, compatibility and verification.

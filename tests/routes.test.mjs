@@ -26,3 +26,10 @@ test('navigation only intercepts course documents, leaving runtime, backups and 
  for(const url of [base,base+'index.html',base+'values-and-types/#types'])assert(routes.handles(url),url);
  for(const url of [base+'linux/index.html',base+'notices.txt',base+'downloads/work.tar.gz','https://elsewhere.org/go-foundry/first-programs/','https://example.org/go-foundry-other/','mailto:test@example.org'])assert(!routes.handles(url),url);
 });
+
+import {partDefinitions} from '../web/course-parts.js';
+test('part overviews coexist with every original chapter and lesson address',()=>{
+ const routes=createRoutes('https://example.org/go-foundry/',labs,lessons);
+ assert.deepEqual(partDefinitions.flatMap(p=>p[2]),labs.map(c=>c.id));
+ for(const [id]of partDefinitions)assert.deepEqual(routes.resolve('https://example.org/go-foundry/#part/'+id),{id:'part/'+id,url:'https://example.org/go-foundry/#part/'+id});
+});

@@ -11,7 +11,8 @@
     "test": "node --test tests/*.test.mjs",
     "test:browser": "node tests/interface.cjs && node tests/shared-style.cjs && node tests/hub.cjs",
     "serve": "node tools/serve.mjs",
-    "test:linux": "node tests/self-hosted-linux.cjs go"
+    "test:linux": "node tests/self-hosted-linux.cjs go",
+    "test:navigation": "node tests/navigation.cjs"
   },
   "devDependencies": {
     "playwright": "1.62.1"
