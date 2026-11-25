@@ -233,3 +233,8 @@ h1[tabindex="-1"]:focus-visible,h3[tabindex="-1"]:focus-visible{outline:none}
 .learning-model svg{pointer-events:none}.learning-model .lm-graph>svg{height:100%!important;max-width:none!important}.learning-model svg.lm-ref-lines{height:40px!important;max-width:none!important}.lm-vertex strong{overflow-wrap:anywhere}
 @media(max-width:600px){.lm-slots{grid-template-columns:repeat(min(var(--slots),4),minmax(0,1fr))}.lm-byte-groups+.lm-state .lm-slots{grid-template-columns:repeat(var(--slots),minmax(0,1fr))}.lm-branches{grid-template-columns:1fr;gap:12px}.learning-model{padding-left:16px!important;padding-right:16px!important}.lm-table th,.lm-table td{padding:9px 6px}.lm-object-group{max-width:100%}.lm-graph-edge{padding:0 2px}}
 @media(prefers-reduced-motion:reduce){.learning-model *{scroll-behavior:auto;animation:none;transition:none}}
+
+.learning-model .lm-vertex span{overflow-wrap:anywhere}
+/* Absolute nodes size from their labels before centering; right-column nodes
+   must not shrink to the space remaining after their percentage left edge. */
+.learning-model .lm-vertex{width:max-content}

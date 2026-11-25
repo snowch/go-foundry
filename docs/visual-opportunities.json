@@ -1556,42 +1556,93 @@
       "design": {
         "title": "Sending, draining and closing have different owners",
         "question": "Why must main receive results before the workers can finish?",
-        "kind": "table",
-        "headings": [
-          "Goroutine",
-          "During work",
-          "Finish dependency"
+        "kind": "graph",
+        "note": "Close/wait order: producer closes jobs → both workers finish and call Done → coordinator Wait returns → close results → main range ends. Main receives while workers send, then sorts and prints [1,4,9,16]. Channel boxes show shared communication objects, not queued slots. Positions are not a time axis or evidence of multicore execution.",
+        "description": "Four goroutines participate. One auxiliary goroutine produces jobs 1 through 4 and later coordinates shutdown. It sends on one unbuffered jobs channel; either worker may receive each job. Each worker sends its square through the same unbuffered results channel to main, which drains results while work is running. The producer closes jobs after the final send, waits for both workers to call Done, then closes results. Main finishes its range, sorts and prints [1,4,9,16]. No assignment of individual jobs to workers or timing order is implied.",
+        "nodes": [
+          {
+            "id": "producer",
+            "label": "Producer",
+            "x": 16,
+            "y": 18,
+            "detail": "send 1..4"
+          },
+          {
+            "id": "jobs",
+            "label": "jobs",
+            "x": 16,
+            "y": 50,
+            "detail": "unbuffered channel"
+          },
+          {
+            "id": "worker1",
+            "label": "Worker 1",
+            "x": 50,
+            "y": 18
+          },
+          {
+            "id": "worker2",
+            "label": "Worker 2",
+            "x": 50,
+            "y": 82
+          },
+          {
+            "id": "results",
+            "label": "results",
+            "x": 84,
+            "y": 50,
+            "detail": "unbuffered channel"
+          },
+          {
+            "id": "main",
+            "label": "main",
+            "x": 84,
+            "y": 18,
+            "detail": "receive; sort"
+          }
         ],
-        "rows": [
-          [
-            "Producer + coordinator (one goroutine)",
-            "Send jobs 1..4; close jobs",
-            "Wait for both workers; close results"
-          ],
-          [
-            "Worker 1",
-            "Range jobs; send each square",
-            "On jobs drained/closed: Done"
-          ],
-          [
-            "Worker 2",
-            "Range jobs; send each square",
-            "On jobs drained/closed: Done"
-          ],
-          [
-            "main",
-            "Range results while workers send",
-            "After results close: sort; print [1,4,9,16]"
-          ]
+        "edges": [
+          {
+            "from": "producer",
+            "to": "jobs",
+            "label": "",
+            "x": 8,
+            "y": 33
+          },
+          {
+            "from": "jobs",
+            "to": "worker1",
+            "label": ""
+          },
+          {
+            "from": "jobs",
+            "to": "worker2",
+            "label": ""
+          },
+          {
+            "from": "worker1",
+            "to": "results",
+            "label": "",
+            "x": 74,
+            "y": 30
+          },
+          {
+            "from": "worker2",
+            "to": "results",
+            "label": "",
+            "x": 74,
+            "y": 70
+          },
+          {
+            "from": "results",
+            "to": "main",
+            "label": "",
+            "x": 92,
+            "y": 33
+          }
         ],
-        "label": "Four goroutines, two unbuffered channels",
-        "links": [
-          "Jobs: producer sends → a worker receives. Which worker receives each job is not fixed.",
-          "Results: a worker sends → main receives. Main drains while the workers are running.",
-          "close(jobs) → both workers finish → Wait returns → close(results) → main range finishes."
-        ],
-        "note": "Producer and coordinator are two roles in the same auxiliary goroutine. No channel queue slots or measured schedule are implied; concurrency does not establish multicore speedup.",
-        "description": "Why must main receive results before the workers can finish? Goroutine; During work; Finish dependency. Producer + coordinator (one goroutine); Send jobs 1..4; close jobs; Wait for both workers; close results; Worker 1; Range jobs; send each square; On jobs drained/closed: Done; Worker 2; Range jobs; send each square; On jobs drained/closed: Done; main; Range results while workers send; After results close: sort; print [1,4,9,16]. Four goroutines, two unbuffered channels. Jobs: producer sends → a worker receives. Which worker receives each job is not fixed.; Results: a worker sends → main receives. Main drains while the workers are running.; close(jobs) → both workers finish → Wait returns → close(results) → main range finishes.. Producer and coordinator are two roles in the same auxiliary goroutine. No channel queue slots or measured schedule are implied; concurrency does not establish multicore speedup."
+        "legend": "Producer + coordinator (one goroutine), two worker goroutines, and main. Each worker squares the received job. Both workers share one jobs channel and one results channel.",
+        "height": 420
       },
       "reason": "Use the source-specific relationship/state model recorded below.",
       "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
@@ -2249,12 +2300,12 @@
           {
             "from": "0",
             "to": "1",
-            "label": "before"
+            "label": ""
           },
           {
             "from": "1",
             "to": "2",
-            "label": "before"
+            "label": ""
           }
         ],
         "legend": "Initial indegrees are [0,1,1]. Each chosen vertex releases the next one.",

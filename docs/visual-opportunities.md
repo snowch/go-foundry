@@ -63,3 +63,5 @@ See [all per-lesson decisions, passages and model specifications](visual-opportu
 - Separately, `CHROMIUM_PATH=/usr/bin/chromium node tests/self-hosted-linux.cjs go --lab concurrency --examples-only` passed all 9 concurrency starters in the real browser Linux guest, including worker-pool, mutex-counter and pipeline-shutdown.
 
 These checks verify behavior and presentation; they do not measure learning effectiveness or native/multicore performance.
+
+The worker-pool refinement draws the four goroutines and the two shared unbuffered channel objects directly. The close/wait chain stays in a separate note; positions are not a time axis. Targeted 320/390/768px checks cover both nodes and labels. Content-sized absolute nodes prevent the right-hand channel and receiver from shrinking on narrow screens. The complete figure, interface and navigation suites passed again. The CSS-only frontend rebuild reused the verified unchanged guest image and checked that its image identity and immutable Linux graph were unchanged; the nine real concurrency starters had already passed against that image.
