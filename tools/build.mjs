@@ -21,7 +21,7 @@ const flatModules={course:'export const lessons='+JSON.stringify(lessons)+';\n',
 for(const [name,content]of Object.entries(flatModules))await writeFile(site+'/'+name+'.js',content);
 const helper=await asset('source-transfer','js',await readFile('web/source-transfer.js'));
 let appSource=await readFile('web/app.js','utf8');
-for(const module of ['course-parts','lab-hub','workspace-store','course','investigations','lesson-presentation','editor','routes']){const name=await asset(module,'js',flatModules[module]||await readFile('web/'+module+'.js'));appSource=appSource.replace('./'+module+'.js','./'+name);}
+for(const module of ['learning-model','learning-models','course-parts','lab-hub','workspace-store','course','investigations','lesson-presentation','editor','routes']){const name=await asset(module,'js',flatModules[module]||await readFile('web/'+module+'.js'));appSource=appSource.replace('./'+module+'.js','./'+name);}
 const app=await asset('app','js',appSource);
 const css=await asset('style','css',await readFile('web/style.css'));
 const html=(await readFile('web/index.html','utf8')).replace('src="app.js"','src="'+app+'"').replace('href="style.css"','href="'+css+'"');

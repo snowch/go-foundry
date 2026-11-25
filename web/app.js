@@ -1,3 +1,5 @@
+import {learningModels} from './learning-models.js';
+import {learningFigure} from './learning-model.js';
 import {partDefinitions} from './course-parts.js';
 import './lab-hub.js';
 import {loadWorkspace, saveWorkspace, clearWorkspace} from './workspace-store.js';
@@ -181,6 +183,10 @@ function renderReferences(){
 function updateDiagramHint(){const region=document.querySelector('.diagram-scroll');if(region)document.querySelector('.diagram-hint').hidden=region.scrollWidth<=region.clientWidth;}
 window.addEventListener('resize',updateDiagramHint);
 function renderDiagram(diagram){
+  const host=$('concept-model');host.replaceChildren();
+  const model=learningModels[probe?.id];
+  if(model){const template=document.createElement('template');template.innerHTML=learningFigure(model,probe.id);host.append(template.content);return;}
+
   if(!diagram)return;
   const figure=document.createElement('figure'),heading=document.createElement('h3'),scroll=document.createElement('div'),caption=document.createElement('figcaption'),hint=document.createElement('p');
   figure.className='concept-diagram';heading.textContent=diagram.title;hint.className='diagram-hint';hint.id='diagram-hint';hint.textContent='Scroll sideways to follow the full diagram.';hint.hidden=true;scroll.setAttribute('aria-describedby','diagram-hint');caption.textContent=diagram.caption;scroll.className='diagram-scroll';scroll.tabIndex=0;scroll.setAttribute('role','region');scroll.setAttribute('aria-label',diagram.title+'; scroll horizontally if needed');

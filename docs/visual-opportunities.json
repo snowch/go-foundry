@@ -1,0 +1,2546 @@
+{
+  "review_date": "2026-11-25",
+  "base_commit": "cc41b9b588218efb70c3e9c6d4e6ee3450f771da",
+  "course": "go",
+  "scope": "All lesson titles, explanations and current diagram placements were inventoried. Curated additions and redesigns were checked against worked starters and prerequisites. This is a visual-opportunity review, not a sentence-by-sentence copyedit or a claim that every program was executed.",
+  "design_standard": "https://github.com/snowch/cuda-python-lab/blob/main/docs/course-design-guide.md",
+  "method": "Look for references to shared objects, changing slots, exclusive bounds, call/return state, alternative branches, dependency edges, occupancy thresholds and publication/retention boundaries. Add a model when it answers a named question more directly than code/output alone. Keep simple syntax, API lookup and one-step results concise.",
+  "originality": "Original local HTML, CSS and geometric connectors derived from these projects’ fixtures; no third-party illustration assets.",
+  "model_source": "web/learning-models.js",
+  "lessons": [
+    {
+      "id": "first-program",
+      "title": "Print a greeting",
+      "url": "https://snowch.github.io/go-foundry/first-programs/#first-program",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A program is a set of instructions a computer can execute. The Go compiler checks your source code and builds an executable program.\n\npackage main identifies a runnable program. A function groups code under a name. Go begins with the code between main’s { and }.\n\nimport \"fmt\" makes Go’s formatting and printing tools available. fmt.Println prints the text inside its parentheses and starts a new line. Text inside double quotes is called a string.",
+      "starter_sha256": "1d9e718bb7ae6e3b6265ec4952fc77986bf8cff9afd038c1e4d5fa50d6b13bc0",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "two-lines",
+      "title": "Print two lines",
+      "url": "https://snowch.github.io/go-foundry/first-programs/#two-lines",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A statement performs one action. Go runs these two fmt.Println statements from top to bottom. Each call starts a new output line after printing. A line beginning with // is a comment for readers; Go does not execute that text.",
+      "starter_sha256": "64f4b74f586e24947c6f7128fcf919a8dc15e633d5dacc386abac823c3722b35",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "compiler-errors",
+      "title": "Read a compiler error",
+      "url": "https://snowch.github.io/go-foundry/first-programs/#compiler-errors",
+      "decision": "Keep prose / worked evidence",
+      "passage": "The compiler checks Go syntax before the program can run. Syntax is the required arrangement of characters, such as paired quotation marks and parentheses. If compilation fails, Output shows an error instead of a new program result. The number after main.go: identifies the source line; a second number identifies a column.",
+      "starter_sha256": "c153f31b5cca4018272ac6feba68009c46f6c843f99f8e4d45f0e07bad40861b",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "print-values",
+      "title": "Print values and expressions",
+      "url": "https://snowch.github.io/go-foundry/first-programs/#print-values",
+      "decision": "Keep prose / worked evidence",
+      "passage": "Println can print more than one value, separated by spaces. The compiler evaluates an expression, such as 2 + 3, before passing its result to Println. Quoted text is a string; unquoted numbers can take part in arithmetic.",
+      "starter_sha256": "9523361273498b6d63fc4a87399279afc585259f131b545a135cba77a9645585",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "formatted-output",
+      "title": "Choose how a number is printed",
+      "url": "https://snowch.github.io/go-foundry/first-programs/#formatted-output",
+      "decision": "Keep prose / worked evidence",
+      "passage": "Printf uses a format string to choose how its other values appear. %s prints a string, %d an integer, and %.2f a floating-point value with two digits after the decimal point. Unlike Println, Printf needs \\n in its format string to end the line. Printing fewer digits changes the displayed text, not the value used in the calculation.",
+      "starter_sha256": "7e1fa0624cb5f8fdd457ecaa950cdba897ed0165c2683babd78a02ebf70b5c7e",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "quoted-and-raw-strings",
+      "title": "Distinguish quoted and raw strings",
+      "url": "https://snowch.github.io/go-foundry/first-programs/#quoted-and-raw-strings",
+      "decision": "Keep prose / worked evidence",
+      "passage": "Inside a double-quoted string, \\n represents one newline character. A raw string is enclosed by backticks; its backslashes remain literal characters. Go prints the characters stored in the string, so two strings that look similar in source can produce different lines.",
+      "starter_sha256": "480e5e75ff56d3b008407da7afc2b79dfd7651aa14516bc0f7b8c98bd4157b37",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "variables",
+      "title": "Name a value",
+      "url": "https://snowch.github.io/go-foundry/values-and-types/#variables",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A variable is a named place for a value. Inside a function, := creates a variable and gives it an initial value. In count := 3, count starts with the integer 3. An integer is a whole number. The expression count + 2 adds two to the current value. fmt.Println can print a label and a value separated by a space.",
+      "starter_sha256": "4d49af767bf45857f4bcc4a27092ea09001932d4bfb2e9b0a0ad04d95e235a6b",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "types",
+      "title": "Choose a value’s type",
+      "url": "https://snowch.github.io/go-foundry/values-and-types/#types",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A type determines which values a variable can hold and which operations are allowed.\n\nint holds whole numbers, float64 holds floating-point numbers such as 2.5, string holds text, and bool holds true or false.\n\nvar count int = 3 creates count with type int and value 3. Unlike :=, this form names the type explicitly. Go checks assignments against the declared type before running.",
+      "starter_sha256": "43946c195870c0c30f0d3252f915de9d24545c2cca8608409e3e2028ed12a15e",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "division",
+      "title": "Divide whole numbers",
+      "url": "https://snowch.github.io/go-foundry/values-and-types/#division",
+      "decision": "Keep prose / worked evidence",
+      "passage": "For integer operands, / returns the whole-number quotient and % returns the remainder. With 7 items and groups of 3, two complete groups use six items and one item remains. Decimal division needs a floating-point operand; float64(items) converts the integer value for that calculation.",
+      "starter_sha256": "03b052b5a31843adbcc17e8780d71113329c05d434099eb7842d355984f27038",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "assignment",
+      "title": "Change a stored value",
+      "url": "https://snowch.github.io/go-foundry/values-and-types/#assignment",
+      "decision": "Keep prose / worked evidence",
+      "passage": "The expression count + 2 calculates a value. The assignment count = count + 2 also stores that value back in count. A declaration with := creates a name; a later assignment with = updates the existing variable.",
+      "starter_sha256": "27c23606e56468f7bcc533cf314de5a0e5b66f08fb46a2beff2831dd2ae3f51e",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "constants",
+      "title": "Name a value that cannot change",
+      "url": "https://snowch.github.io/go-foundry/values-and-types/#constants",
+      "decision": "Keep prose / worked evidence",
+      "passage": "const gives a name to a constant value. A constant cannot receive a later assignment. Here itemsPerBox is fixed while Go evaluates the total for three boxes. Change the declaration to try a different fixed input.",
+      "starter_sha256": "314371ec71f783c98cda26e7061c7b04386cb07d214cf9dcb8f7b79773a40801",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "zero-values",
+      "title": "Inspect values before an explicit assignment",
+      "url": "https://snowch.github.io/go-foundry/values-and-types/#zero-values",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A var declaration without an initial expression supplies the type’s zero value. For int this is 0, for bool false, and for string the empty string. %q prints quoted text, making an empty string visible as two quotation marks.",
+      "starter_sha256": "240ec054509ffb5ad3d33c21f8e30ba2669f6f80d101f37ec8a9f33de98e32be",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "number-conversions",
+      "title": "Convert a decimal value to an integer",
+      "url": "https://snowch.github.io/go-foundry/values-and-types/#number-conversions",
+      "decision": "Keep prose / worked evidence",
+      "passage": "int(value) converts a floating-point variable to an integer by discarding its fractional part toward zero. This is different from rounding to the nearest integer. The original variable keeps its floating-point value.",
+      "starter_sha256": "60d05eba4baae0f92cb3d841561e1a47b22926f44390729369cee19319660845",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "bounded-integers",
+      "title": "See an unsigned integer wrap",
+      "url": "https://snowch.github.io/go-foundry/values-and-types/#bounded-integers",
+      "decision": "Keep prose / worked evidence",
+      "passage": "uint8 is an unsigned eight-bit integer type, with values from 0 through 255. Incrementing a variable already at 255 wraps its value to 0. The variable’s type determines this result; it does not automatically grow to hold 256.",
+      "starter_sha256": "f708d58ba66a5f5f0577d5611c4ed28dfc1aca67b714f9d228aa254295b4804d",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "conditions",
+      "title": "Choose between two paths",
+      "url": "https://snowch.github.io/go-foundry/conditions-and-loops/#conditions",
+      "decision": "Keep prose / worked evidence",
+      "passage": "An if statement runs its first block when its condition is true. Otherwise, else runs the other block.\n\nA block is the code between a matching { and }. The comparison score >= 50 asks whether score is at least 50, including exactly 50. This example classifies a score; it does not calculate a course grade.",
+      "starter_sha256": "71dc535c100b2ff19f7dbaa9daaf1a63e9132bbe261ff0d7c58b361c62b303e2",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "loops",
+      "title": "Repeat a statement",
+      "url": "https://snowch.github.io/go-foundry/conditions-and-loops/#loops",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A loop repeats a block. In for step := 1; step <= 3; step++, step starts at 1. Go checks step <= 3 before each repetition. After the block, step++ adds one to step. The first check that is false ends the loop, and execution continues after its closing brace.",
+      "starter_sha256": "aa119468ad791ae679e0529b292e7211b6799027e7bba0b260af35ffa02a0e07",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "running-total",
+      "title": "Build a running total",
+      "url": "https://snowch.github.io/go-foundry/conditions-and-loops/#running-total",
+      "decision": "Keep prose / worked evidence",
+      "passage": "total is created before the loop, so the same variable remains available on every repetition. total += value adds the current value to total and stores the sum back in total. The printed value and total show each update, rather than just the final answer.",
+      "starter_sha256": "a5cec5e158b5cb04b6e5f493fa0dcbb1c71e106b08e76bdca3e637d4274862dd",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "boolean-logic",
+      "title": "Combine two requirements",
+      "url": "https://snowch.github.io/go-foundry/conditions-and-loops/#boolean-logic",
+      "decision": "Keep prose / worked evidence",
+      "passage": "&& is logical AND: both operands must be true. || is logical OR: at least one must be true. ! negates a boolean value. Here eligibility requires a score of at least 50 and attendance of at least 80; these are this example’s rules.",
+      "starter_sha256": "d01a29f16bb5fa6f6a6f947f2cdd6532139c43534edf517b1fb5e2180734827c",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "else-if",
+      "title": "Classify a value with ordered tests",
+      "url": "https://snowch.github.io/go-foundry/conditions-and-loops/#else-if",
+      "decision": "Keep prose / worked evidence",
+      "passage": "An else if checks another condition only when the preceding condition was false. These example temperature categories use degrees Celsius: below 0 is freezing; otherwise below 20 is cool; all remaining values are warm.",
+      "starter_sha256": "cfa9805b517b019abf90dc803da19c135e033187778855163625b79449320823",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "switch",
+      "title": "Select an operation by name",
+      "url": "https://snowch.github.io/go-foundry/conditions-and-loops/#switch",
+      "decision": "Keep prose / worked evidence",
+      "passage": "switch compares operation with its case values. Go executes a matching case and then leaves the switch; it does not automatically continue into the next case. default handles values with no matching case.",
+      "starter_sha256": "8e5c602e710381d832f923ccdb82b1e056ba4aa12101564143accb53cfd231b7",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "condition-loop",
+      "title": "Repeat while a condition remains true",
+      "url": "https://snowch.github.io/go-foundry/conditions-and-loops/#condition-loop",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A for loop can contain just a condition. Go checks remaining > 0 before each repetition. remaining-- reduces the value, eventually making that condition false. Without a change that can end the loop, this form can run forever.",
+      "starter_sha256": "2f202f4281c4b60e9a598e2857fc03a51797bb1a9cbc572c9d0e2b56067ceb6e",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "break-and-continue",
+      "title": "Skip an iteration or leave the loop",
+      "url": "https://snowch.github.io/go-foundry/conditions-and-loops/#break-and-continue",
+      "decision": "Keep prose / worked evidence",
+      "passage": "continue skips the rest of the current iteration and starts the next one. break leaves the loop. This loop skips 2 and exits before printing 5, so the loop limit alone does not determine the printed values.",
+      "starter_sha256": "dd2032e41c00eddce083baee8facfe45c4cc3c0addc35505bfbd1d35a7e29594",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "integer-range",
+      "title": "Repeat a fixed number of times",
+      "url": "https://snowch.github.io/go-foundry/conditions-and-loops/#integer-range",
+      "decision": "Keep prose / worked evidence",
+      "passage": "In this course’s Go version, range count repeats with successive integers from 0 up to count - 1. A nonpositive count produces no iterations. The count is the number of iterations, rather than the final index.",
+      "starter_sha256": "f3825a500e2af81c0e1836bbb8e7fee01954f84cb82227e14ae0f4ad325a98da",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "function-result",
+      "title": "Pass a value into a function",
+      "url": "https://snowch.github.io/go-foundry/functions-and-pointers/#function-result",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A parameter names an input inside a function. The int after the parameter list declares the result type. return supplies that result to the caller; printing happens in main in this example.",
+      "starter_sha256": "40ad894c60229c07bbb336ee03cd15db8474a7cb06525b28ceb898ff2d5f5121",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "multiple-results",
+      "title": "Return two related results",
+      "url": "https://snowch.github.io/go-foundry/functions-and-pointers/#multiple-results",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A function can return multiple values. divide returns two ints, in the declared order. The assignment quotient, remainder := divide(...) receives both. This example uses a positive group size, so division is defined.",
+      "starter_sha256": "fd297a22f68dd55cda0a8f1e8f9da5897b50760f4032fb17c70b4fefc670afb2",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "scope-and-shadowing",
+      "title": "Choose which variable an assignment changes",
+      "url": "https://snowch.github.io/go-foundry/functions-and-pointers/#scope-and-shadowing",
+      "decision": "Added",
+      "passage": "A scope is the region where a declared name refers to its variable. The inner block can declare a different value with the same name. That declaration shadows the outer value until the block ends; it does not replace the outer storage.",
+      "starter_sha256": "f00f03e88493e3a1266d5c537abb70859d5d80423a9bf126d044a78cd4ca44d5",
+      "question": "Why does outer still print 10 after the block prints 3?",
+      "design": {
+        "title": "The inner declaration creates another variable",
+        "question": "Why does outer still print 10 after the block prints 3?",
+        "kind": "table",
+        "headings": [
+          "Boundary",
+          "Outer value",
+          "Inner value"
+        ],
+        "rows": [
+          [
+            "Before block",
+            "10",
+            "not declared"
+          ],
+          [
+            "Inside block after value := 3",
+            "10 remains hidden by the inner name",
+            "3"
+          ],
+          [
+            "After block",
+            "10 visible again",
+            "out of scope"
+          ]
+        ],
+        "label": "",
+        "links": [],
+        "note": "The inner := declares a new variable in the inner block. It does not assign 3 to the outer variable.",
+        "description": "Why does outer still print 10 after the block prints 3? Boundary; Outer value; Inner value. Before block; 10; not declared; Inside block after value := 3; 10 remains hidden by the inner name; 3; After block; 10 visible again; out of scope. . . The inner := declares a new variable in the inner block. It does not assign 3 to the outer variable."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "value-and-pointer",
+      "title": "Change a caller’s variable through a pointer",
+      "url": "https://snowch.github.io/go-foundry/functions-and-pointers/#value-and-pointer",
+      "decision": "Added",
+      "passage": "Go passes argument values into parameters. An int parameter is a copy of the caller’s int. A pointer value identifies existing storage: &count obtains a pointer to count, and *value accesses the int through that pointer. Passing a pointer still copies the pointer value, while both pointers identify the same storage.",
+      "starter_sha256": "9dec028325920353e19bc94e6754a9ef86dd05c22ab67748f12c217fa7797d74",
+      "question": "Why does only bumpPointer change the caller’s count?",
+      "design": {
+        "title": "Copying a value and following a pointer affect different objects",
+        "question": "Why does only bumpPointer change the caller’s count?",
+        "kind": "panels",
+        "panels": [
+          {
+            "label": "bumpValue(count)",
+            "model": {
+              "kind": "table",
+              "headings": [
+                "Object",
+                "Before",
+                "After local increment"
+              ],
+              "rows": [
+                [
+                  "Caller count",
+                  "3",
+                  "3"
+                ],
+                [
+                  "Copied parameter value",
+                  "3",
+                  "4; discarded on return"
+                ]
+              ],
+              "label": "",
+              "links": []
+            }
+          },
+          {
+            "label": "bumpPointer(&count)",
+            "model": {
+              "kind": "references",
+              "states": [
+                {
+                  "label": "Inside the helper",
+                  "objects": [
+                    {
+                      "label": "Caller count",
+                      "value": "3 → 4",
+                      "refs": [
+                        {
+                          "name": "count in main",
+                          "edge": "caller variable"
+                        },
+                        {
+                          "name": "value parameter",
+                          "edge": "copied address; *value writes here"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "note": "Go still passes the pointer value by value. The copied address reaches the original count; the first helper receives only an independent integer value.",
+        "description": "Why does only bumpPointer change the caller’s count? bumpValue(count). Object; Before; After local increment. Caller count; 3; 3; Copied parameter value; 3; 4; discarded on return. . ; bumpPointer(&count). Inside the helper: Caller count contains 3 → 4. count in main caller variable Caller count; value parameter copied address; *value writes here Caller count. Go still passes the pointer value by value. The copied address reaches the original count; the first helper receives only an independent integer value."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "function-values",
+      "title": "Pass an operation as a value",
+      "url": "https://snowch.github.io/go-foundry/functions-and-pointers/#function-values",
+      "decision": "Keep prose / worked evidence",
+      "passage": "func(int) int is the type of a function that accepts one int and returns one int. A function can be passed as an argument, just like another value. apply calls the operation it receives instead of naming a particular calculation internally.",
+      "starter_sha256": "db62047afb5f1240f24d1ec855c1e4c9df09ed18d6d15f7df6ffcf95106f0f1d",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "closures",
+      "title": "Keep state in a returned function",
+      "url": "https://snowch.github.io/go-foundry/functions-and-pointers/#closures",
+      "decision": "Added",
+      "passage": "A closure is a function value that refers to variables from its surrounding scope. makeCounter returns a function that keeps access to its count. Calls through one returned function share that count; calling makeCounter again creates another count.",
+      "starter_sha256": "b906db484ba8d0afe15981b3f0f9e557403801fa153d85d7f501b7d6b73a4a0d",
+      "question": "Why do next() calls return 1,2 while other() starts at 1?",
+      "design": {
+        "title": "Each factory call creates independent retained state",
+        "question": "Why do next() calls return 1,2 while other() starts at 1?",
+        "kind": "references",
+        "states": [
+          {
+            "label": "After the three printed calls",
+            "objects": [
+              {
+                "label": "First makeCounter call’s count",
+                "value": "2",
+                "refs": [
+                  {
+                    "name": "next closure",
+                    "edge": "retains this state"
+                  }
+                ]
+              },
+              {
+                "label": "Second makeCounter call’s count",
+                "value": "1",
+                "refs": [
+                  {
+                    "name": "other closure",
+                    "edge": "retains a different state"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "note": "The returned function keeps access to its captured count after makeCounter returns. This is logical retained state, not a guarantee about stack versus heap placement.",
+        "description": "Why do next() calls return 1,2 while other() starts at 1? After the three printed calls: First makeCounter call’s count contains 2. next closure retains this state First makeCounter call’s count; Second makeCounter call’s count contains 1. other closure retains a different state Second makeCounter call’s count. The returned function keeps access to its captured count after makeCounter returns. This is logical retained state, not a guarantee about stack versus heap placement."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "defer-order",
+      "title": "Run cleanup when a function returns",
+      "url": "https://snowch.github.io/go-foundry/functions-and-pointers/#defer-order",
+      "decision": "Keep prose / worked evidence",
+      "passage": "defer schedules a call for the moment its surrounding function returns. Here cleanup is printed after work but before main continues. The call is delayed; the rest of the function still runs immediately.",
+      "starter_sha256": "79e5c1205a15641e42810d58d58a9b628168fd197b67e747a7b1f70e634249a4",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "recursion",
+      "title": "Reduce a problem to a smaller call",
+      "url": "https://snowch.github.io/go-foundry/functions-and-pointers/#recursion",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A recursive function calls itself with a smaller problem. sumTo returns 0 for a nonpositive input. For a positive n, it adds n to sumTo(n - 1), so repeated calls eventually reach the base case.",
+      "starter_sha256": "da137ed1819aa1f8cc310229d22b53aa60260d78369dfff02e29264f1322dd65",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "function-practice",
+      "title": "Extend a function without changing other cases",
+      "url": "https://snowch.github.io/go-foundry/functions-and-pointers/#function-practice",
+      "decision": "Keep prose / worked evidence",
+      "passage": "capAt currently enforces only an upper bound. main prints a low, middle and high input so you can see whether an edit changes a case it should preserve. The three examples are evidence for those inputs, not a proof for every integer.",
+      "starter_sha256": "a05f5550a0647a24fe0d28a24e11324ce4c540711c6f96086d2e0628c9d93d9a",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "arrays",
+      "title": "Change one array element",
+      "url": "https://snowch.github.io/go-foundry/collections-and-text/#arrays",
+      "decision": "Keep prose / worked evidence",
+      "passage": "An array stores a fixed number of values of one type. [3]int is an array of three ints. Indexes start at 0, so index 1 selects the second element. The length is part of an array’s type.",
+      "starter_sha256": "ed7ac4832d15f9cba6696330cb42b57c27d1d5317f450776758cb959b2627fa2",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "slice-bounds",
+      "title": "Select a slice of a sequence",
+      "url": "https://snowch.github.io/go-foundry/collections-and-text/#slice-bounds",
+      "decision": "Added",
+      "passage": "A slice describes a sequence backed by an array. values[1:3] starts at index 1 and stops before index 3. len gives the number of elements in the slice, rather than the size of the whole backing array.",
+      "starter_sha256": "c9e2a1557520a8aacc53f74950abf4e41ff435f1d2a39b5c993e8fb0e5d7c48a",
+      "question": "Why does values[1:3] have length 2 and values [4,6]?",
+      "design": {
+        "title": "A slice is a view of an exclusive-stop interval",
+        "question": "Why does values[1:3] have length 2 and values [4,6]?",
+        "kind": "slots",
+        "rows": [
+          {
+            "label": "Backing elements",
+            "values": [
+              2,
+              4,
+              6,
+              8
+            ],
+            "note": "The view includes original indices 1 and 2; index 3 is excluded.",
+            "active": [
+              1,
+              2
+            ],
+            "muted": [
+              0,
+              3
+            ],
+            "tags": {
+              "1": "start",
+              "3": "stop"
+            }
+          }
+        ],
+        "note": "The new slice indexes its selected elements from 0, so middle[0] reaches values[1]. Slicing does not copy these int elements.",
+        "description": "Why does values[1:3] have length 2 and values [4,6]? Backing elements: index 0 = 2, index 1 = 4, index 2 = 6, index 3 = 8. The view includes original indices 1 and 2; index 3 is excluded.. The new slice indexes its selected elements from 0, so middle[0] reaches values[1]. Slicing does not copy these int elements."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "append-capacity",
+      "title": "Grow a slice",
+      "url": "https://snowch.github.io/go-foundry/collections-and-text/#append-capacity",
+      "decision": "Added",
+      "passage": "make([]int, 2, 4) creates a slice with two zero-valued elements and capacity for four. append returns the updated slice, so assign its result back. If the backing array lacks room, append allocates another array. The program reports whether capacity grew instead of assuming a particular allocation size.",
+      "starter_sha256": "3d0e248565a98b30e4628ec2b040b0584697022ee32bdd7d830942450494e497",
+      "question": "Why does append(values,7,8) report grew=false?",
+      "design": {
+        "title": "Length grows inside existing capacity",
+        "question": "Why does append(values,7,8) report grew=false?",
+        "kind": "slots",
+        "rows": [
+          {
+            "label": "make([]int,2,4)",
+            "values": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "note": "len=2, cap=4. Only indices 0 and 1 belong to the current slice.",
+            "active": [
+              0,
+              1
+            ],
+            "muted": [
+              2,
+              3
+            ],
+            "tags": {
+              "2": "outside len",
+              "3": "outside len"
+            }
+          },
+          {
+            "label": "After append",
+            "values": [
+              0,
+              0,
+              7,
+              8
+            ],
+            "note": "len=4, cap=4; the existing backing array has enough capacity.",
+            "active": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "muted": []
+          }
+        ],
+        "note": "Go zero-initializes the backing array. Spare capacity is not uninitialized memory, but it is outside this slice’s current length. Appending beyond capacity is a different case; no exact growth factor is promised.",
+        "description": "Why does append(values,7,8) report grew=false? make([]int,2,4): index 0 = 0, index 1 = 0, index 2 = 0, index 3 = 0. len=2, cap=4. Only indices 0 and 1 belong to the current slice.. After append: index 0 = 0, index 1 = 0, index 2 = 7, index 3 = 8. len=4, cap=4; the existing backing array has enough capacity.. Go zero-initializes the backing array. Spare capacity is not uninitialized memory, but it is outside this slice’s current length. Appending beyond capacity is a different case; no exact growth factor is promised."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "slice-aliases",
+      "title": "Follow two slices into shared storage",
+      "url": "https://snowch.github.io/go-foundry/collections-and-text/#slice-aliases",
+      "decision": "Revised",
+      "passage": "Slicing does not copy the elements. left and right describe overlapping parts of backing. left[1] and right[0] both refer to backing[1], so writing through one slice changes the value read through the other.",
+      "starter_sha256": "c53fbb2a8f950ab3f875c21820b7afe7242c7d3f5a18939f3380fee2652bea86",
+      "question": "Why do left[1] and right[0] both become 9?",
+      "design": {
+        "title": "Two slice indexes reach the same backing slot",
+        "question": "Why do left[1] and right[0] both become 9?",
+        "kind": "slots",
+        "rows": [
+          {
+            "label": "Backing array before the assignment",
+            "values": [
+              2,
+              4,
+              6
+            ],
+            "note": "left covers indices 0,1; right covers indices 1,2.",
+            "active": [
+              1
+            ],
+            "muted": [],
+            "tags": {
+              "1": "left[1] / right[0]"
+            }
+          },
+          {
+            "label": "After left[1] = 9",
+            "values": [
+              2,
+              9,
+              6
+            ],
+            "note": "left prints [2,9]; backing prints [2,9,6]; right prints [9,6].",
+            "active": [
+              1
+            ],
+            "muted": [],
+            "tags": {
+              "1": "same shared slot"
+            }
+          }
+        ],
+        "note": "These are int element indices, not byte addresses. Both slices view one array; assigning a slice does not copy its elements.",
+        "description": "Why do left[1] and right[0] both become 9? Backing array before the assignment: index 0 = 2, index 1 = 4, index 2 = 6. left covers indices 0,1; right covers indices 1,2.. After left[1] = 9: index 0 = 2, index 1 = 9, index 2 = 6. left prints [2,9]; backing prints [2,9,6]; right prints [9,6].. These are int element indices, not byte addresses. Both slices view one array; assigning a slice does not copy its elements."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "copy-slices",
+      "title": "Copy values into separate storage",
+      "url": "https://snowch.github.io/go-foundry/collections-and-text/#copy-slices",
+      "decision": "Revised",
+      "passage": "make allocates destination storage. copy then copies as many elements as fit and returns the number copied; copy itself does not allocate the destination. Here both slices contain ints and use separate backing arrays.",
+      "starter_sha256": "e2283359c864525c55606c58b26f0ba0eec662f98d2014904a62ca153c5f8542",
+      "question": "Why does changing copied[0] leave original[0] equal to 2?",
+      "design": {
+        "title": "copy writes into a separate backing array",
+        "question": "Why does changing copied[0] leave original[0] equal to 2?",
+        "kind": "references",
+        "states": [
+          {
+            "label": "After copy, then copied[0]=9",
+            "objects": [
+              {
+                "label": "Original backing array",
+                "value": "[2,4,6]",
+                "refs": [
+                  {
+                    "name": "original",
+                    "edge": "views this array"
+                  }
+                ]
+              },
+              {
+                "label": "Separate backing array",
+                "value": "[9,4,6]",
+                "refs": [
+                  {
+                    "name": "copied",
+                    "edge": "views the make-allocated array"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "note": "make creates another array here; copy copies three ints and returns count 3. The copied slice is not another alias of original.",
+        "description": "Why does changing copied[0] leave original[0] equal to 2? After copy, then copied[0]=9: Original backing array contains [2,4,6]. original views this array Original backing array; Separate backing array contains [9,4,6]. copied views the make-allocated array Separate backing array. make creates another array here; copy copies three ints and returns count 3. The copied slice is not another alias of original."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "map-lookup",
+      "title": "Distinguish a missing map key from a zero value",
+      "url": "https://snowch.github.io/go-foundry/collections-and-text/#map-lookup",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A map associates keys with values. map[string]int uses string keys and int values. A missing lookup produces the value type’s zero value; the optional second result tells whether the key exists. Ada is present with a stored value of 0.",
+      "starter_sha256": "dee5f7bb9583e2840c7427e8ff092156ae3d7df692e8f15bc61605218ef131fc",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "map-delete-and-order",
+      "title": "Print remaining map keys in a stable order",
+      "url": "https://snowch.github.io/go-foundry/collections-and-text/#map-delete-and-order",
+      "decision": "Keep prose / worked evidence",
+      "passage": "delete removes a key if it is present. Go does not specify map iteration order, so this program collects the remaining keys and sorts them before printing. That makes changes to the contents easy to compare without confusing them with iteration order.",
+      "starter_sha256": "e0c1e2cb16dc34245e50e768a76cd03a1a6f67712c8c03e85b15bcc8a5c21727",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "unicode-text",
+      "title": "Count bytes and Unicode code points",
+      "url": "https://snowch.github.io/go-foundry/collections-and-text/#unicode-text",
+      "decision": "Added",
+      "passage": "A Go string contains bytes. len(text) counts those bytes. utf8.RuneCountInString counts Unicode code points, called runes. A range loop decodes UTF-8 runes and supplies each rune’s starting byte index, which can skip numbers when a rune occupies multiple bytes.",
+      "starter_sha256": "cf0b730145b9fea3f90f8dc8a84279bba4ae1dfa3c0c2fb0b32861e6d755b4b0",
+      "question": "Why do range indices jump from 0 to 2?",
+      "design": {
+        "title": "Rune iteration reports byte starting positions",
+        "question": "Why do range indices jump from 0 to 2?",
+        "kind": "bytes",
+        "label": "éGo: three runes, four UTF-8 bytes",
+        "values": [
+          "C3",
+          "A9",
+          "47",
+          "6F"
+        ],
+        "groups": [
+          {
+            "label": "é",
+            "size": 2,
+            "note": "range index 0"
+          },
+          {
+            "label": "G",
+            "size": 1,
+            "note": "index 2"
+          },
+          {
+            "label": "o",
+            "size": 1,
+            "note": "index 3"
+          }
+        ],
+        "note": "A rune is a Unicode code point, not always a complete grapheme cluster. The second byte of é is not another rune start.",
+        "description": "Why do range indices jump from 0 to 2? éGo: three runes, four UTF-8 bytes. é uses byte offsets 0 through 1: C3, A9; G uses byte offsets 2: 47; o uses byte offsets 3: 6F. A rune is a Unicode code point, not always a complete grapheme cluster. The second byte of é is not another rune start."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "text-fields",
+      "title": "Split and join words",
+      "url": "https://snowch.github.io/go-foundry/collections-and-text/#text-fields",
+      "decision": "Keep prose / worked evidence",
+      "passage": "strings.Fields splits text at runs of whitespace and leaves out empty fields at the ends. strings.Join combines the resulting strings using a chosen separator. The program prints quoted output so leading and trailing spaces are visible.",
+      "starter_sha256": "6a4bb4967fb8aa78e3ed7cc76c26b0642f44197868133102dc29978b1062013b",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "variadic-functions",
+      "title": "Pass several values or expand a slice",
+      "url": "https://snowch.github.io/go-foundry/collections-and-text/#variadic-functions",
+      "decision": "Keep prose / worked evidence",
+      "passage": "The final parameter values ...int accepts zero or more ints. Inside sum, values is a slice. At a call, more... expands a slice into those arguments; passing more without ... would supply a slice where the function expects ints.",
+      "starter_sha256": "27bfe33a41b90987fd1d46d6be56ae86feeb95a035f0e72a62350dbf8558fa10",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "word-count-practice",
+      "title": "Combine word counts across letter case",
+      "url": "https://snowch.github.io/go-foundry/collections-and-text/#word-count-practice",
+      "decision": "Keep prose / worked evidence",
+      "passage": "Fields produces the words, and counts[word]++ adds one to each word’s count. A missing key begins at the int zero value. The starter treats Go and go as different keys. strings.ToLower returns a lower-case string that can be used as a normalised key.",
+      "starter_sha256": "f00c7bb53aebdc6fa5e127df67ec34ac262758b0fb8e67b15b4547a385aded01",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "struct-values",
+      "title": "Copy a struct value",
+      "url": "https://snowch.github.io/go-foundry/types-and-interfaces/#struct-values",
+      "decision": "Added",
+      "passage": "A struct groups named fields. Point has two int fields, X and Y. Assigning point to moved copies those field values. These integer fields use separate storage in the two variables.",
+      "starter_sha256": "819fe2dde08b52b9f0c124550d904c48b8df9e25218f52082ba75aaaf661ee68",
+      "question": "Why is original still {2,3} after moved.X=9?",
+      "design": {
+        "title": "A struct assignment copies these value fields",
+        "question": "Why is original still {2,3} after moved.X=9?",
+        "kind": "table",
+        "headings": [
+          "Independent struct",
+          "X",
+          "Y"
+        ],
+        "rows": [
+          [
+            "point (original)",
+            "2",
+            "3"
+          ],
+          [
+            "moved (copied then edited)",
+            "9",
+            "3"
+          ]
+        ],
+        "label": "",
+        "links": [],
+        "note": "Point contains int fields, so changing moved.X does not modify point.X. Struct fields that are slices, maps or pointers can still refer to shared objects; this is not a universal deep copy.",
+        "description": "Why is original still {2,3} after moved.X=9? Independent struct; X; Y. point (original); 2; 3; moved (copied then edited); 9; 3. . . Point contains int fields, so changing moved.X does not modify point.X. Struct fields that are slices, maps or pointers can still refer to shared objects; this is not a universal deep copy."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "value-methods",
+      "title": "Attach a calculation to a type",
+      "url": "https://snowch.github.io/go-foundry/types-and-interfaces/#value-methods",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A method is a function declared with a receiver before its name. In Area, r Rectangle is the receiver. rect.Area() passes rect into that receiver. This method reads a copy of the Rectangle value to calculate its area.",
+      "starter_sha256": "0db55a4b33e7201bd7d7a19d1c544ca60cf2b07dd295a37d1334ccfed6837a06",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "pointer-methods",
+      "title": "Choose whether a method changes its receiver",
+      "url": "https://snowch.github.io/go-foundry/types-and-interfaces/#pointer-methods",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A *Counter receiver identifies the existing Counter. Its field update is visible to the caller. For this addressable variable, Go lets counter.Add(2) take the needed address automatically. A Counter receiver instead receives a copy of the struct.",
+      "starter_sha256": "2f896946fe63c23251e4963ad0cf864127ba8fcdfd75e729eb61c22aa7b2ffe1",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "named-types",
+      "title": "Keep different units distinct",
+      "url": "https://snowch.github.io/go-foundry/types-and-interfaces/#named-types",
+      "decision": "Keep prose / worked evidence",
+      "passage": "type Metres float64 and type Seconds float64 define distinct types with the same underlying numeric representation. speed requires the declared units. Distance is an alias for Metres because its declaration uses =; it does not create another type.",
+      "starter_sha256": "801c71bb73c6c5861bfc820f73d49ca6815a3d5785e9e465ce43b08417d01a45",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "implicit-interfaces",
+      "title": "Use two implementations through one interface",
+      "url": "https://snowch.github.io/go-foundry/types-and-interfaces/#implicit-interfaces",
+      "decision": "Keep prose / worked evidence",
+      "passage": "Speaker describes the Speak method a value must provide. Greeter and Message satisfy Speaker by defining that method; Go does not require an implements declaration. announce works with the interface without knowing which concrete struct it receives.",
+      "starter_sha256": "284569a3e0a4650badd0201bf4000c5f531ca01c7e1dada4e5be8980f70baa0f",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "embedding",
+      "title": "Access an embedded field",
+      "url": "https://snowch.github.io/go-foundry/types-and-interfaces/#embedding",
+      "decision": "Keep prose / worked evidence",
+      "passage": "Person embeds an Address field. person.Address.City explicitly selects the nested City. When the selector is unambiguous, person.City is a promoted selector for that same field. Embedding composes values; it does not create an independent second City.",
+      "starter_sha256": "ad1bb0e97aa61e6a5ea68d86769e55bc3bdbfa9e11ea0646464dfac5dbfa43ee",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "type-assertions",
+      "title": "Check a value’s concrete type",
+      "url": "https://snowch.github.io/go-foundry/types-and-interfaces/#type-assertions",
+      "decision": "Keep prose / worked evidence",
+      "passage": "any is an alias for the empty interface, so it can hold a value of any type. value.(string) asks whether the dynamic value is a string. With the two-result form, a mismatch returns the string zero value and false instead of panicking.",
+      "starter_sha256": "88e0ba30e3da29061db4ade9d1b54e7b165f4c57af48ce2802cf48adb14a9e88",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "type-switch",
+      "title": "Select behavior by a dynamic type",
+      "url": "https://snowch.github.io/go-foundry/types-and-interfaces/#type-switch",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A type switch checks the dynamic type held by an interface. Each case gives item the matching concrete type inside that branch. The default branch handles other types, so no unchecked assertion is needed.",
+      "starter_sha256": "315f1acf9541354544e450b87a1d0eef58f5a5bd068a91e4d34fd3f0b3622d4a",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "nil-interfaces",
+      "title": "Compare a nil pointer and an interface",
+      "url": "https://snowch.github.io/go-foundry/types-and-interfaces/#nil-interfaces",
+      "decision": "Revised",
+      "passage": "The pointer has type *int and value nil. Assigning that pointer to any retains its dynamic type, so the interface value itself is not nil. An interface compares equal to nil only when it holds no dynamic type and no dynamic value.",
+      "starter_sha256": "4295d02b6fbde040a3a504cd84d7cec2e2a6246233888d5309c62913f5d306c6",
+      "question": "Why is pointer==nil true while value==nil is false?",
+      "design": {
+        "title": "A typed nil still gives an interface a dynamic type",
+        "question": "Why is pointer==nil true while value==nil is false?",
+        "kind": "table",
+        "headings": [
+          "Expression / conceptual field",
+          "pointer",
+          "value (any)",
+          "Nil interface · contrast"
+        ],
+        "rows": [
+          [
+            "Declared type",
+            "*int",
+            "any",
+            "any"
+          ],
+          [
+            "Dynamic type",
+            "not an interface",
+            "*int",
+            "absent"
+          ],
+          [
+            "Contained value",
+            "nil pointer",
+            "nil pointer",
+            "absent"
+          ],
+          [
+            "Comparison with nil",
+            "true",
+            "false",
+            "true"
+          ]
+        ],
+        "label": "",
+        "links": [],
+        "note": "The nil-interface column is an explanatory comparison, not an extra starter print. The type/value pair is a conceptual model, not a guaranteed two-word ABI layout.",
+        "description": "Why is pointer==nil true while value==nil is false? Expression / conceptual field; pointer; value (any); Nil interface · contrast. Declared type; *int; any; any; Dynamic type; not an interface; *int; absent; Contained value; nil pointer; nil pointer; absent; Comparison with nil; true; false; true. . . The nil-interface column is an explanatory comparison, not an extra starter print. The type/value pair is a conceptual model, not a guaranteed two-word ABI layout."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "generic-functions",
+      "title": "Reuse a calculation for two integer types",
+      "url": "https://snowch.github.io/go-foundry/types-and-interfaces/#generic-functions",
+      "decision": "Keep prose / worked evidence",
+      "passage": "T is a type parameter. The constraint int | int64 allows those two types, both of which support addition. Go infers T from each call’s arguments, so one implementation can return the corresponding input type.",
+      "starter_sha256": "9150a5fd6370958b3f7571042d1a02d24127ceb028a2a78aa4b0e406be724803",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "generic-sets",
+      "title": "Store unique values with a generic set",
+      "url": "https://snowch.github.io/go-foundry/types-and-interfaces/#generic-sets",
+      "decision": "Keep prose / worked evidence",
+      "passage": "Set is a named map type parameterised by its key type. comparable allows the equality operations required for map keys. struct{} is an empty value: this set uses key presence, rather than a separate payload, to represent membership.",
+      "starter_sha256": "424a7c109c6ddf004697d64275ed60a48b20117fb11d44aca46ce6ac42785a8a",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "enum-constants",
+      "title": "Name related states with iota",
+      "url": "https://snowch.github.io/go-foundry/types-and-interfaces/#enum-constants",
+      "decision": "Keep prose / worked evidence",
+      "passage": "iota starts at 0 within a parenthesised constant declaration and increases for each constant specification. Omitted expressions repeat the previous expression using the new iota value. The State names make call sites readable, but their numeric values depend on the declarations.",
+      "starter_sha256": "4e2490cd3e946e6dc4a4e7a80cd222aa4feee23d63787190b2a273a8d5d3dd38",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "error-values",
+      "title": "Handle an error value",
+      "url": "https://snowch.github.io/go-foundry/errors-and-testing/#error-values",
+      "decision": "Keep prose / worked evidence",
+      "passage": "error is an interface used to report a failure. nonNegative returns an int and an error; nil means no error was reported. main handles an error by printing it and returning normally, so a printed error message here is not a compiler or runner startup failure.",
+      "starter_sha256": "b24af4cc584162de9d759bd2993457fc0fea7644f4ce236e41250c2a6afbe9fa",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "wrapped-errors",
+      "title": "Preserve an error’s cause",
+      "url": "https://snowch.github.io/go-foundry/errors-and-testing/#wrapped-errors",
+      "decision": "Keep prose / worked evidence",
+      "passage": "This example constructs a missing-record error. fmt.Errorf with %w adds context while preserving its cause. errors.Is can find that cause through a wrapper. Formatting the same error with %v preserves the displayed text but does not wrap it.",
+      "starter_sha256": "21b3962ca0413163a70790cb3dd59fe25093e1cc1150458dcaa209dd6ca55f12",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "typed-errors",
+      "title": "Read fields from a typed error",
+      "url": "https://snowch.github.io/go-foundry/errors-and-testing/#typed-errors",
+      "decision": "Keep prose / worked evidence",
+      "passage": "LimitError supplies an Error method, so its pointer satisfies error. errors.As finds a matching concrete error through a wrapper and stores it in detail. The caller can then read the Limit field directly.",
+      "starter_sha256": "34548909a421239c46620667e526921126fb04521abe48907b4ca6a92aa69c45",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "validation-guards",
+      "title": "Reject an invalid value before using it",
+      "url": "https://snowch.github.io/go-foundry/errors-and-testing/#validation-guards",
+      "decision": "Keep prose / worked evidence",
+      "passage": "validateScore accepts scores from 0 through 100, including both endpoints. An early return rejects other values before the caller proceeds. This is a data-validation rule chosen for the example.",
+      "starter_sha256": "41717efa9e1792b83bfa6820f32ddc8c39767346b2d1da26b8e465783dc19aab",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "panic-and-recover",
+      "title": "Observe panic unwinding and recovery",
+      "url": "https://snowch.github.io/go-foundry/errors-and-testing/#panic-and-recover",
+      "decision": "Keep prose / worked evidence",
+      "passage": "panic interrupts normal execution and runs deferred calls while unwinding the current goroutine. A deferred function can call recover to handle that panic. Expected input failures should normally be returned as errors; this program demonstrates the separate panic mechanism.",
+      "starter_sha256": "46ce3012232088389ce3bc6bb75c9eff75fb779d4d5ab4347d0fba4cb67da3d5",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "packages-and-exports",
+      "title": "Call a function in a local package",
+      "url": "https://snowch.github.io/go-foundry/errors-and-testing/#packages-and-exports",
+      "decision": "Keep prose / worked evidence",
+      "passage": "The project’s module name is example.com/go-foundry. The import points to its local internal/lessonmath package. An uppercase initial letter exports Double; lowercase double is private to that package. The internal directory also limits which other packages can import it.",
+      "starter_sha256": "bb6d52b2d842bd08d621220cb05d8240d224a32d2ff90dfce0f8542d287238cd",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "unit-tests",
+      "title": "Run a Go assertion",
+      "url": "https://snowch.github.io/go-foundry/errors-and-testing/#unit-tests",
+      "decision": "Keep prose / worked evidence",
+      "passage": "Go discovers Test functions in files ending _test.go. The test calls double, compares its result with want, and reports a failure through testing.T. Run compiles and executes this test package. A failing assertion is different from a source compilation error or a runner startup failure.",
+      "starter_sha256": "5fe5eeceaa0533f0070f1fd28435122f0fc1b7e3ffe249b3ade94db9b1d3ca67",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "table-tests",
+      "title": "Name a set of boundary tests",
+      "url": "https://snowch.github.io/go-foundry/errors-and-testing/#table-tests",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A table-driven test keeps inputs and expected results together. Each t.Run names a subtest, making a failing case easier to find. clamp accepts 0 through 10 and maps values outside that range onto the nearest boundary.",
+      "starter_sha256": "f0fef10f810dba4209aeceba85dc3a2ad1c3ce76294179028c01e5e4bea8d963",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "test-dependencies",
+      "title": "Supply a controlled dependency in a test",
+      "url": "https://snowch.github.io/go-foundry/errors-and-testing/#test-dependencies",
+      "decision": "Keep prose / worked evidence",
+      "passage": "loadLabel receives a NameSource interface. fakeSource returns data or an error selected by the test. That lets the test exercise loadLabel’s fallback policy deterministically. The synthetic error is test input.",
+      "starter_sha256": "7ba18f21cba732267d591317dd83f00266939c3e8d76427819a5bd9dfca08492",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "fuzz-seeds",
+      "title": "Check a property against seed inputs",
+      "url": "https://snowch.github.io/go-foundry/errors-and-testing/#fuzz-seeds",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A Fuzz function registers seed inputs with f.Add and a property with f.Fuzz. This property says that trimming twice should equal trimming once. The browser Run executes the seed cases; it does not start a continuous random fuzzing campaign.",
+      "starter_sha256": "edc1808a2bc14f5b74de881fbca30a9c4e0d03bd20384986091ebb2a1d8b9953",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "benchmark-harness",
+      "title": "Inspect a benchmark’s measurements",
+      "url": "https://snowch.github.io/go-foundry/errors-and-testing/#benchmark-harness",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A Benchmark function repeats work using testing.B. The saved sink keeps the copied slice observable to the compiler. Run requests one benchmark iteration and allocation reporting to inspect the harness. Its emulated timing is not a native performance comparison or a statistically reliable estimate.",
+      "starter_sha256": "54df1bb896874743fec0c847fbced7761debdf8d44bb784b418a3c9b1f3da058",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "file-roundtrip",
+      "title": "Write bytes and read them back",
+      "url": "https://snowch.github.io/go-foundry/files-and-http/#file-roundtrip",
+      "decision": "Keep prose / worked evidence",
+      "passage": "WriteFile replaces the named file with the supplied bytes. ReadFile returns the file bytes and an error. The starter creates data/ and replaces notes.txt on every run; other project files are unchanged. The runner saves project files after execution.",
+      "starter_sha256": "36cef35b12ddf4ab0f498010fe7be52909b57392f160677bedee4f3986c5fe3a",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "stream-lines",
+      "title": "Read text one line at a time",
+      "url": "https://snowch.github.io/go-foundry/files-and-http/#stream-lines",
+      "decision": "Keep prose / worked evidence",
+      "passage": "Scanner advances through tokens; its default tokens are lines without the ending newline. The prepared reader contains two names, so no keyboard input is needed. Scan returns false at end of input or on error; Err distinguishes those cases. Scanner has a token size limit.",
+      "starter_sha256": "458cc5c5ce63bdb0d322768a9479744fe7e1df7c78e75be1681f7e162701655d",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "json-records",
+      "title": "Decode a JSON record",
+      "url": "https://snowch.github.io/go-foundry/files-and-http/#json-records",
+      "decision": "Keep prose / worked evidence",
+      "passage": "JSON is a text format for structured values. The json tags choose field names. The decoder stores recognized fields into an exported Go struct field. Missing fields keep their zero values; this example validates age separately from decoding.",
+      "starter_sha256": "5c07d3fe9a3275eff4cb42de0b07db5af250550628696375fa6c56ad00976d04",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "strict-json",
+      "title": "Reject an unknown JSON field",
+      "url": "https://snowch.github.io/go-foundry/files-and-http/#strict-json",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A Decoder normally ignores unknown object fields when decoding into a struct. DisallowUnknownFields changes that policy. The starter includes nae, a misspelling of name, so strict decoding rejects it. Strict field checking is not full business validation.",
+      "starter_sha256": "865c98ee42c0ac279dff57c5661ae19856b8d9bbdca8cfd8c3cf7391dc3f1b8c",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "csv-fields",
+      "title": "Read a quoted CSV field",
+      "url": "https://snowch.github.io/go-foundry/files-and-http/#csv-fields",
+      "decision": "Keep prose / worked evidence",
+      "passage": "CSV stores records as text fields separated by commas. A quoted field may itself contain a comma. csv.Reader handles that quoting; splitting every comma would lose the record structure. The reader checks that later records have the same field count as the first.",
+      "starter_sha256": "eb4acb56948b49ded90a4823971a1bbca795ae92e5303b5514aea1ecf760e9be",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "parse-flags",
+      "title": "Parse a prepared argument list",
+      "url": "https://snowch.github.io/go-foundry/files-and-http/#parse-flags",
+      "decision": "Keep prose / worked evidence",
+      "passage": "flag.FlagSet parses named command options. This page prepares an argument slice in source because lesson jobs do not receive interactive input. Int registers an integer option and returns a pointer to its parsed value. The parse error is checked before using that value.",
+      "starter_sha256": "00614ecad9c33fd991dd47a4828d0f5b810c3adfcbe287c7937d09b679d3016e",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "parse-time",
+      "title": "Parse a timestamp with its time zone",
+      "url": "https://snowch.github.io/go-foundry/files-and-http/#parse-time",
+      "decision": "Keep prose / worked evidence",
+      "passage": "Go layouts use the reference date 2006-01-02 15:04:05 to describe a timestamp’s shape. RFC3339 includes a time-zone offset. UTC converts the representation to the zero-offset zone; Add changes the instant by a duration.",
+      "starter_sha256": "1a603fc034072a063ae3f358abcc864aa21242ec9a82f1c6f991411dba8fcfe5",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "http-handler",
+      "title": "Handle an HTTP request locally",
+      "url": "https://snowch.github.io/go-foundry/files-and-http/#http-handler",
+      "decision": "Keep prose / worked evidence",
+      "passage": "HTTP pairs a request with a response containing a status code and body. A handler receives the request and writes the response. httptest creates a request and response recorder directly in this process. This example uses no network or outside service.",
+      "starter_sha256": "cfa95776e8a95937a8db56e443610f09fada7e255ee2a28b7941244df6c6d8d4",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "http-status",
+      "title": "Return an HTTP error before the body",
+      "url": "https://snowch.github.io/go-foundry/files-and-http/#http-status",
+      "decision": "Keep prose / worked evidence",
+      "passage": "This handler accepts GET. For another method it writes status 405, meaning method not allowed, and returns immediately. WriteHeader must precede the ordinary body write; writing a body first implicitly selects status 200.",
+      "starter_sha256": "41a32b37ff5f2cf1ca33b025755107d7ad0a21a46d419d566aa7dcf87fd64f0f",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "goroutine-wait",
+      "title": "Wait for concurrent work",
+      "url": "https://snowch.github.io/go-foundry/concurrency/#goroutine-wait",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A goroutine executes a function concurrently with other goroutines in the process. go starts it; main does not automatically wait. WaitGroup tracks unfinished work. Add happens before starting the goroutine, and its deferred Done balances that count. This emulated run does not demonstrate multicore speedup.",
+      "starter_sha256": "aaabde51ba9219e9e72d8a833d36ba837412dfb036f7090966adc1e7626970da",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "channel-handoff",
+      "title": "Pass a result through a channel",
+      "url": "https://snowch.github.io/go-foundry/concurrency/#channel-handoff",
+      "decision": "Added",
+      "passage": "A channel carries values of one type. An unbuffered send waits for a receiver, and a receive waits for a sender. This program starts the sender before receiving in main. The received value is the evidence that the handoff completed.",
+      "starter_sha256": "88cf1a0a86683081e32c78a8996371af4654dae66558c8c9ee999a2eb3f1fce7",
+      "question": "Why can the send of 7 complete only with a receiver?",
+      "design": {
+        "title": "An unbuffered send meets a receive",
+        "question": "Why can the send of 7 complete only with a receiver?",
+        "kind": "table",
+        "headings": [
+          "Sender goroutine",
+          "Channel",
+          "main"
+        ],
+        "rows": [
+          [
+            "values <- 7",
+            "Unbuffered: no queued slot",
+            "<-values receives 7"
+          ],
+          [
+            "Send completes after the handoff",
+            "Communication pairs the operations",
+            "Print received 7"
+          ]
+        ],
+        "label": "",
+        "links": [],
+        "note": "No buffer occupancy is implied. The diagram is a synchronization dependency, not a measurement of which CPU runs first.",
+        "description": "Why can the send of 7 complete only with a receiver? Sender goroutine; Channel; main. values <- 7; Unbuffered: no queued slot; <-values receives 7; Send completes after the handoff; Communication pairs the operations; Print received 7. . . No buffer occupancy is implied. The diagram is a synchronization dependency, not a measurement of which CPU runs first."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "buffered-channel",
+      "title": "Queue values in a buffered channel",
+      "url": "https://snowch.github.io/go-foundry/concurrency/#buffered-channel",
+      "decision": "Added",
+      "passage": "make(chan int, 2) reserves space for two queued values. A send can complete while that space is available, without a simultaneous receiver. len reports the number currently queued, not the capacity. The example uses one goroutine so the displayed queue sizes are deterministic.",
+      "starter_sha256": "8dbd94615fc9c8d2d9666db5f95eb61989da0add360cffeea177318d69e0f434",
+      "question": "Why does one receive leave one pending value?",
+      "design": {
+        "title": "Capacity bounds queued values",
+        "question": "Why does one receive leave one pending value?",
+        "kind": "slots",
+        "rows": [
+          {
+            "label": "After sending 4, then 8",
+            "values": [
+              4,
+              8
+            ],
+            "note": "len=2, cap=2; receive takes the oldest queued value, 4.",
+            "active": [
+              0,
+              1
+            ],
+            "muted": [],
+            "tags": {
+              "0": "front"
+            }
+          },
+          {
+            "label": "After receiving 4",
+            "values": [
+              "removed",
+              8
+            ],
+            "note": "len=1; 8 remains next to receive.",
+            "active": [
+              1
+            ],
+            "muted": [
+              0
+            ],
+            "tags": {
+              "1": "new front"
+            }
+          }
+        ],
+        "note": "This is logical queue occupancy, not the channel’s specified memory layout. A third send with no receiver would block; the unchanged program does not perform it.",
+        "description": "Why does one receive leave one pending value? After sending 4, then 8: index 0 = 4, index 1 = 8. len=2, cap=2; receive takes the oldest queued value, 4.. After receiving 4: index 0 = removed, index 1 = 8. len=1; 8 remains next to receive.. This is logical queue occupancy, not the channel’s specified memory layout. A third send with no receiver would block; the unchanged program does not perform it."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "close-and-range",
+      "title": "Finish a stream of messages",
+      "url": "https://snowch.github.io/go-foundry/concurrency/#close-and-range",
+      "decision": "Added",
+      "passage": "range receives channel values until the channel is closed and drained. The producer owns closing jobs because it knows when sending is finished. Closing does not discard buffered values. Sending after close panics.",
+      "starter_sha256": "ee13f6f4c6d462902825b87196ea36c75ade8758e855493d18177dd72eb520d5",
+      "question": "Why does range finish with sum 6?",
+      "design": {
+        "title": "The producer closes only after its final send",
+        "question": "Why does range finish with sum 6?",
+        "kind": "flow",
+        "steps": [
+          {
+            "label": "Producer sends 1,2,3",
+            "detail": "main receives each handoff and accumulates 1+2+3."
+          },
+          {
+            "label": "Producer returns",
+            "detail": "Its deferred close(jobs) runs after all three sends complete."
+          },
+          {
+            "label": "main range observes closed and drained",
+            "detail": "The loop ends; print sum 6."
+          }
+        ],
+        "note": "jobs is unbuffered in this starter. Closing marks the end of sends; it does not create another data value for range or require main to close the channel.",
+        "description": "Why does range finish with sum 6? Producer sends 1,2,3. main receives each handoff and accumulates 1+2+3.; Producer returns. Its deferred close(jobs) runs after all three sends complete.; main range observes closed and drained. The loop ends; print sum 6.. jobs is unbuffered in this starter. Closing marks the end of sends; it does not create another data value for range or require main to close the channel."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "select-default",
+      "title": "Choose a ready channel operation",
+      "url": "https://snowch.github.io/go-foundry/concurrency/#select-default",
+      "decision": "Keep prose / worked evidence",
+      "passage": "select chooses a ready communication case. If none is ready, default runs immediately when supplied. The buffered channel starts empty, so this starter takes default. With several ready cases the selection is not a priority ordering.",
+      "starter_sha256": "f32ed2a50633c5d2977e1190baabdf57302c3f5c578c481a3fd96dbcf636003b",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "context-cancel",
+      "title": "Cancel work and wait for its exit",
+      "url": "https://snowch.github.io/go-foundry/concurrency/#context-cancel",
+      "decision": "Added",
+      "passage": "context.WithCancel returns a context and a cancellation function. The worker waits for Done to close. cancel requests cancellation; receiving stopped confirms the worker reached its exit path. Cancellation is cooperative: code must check the context.",
+      "starter_sha256": "bde307faff067ebaface83eaccab73c98e9a206950a4cf62a81a1974ef36642f",
+      "question": "What confirms the worker has observed cancellation?",
+      "design": {
+        "title": "Cancellation is a signal, not completion by itself",
+        "question": "What confirms the worker has observed cancellation?",
+        "kind": "table",
+        "headings": [
+          "Dependency",
+          "main",
+          "Worker"
+        ],
+        "rows": [
+          [
+            "1",
+            "cancel() closes the context signal",
+            "Waits on ctx.Done()"
+          ],
+          [
+            "2",
+            "Receive from stopped",
+            "Observes cancellation; sends the message"
+          ],
+          [
+            "3",
+            "Print cancelled context canceled",
+            "The send has synchronized with main"
+          ]
+        ],
+        "label": "Signal → observation → acknowledgement",
+        "links": [],
+        "note": "The stopped channel acknowledges this worker’s progress. Calling cancel alone does not join arbitrary goroutines or forcibly stop their instructions.",
+        "description": "What confirms the worker has observed cancellation? Dependency; main; Worker. 1; cancel() closes the context signal; Waits on ctx.Done(); 2; Receive from stopped; Observes cancellation; sends the message; 3; Print cancelled context canceled; The send has synchronized with main. Signal → observation → acknowledgement. . The stopped channel acknowledges this worker’s progress. Calling cancel alone does not join arbitrary goroutines or forcibly stop their instructions."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "worker-pool",
+      "title": "Share jobs among a bounded set of workers",
+      "url": "https://snowch.github.io/go-foundry/concurrency/#worker-pool",
+      "decision": "Revised",
+      "passage": "Two workers read one jobs channel and send squared values to results. A coordinator closes results after WaitGroup confirms all workers are done. Completion order depends on scheduling, so main sorts results before printing. This demonstrates coordination rather than a throughput benchmark.",
+      "starter_sha256": "a95669a97ffb1c515c94716567541f1a2d988a94f2cf52149a578d04e0e80d9b",
+      "question": "Why must main receive results before the workers can finish?",
+      "design": {
+        "title": "Sending, draining and closing have different owners",
+        "question": "Why must main receive results before the workers can finish?",
+        "kind": "table",
+        "headings": [
+          "Goroutine",
+          "During work",
+          "Finish dependency"
+        ],
+        "rows": [
+          [
+            "Producer + coordinator (one goroutine)",
+            "Send jobs 1..4; close jobs",
+            "Wait for both workers; close results"
+          ],
+          [
+            "Worker 1",
+            "Range jobs; send each square",
+            "On jobs drained/closed: Done"
+          ],
+          [
+            "Worker 2",
+            "Range jobs; send each square",
+            "On jobs drained/closed: Done"
+          ],
+          [
+            "main",
+            "Range results while workers send",
+            "After results close: sort; print [1,4,9,16]"
+          ]
+        ],
+        "label": "Four goroutines, two unbuffered channels",
+        "links": [
+          "Jobs: producer sends → a worker receives. Which worker receives each job is not fixed.",
+          "Results: a worker sends → main receives. Main drains while the workers are running.",
+          "close(jobs) → both workers finish → Wait returns → close(results) → main range finishes."
+        ],
+        "note": "Producer and coordinator are two roles in the same auxiliary goroutine. No channel queue slots or measured schedule are implied; concurrency does not establish multicore speedup.",
+        "description": "Why must main receive results before the workers can finish? Goroutine; During work; Finish dependency. Producer + coordinator (one goroutine); Send jobs 1..4; close jobs; Wait for both workers; close results; Worker 1; Range jobs; send each square; On jobs drained/closed: Done; Worker 2; Range jobs; send each square; On jobs drained/closed: Done; main; Range results while workers send; After results close: sort; print [1,4,9,16]. Four goroutines, two unbuffered channels. Jobs: producer sends → a worker receives. Which worker receives each job is not fixed.; Results: a worker sends → main receives. Main drains while the workers are running.; close(jobs) → both workers finish → Wait returns → close(results) → main range finishes.. Producer and coordinator are two roles in the same auxiliary goroutine. No channel queue slots or measured schedule are implied; concurrency does not establish multicore speedup."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "mutex-counter",
+      "title": "Protect a shared read-modify-write",
+      "url": "https://snowch.github.io/go-foundry/concurrency/#mutex-counter",
+      "decision": "Added",
+      "passage": "count++ reads, adds and writes. Concurrent updates require synchronization. Mutex allows one goroutine into a critical section at a time. WaitGroup ensures all updates finish before main reads count. One correct result without synchronization would not prove that a race is absent.",
+      "starter_sha256": "9791b53cc2a0028fa47d4fa1791fb0c7dcfaeee164343354285b077af9baee3c",
+      "question": "Why do two workers reliably produce count 200?",
+      "design": {
+        "title": "The lock covers the whole read-modify-write",
+        "question": "Why do two workers reliably produce count 200?",
+        "kind": "table",
+        "headings": [
+          "Critical-section boundary",
+          "Worker action",
+          "Competing worker"
+        ],
+        "rows": [
+          [
+            "Lock held",
+            "Read count → add 1 → write count",
+            "Must wait before its own update"
+          ],
+          [
+            "Unlock",
+            "Leave the complete update",
+            "May acquire and update"
+          ],
+          [
+            "Both workers Done; Wait returns",
+            "main reads final count=200",
+            "No worker update remains"
+          ]
+        ],
+        "label": "Two workers × 100 protected increments",
+        "links": [],
+        "note": "Every participating access follows the same mutex rule. Individual reads and writes without the complete protected increment would not preserve all updates.",
+        "description": "Why do two workers reliably produce count 200? Critical-section boundary; Worker action; Competing worker. Lock held; Read count → add 1 → write count; Must wait before its own update; Unlock; Leave the complete update; May acquire and update; Both workers Done; Wait returns; main reads final count=200; No worker update remains. Two workers × 100 protected increments. . Every participating access follows the same mutex rule. Individual reads and writes without the complete protected increment would not preserve all updates."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "pipeline-shutdown",
+      "title": "Stop an upstream producer when consuming only one result",
+      "url": "https://snowch.github.io/go-foundry/concurrency/#pipeline-shutdown",
+      "decision": "Added",
+      "passage": "The producer selects between sending a number and context cancellation. main consumes only one number, then cancels and waits for the producer’s done channel. Without the cancellation case, the next unbuffered send could wait forever after main stops receiving.",
+      "starter_sha256": "12220bd60dd4c6a156d357efb04a054f185eba349068d52ae0f5d32fea4b4dd6",
+      "question": "Why must main wait for done before reporting producer stopped?",
+      "design": {
+        "title": "Stop an upstream sender after taking only one result",
+        "question": "Why must main wait for done before reporting producer stopped?",
+        "kind": "flow",
+        "steps": [
+          {
+            "label": "main receives first value 1",
+            "detail": "The producer may attempt its next send."
+          },
+          {
+            "label": "main calls cancel()",
+            "detail": "The producer’s select can choose ctx.Done and return."
+          },
+          {
+            "label": "Producer runs deferred closes",
+            "detail": "close(values), then close(done), in reverse defer-registration order."
+          },
+          {
+            "label": "main receives from done",
+            "detail": "Only now print producer stopped."
+          }
+        ],
+        "note": "The completion channel prevents treating a cancellation request as proof of exit. The producer must select cancellation while sending, or it could remain blocked on an unwanted second value.",
+        "description": "Why must main wait for done before reporting producer stopped? main receives first value 1. The producer may attempt its next send.; main calls cancel(). The producer’s select can choose ctx.Done and return.; Producer runs deferred closes. close(values), then close(done), in reverse defer-registration order.; main receives from done. Only now print producer stopped.. The completion channel prevents treating a cancellation request as proof of exit. The producer must select cancellation while sending, or it could remain blocked on an unwanted second value."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "stack",
+      "title": "Remove the most recently added value",
+      "url": "https://snowch.github.io/go-foundry/data-structures/#stack",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A stack removes the last value pushed. The slice’s final element is the top. pop returns a boolean so an empty stack is distinguishable from a stored zero. This representation keeps push and pop at one end.",
+      "starter_sha256": "f97fc2fe3c4b345236178dcacb3f5f8aacb638141f32a85632bbe4751ec6a77b",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "queue",
+      "title": "Remove the earliest queued value",
+      "url": "https://snowch.github.io/go-foundry/data-structures/#queue",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A queue removes the earliest value added. This simple queue advances a slice past its first element. The remaining slice can still keep the backing array alive, so this teaching representation is not a bounded-memory queue for an indefinitely running service.",
+      "starter_sha256": "3e53f624a3799b2d926edc92a6b243febaaa1630007d4c5f72e4950a8ef1e65c",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "ring-buffer",
+      "title": "Reuse a fixed queue buffer",
+      "url": "https://snowch.github.io/go-foundry/data-structures/#ring-buffer",
+      "decision": "Added",
+      "passage": "A ring buffer uses fixed slots, a head index and a count. The next insertion slot is (head + count) % capacity. Removing advances head with the same wraparound. Full and empty are explicit outcomes; this buffer does not overwrite unread values.",
+      "starter_sha256": "fc8cf70db76cfd1d1726176d9ce95dedc55f63a1bfa8f2abb38a86ecafc30a33",
+      "question": "Why is put(9) rejected and take returns 3?",
+      "design": {
+        "title": "One fixed buffer tracks a moving head",
+        "question": "Why is put(9) rejected and take returns 3?",
+        "kind": "slots",
+        "rows": [
+          {
+            "label": "After put(3), put(8)",
+            "values": [
+              3,
+              8
+            ],
+            "note": "head=0, count=2; full capacity=2. put(9) returns false without overwriting.",
+            "active": [
+              0,
+              1
+            ],
+            "muted": [],
+            "tags": {
+              "0": "head"
+            }
+          },
+          {
+            "label": "After take returns 3",
+            "values": [
+              3,
+              8
+            ],
+            "note": "head=1, count=1. The old bits at slot 0 are not a live queue item.",
+            "active": [
+              1
+            ],
+            "muted": [
+              0
+            ],
+            "tags": {
+              "1": "head"
+            }
+          }
+        ],
+        "note": "These are the actual two slots in the starter. Logical queue order and physical array index are different; fullness is checked before insertion.",
+        "description": "Why is put(9) rejected and take returns 3? After put(3), put(8): index 0 = 3, index 1 = 8. head=0, count=2; full capacity=2. put(9) returns false without overwriting.. After take returns 3: index 0 = 3, index 1 = 8. head=1, count=1. The old bits at slot 0 are not a live queue item.. These are the actual two slots in the starter. Logical queue order and physical array index are different; fullness is checked before insertion."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "linked-list",
+      "title": "Follow links rather than contiguous indexes",
+      "url": "https://snowch.github.io/go-foundry/data-structures/#linked-list",
+      "decision": "Revised",
+      "passage": "A linked-list node stores a value and a pointer to the next node. nil marks the end. Prepending creates a new node pointing at the previous head. Traversal follows pointers one at a time; it does not provide constant-time indexed access.",
+      "starter_sha256": "d453145395ad6505d9cdce144e355756b79cd713c2d2c0dc3cedc6b9e9ffaea2",
+      "question": "Which node does the new node 3 point to?",
+      "design": {
+        "title": "Prepending changes head and adds one next link",
+        "question": "Which node does the new node 3 point to?",
+        "kind": "graph",
+        "nodes": [
+          {
+            "id": "h",
+            "label": "head",
+            "x": 12,
+            "y": 50
+          },
+          {
+            "id": "3",
+            "label": "3",
+            "x": 45,
+            "y": 50
+          },
+          {
+            "id": "8",
+            "label": "8",
+            "x": 78,
+            "y": 50
+          }
+        ],
+        "edges": [
+          {
+            "from": "h",
+            "to": "3",
+            "label": ""
+          },
+          {
+            "from": "3",
+            "to": "8",
+            "label": "Next"
+          }
+        ],
+        "legend": "After prepending: head → 3 → 8 → nil. The old node 8 is reused; its Next is nil.",
+        "height": 160,
+        "note": "These positions show logical links, not physical adjacency or a fixed allocation layout.",
+        "description": "Which node does the new node 3 point to? Nodes: head, 3, 8. Connections: head leads to 3; 3 leads to 8 (Next). After prepending: head → 3 → 8 → nil. The old node 8 is reused; its Next is nil.. These positions show logical links, not physical adjacency or a fixed allocation layout."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "hash-collisions",
+      "title": "Find a key inside a collision bucket",
+      "url": "https://snowch.github.io/go-foundry/data-structures/#hash-collisions",
+      "decision": "Added",
+      "passage": "This teaching table hashes a string by its byte length modulo two. Keys of equal-length parity collide, meaning they share a bucket. Lookup must compare the complete key within that bucket. This deliberately weak hash illustrates collisions; it is not a production hash table.",
+      "starter_sha256": "18c7f7f0ca780159b29ec7aa1a4c2ca0f787efb14fa8b7b29e890921cd5dd9d0",
+      "question": "Why can Ada and Bob coexist in bucket 1?",
+      "design": {
+        "title": "Equal bucket indexes do not mean equal keys",
+        "question": "Why can Ada and Bob coexist in bucket 1?",
+        "kind": "table",
+        "headings": [
+          "Key",
+          "Hash destination len(key)%2",
+          "Stored pair"
+        ],
+        "rows": [
+          [
+            "Ada",
+            "3%2=1",
+            "Ada → 3"
+          ],
+          [
+            "Bob",
+            "3%2=1",
+            "Bob → 8"
+          ],
+          [
+            "get(Bob)",
+            "Inspect both keys in bucket 1",
+            "Match Bob; return 8,true"
+          ]
+        ],
+        "label": "",
+        "links": [],
+        "note": "The teaching hash groups these two three-byte ASCII keys into one bucket. Actual key equality selects the entry; a collision is not a duplicate key.",
+        "description": "Why can Ada and Bob coexist in bucket 1? Key; Hash destination len(key)%2; Stored pair. Ada; 3%2=1; Ada → 3; Bob; 3%2=1; Bob → 8; get(Bob); Inspect both keys in bucket 1; Match Bob; return 8,true. . . The teaching hash groups these two three-byte ASCII keys into one bucket. Actual key equality selects the entry; a collision is not a duplicate key."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "search-tree",
+      "title": "Keep smaller and larger values on separate branches",
+      "url": "https://snowch.github.io/go-foundry/data-structures/#search-tree",
+      "decision": "Added",
+      "passage": "Each node stores smaller distinct values on its left and larger values on its right. In-order traversal visits left, node, right, producing sorted values. Repeated values are ignored here. An unbalanced tree can become a chain, so this implementation does not guarantee logarithmic lookup.",
+      "starter_sha256": "e3cff0df315aac81503d109f0d6feeb880a8cbd45c933212b463050061c849f3",
+      "question": "Why does the traversal print [2,4,6]?",
+      "design": {
+        "title": "In-order follows left, node, right",
+        "question": "Why does the traversal print [2,4,6]?",
+        "kind": "graph",
+        "nodes": [
+          {
+            "id": "4",
+            "label": "4",
+            "x": 50,
+            "y": 20
+          },
+          {
+            "id": "2",
+            "label": "2",
+            "x": 22,
+            "y": 80
+          },
+          {
+            "id": "6",
+            "label": "6",
+            "x": 78,
+            "y": 80
+          }
+        ],
+        "edges": [
+          {
+            "from": "4",
+            "to": "2",
+            "label": "< 4"
+          },
+          {
+            "from": "4",
+            "to": "6",
+            "label": "> 4"
+          }
+        ],
+        "legend": "The starter inserts 4,2,6. Visit left 2 → root 4 → right 6.",
+        "height": 300,
+        "note": "The invariant applies to entire subtrees. This small tree happens to be balanced; the basic insertion helper does not guarantee balancing for arbitrary input order.",
+        "description": "Why does the traversal print [2,4,6]? Nodes: 4, 2, 6. Connections: 4 leads to 2 (< 4); 4 leads to 6 (> 4). The starter inserts 4,2,6. Visit left 2 → root 4 → right 6.. The invariant applies to entire subtrees. This small tree happens to be balanced; the basic insertion helper does not guarantee balancing for arbitrary input order."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "minimum-heap",
+      "title": "Remove the smallest priority",
+      "url": "https://snowch.github.io/go-foundry/data-structures/#minimum-heap",
+      "decision": "Added",
+      "passage": "A min-heap keeps its smallest value at the root. container/heap rearranges elements using Len, Less and Swap; its Push and Pop methods supply storage operations. The backing slice is not fully sorted. Use heap.Pop rather than calling the storage Pop method directly.",
+      "starter_sha256": "931f8b563d545cf55f9e2f55a437fb980c11b3721a5c11aaa0dbc66247180d70",
+      "question": "Why does heap.Pop return 2 and leave length 2?",
+      "design": {
+        "title": "The minimum is at the root",
+        "question": "Why does heap.Pop return 2 and leave length 2?",
+        "kind": "graph",
+        "nodes": [
+          {
+            "id": "2",
+            "label": "2",
+            "x": 50,
+            "y": 20
+          },
+          {
+            "id": "4",
+            "label": "4",
+            "x": 22,
+            "y": 80
+          },
+          {
+            "id": "6",
+            "label": "6",
+            "x": 78,
+            "y": 80
+          }
+        ],
+        "edges": [
+          {
+            "from": "2",
+            "to": "4",
+            "label": "≤"
+          },
+          {
+            "from": "2",
+            "to": "6",
+            "label": "≤"
+          }
+        ],
+        "legend": "After heap.Init([4,2,6]), the heap array is [2,4,6]. Pop removes root 2 and repairs the remaining heap.",
+        "height": 300,
+        "note": "Parent order is a partial order; a heap is not a fully sorted array. The Pop method on the storage type is called as part of the container/heap protocol, not as a standalone minimum operation.",
+        "description": "Why does heap.Pop return 2 and leave length 2? Nodes: 2, 4, 6. Connections: 2 leads to 4 (≤); 2 leads to 6 (≤). After heap.Init([4,2,6]), the heap array is [2,4,6]. Pop removes root 2 and repairs the remaining heap.. Parent order is a partial order; a heap is not a fully sorted array. The Pop method on the storage type is called as part of the container/heap protocol, not as a standalone minimum operation."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "graph-neighbors",
+      "title": "Represent directed edges explicitly",
+      "url": "https://snowch.github.io/go-foundry/data-structures/#graph-neighbors",
+      "decision": "Keep prose / worked evidence",
+      "passage": "An adjacency list maps each vertex to its outgoing neighbors. A directed edge A → B permits travel from A to B; it does not imply B → A. Empty neighbor lists represent vertices with no outgoing edges.",
+      "starter_sha256": "c9c77adddcba7bd4141d8700fa2531aab7381a2fffd636475e6b822db565aabc",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "linear-search",
+      "title": "Search an unsorted sequence",
+      "url": "https://snowch.github.io/go-foundry/algorithms/#linear-search",
+      "decision": "Keep prose / worked evidence",
+      "passage": "Linear search checks values from the beginning until it finds the target or reaches the end. The returned index is -1 when missing. checks counts inspected values. This algorithm needs no sorted-input assumption.",
+      "starter_sha256": "746b6af57454f8ef366d22d2541e3527943f2a303d81efa4f06b5847d3c5eee1",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "binary-search",
+      "title": "Discard half a sorted search interval",
+      "url": "https://snowch.github.io/go-foundry/algorithms/#binary-search",
+      "decision": "Added",
+      "passage": "Binary search requires ascending input. low is included and high is excluded. Each comparison chooses the lower or upper remaining interval, or returns a match. The function counts midpoint checks. Duplicate values may return any matching index.",
+      "starter_sha256": "e1e19d75133f224896de3903861730a1cec42ed231b92917f110b8b1c7327e87",
+      "question": "Why is 11 found at original index 5 after 3 checks?",
+      "design": {
+        "title": "Only candidate bounds change",
+        "question": "Why is 11 found at original index 5 after 3 checks?",
+        "kind": "slots",
+        "rows": [
+          {
+            "label": "[0,8)",
+            "values": [
+              1,
+              3,
+              5,
+              7,
+              9,
+              11,
+              13,
+              15
+            ],
+            "note": "9 < 11 → low=5.",
+            "active": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "muted": [],
+            "tags": {
+              "4": "mid"
+            }
+          },
+          {
+            "label": "[5,8)",
+            "values": [
+              1,
+              3,
+              5,
+              7,
+              9,
+              11,
+              13,
+              15
+            ],
+            "note": "13 > 11 → high=6.",
+            "active": [
+              5,
+              6,
+              7
+            ],
+            "muted": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "tags": {
+              "6": "mid"
+            }
+          },
+          {
+            "label": "[5,6)",
+            "values": [
+              1,
+              3,
+              5,
+              7,
+              9,
+              11,
+              13,
+              15
+            ],
+            "note": "11 matches; return index=5, checks=3.",
+            "active": [
+              5
+            ],
+            "muted": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              6,
+              7
+            ],
+            "tags": {
+              "5": "mid"
+            }
+          }
+        ],
+        "note": "This equality search returns immediately on a match. Unlike lower bound, it does not continue toward the first equal element; the input must be sorted.",
+        "description": "Why is 11 found at original index 5 after 3 checks? [0,8): index 0 = 1, index 1 = 3, index 2 = 5, index 3 = 7, index 4 = 9, index 5 = 11, index 6 = 13, index 7 = 15. 9 < 11 → low=5.. [5,8): index 0 = 1, index 1 = 3, index 2 = 5, index 3 = 7, index 4 = 9, index 5 = 11, index 6 = 13, index 7 = 15. 13 > 11 → high=6.. [5,6): index 0 = 1, index 1 = 3, index 2 = 5, index 3 = 7, index 4 = 9, index 5 = 11, index 6 = 13, index 7 = 15. 11 matches; return index=5, checks=3.. This equality search returns immediately on a match. Unlike lower bound, it does not continue toward the first equal element; the input must be sorted."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "insertion-sort",
+      "title": "Insert each value into a sorted prefix",
+      "url": "https://snowch.github.io/go-foundry/algorithms/#insertion-sort",
+      "decision": "Keep prose / worked evidence",
+      "passage": "Insertion sort keeps the prefix before i sorted. It shifts larger preceding values right, then inserts the saved value. shifts counts moves inside the inner loop; it does not count every assignment. Already sorted input needs no such shifts.",
+      "starter_sha256": "2bb8b5092ead15b6b2eb3f2b2bd08414efbfb9f92494fb5412839b6f2889e807",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "merge-sort",
+      "title": "Merge two sorted halves",
+      "url": "https://snowch.github.io/go-foundry/algorithms/#merge-sort",
+      "decision": "Keep prose / worked evidence",
+      "passage": "Merge sort divides until each part has at most one value, recursively sorts each half, then merges them. The merge repeatedly takes the smaller front value. This implementation returns fresh slices, leaving the input unchanged. It uses extra storage.",
+      "starter_sha256": "3cdd296fa82daf4694c62cfe2f0f2731f85c906ceff384b0725c2613cbaaa283",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "breadth-first-search",
+      "title": "Visit a graph by distance in edges",
+      "url": "https://snowch.github.io/go-foundry/algorithms/#breadth-first-search",
+      "decision": "Added",
+      "passage": "Breadth-first search explores all vertices one edge away before vertices two edges away. The queue preserves that order. seen prevents duplicate work when two paths reach the same vertex. This computes reachability in a directed, unweighted graph; neighbor order breaks ties.",
+      "starter_sha256": "16c84c870d69998b29593d520049d758dc043c5afb70dd62b977d4c63aef435e",
+      "question": "Why does D appear once even though B and C both lead to it?",
+      "design": {
+        "title": "Mark a shared destination when first discovered",
+        "question": "Why does D appear once even though B and C both lead to it?",
+        "kind": "graph",
+        "nodes": [
+          {
+            "id": "A",
+            "label": "A",
+            "x": 50,
+            "y": 15
+          },
+          {
+            "id": "B",
+            "label": "B",
+            "x": 20,
+            "y": 50
+          },
+          {
+            "id": "C",
+            "label": "C",
+            "x": 80,
+            "y": 50
+          },
+          {
+            "id": "D",
+            "label": "D",
+            "x": 50,
+            "y": 85
+          }
+        ],
+        "edges": [
+          {
+            "from": "A",
+            "to": "B",
+            "label": ""
+          },
+          {
+            "from": "A",
+            "to": "C",
+            "label": ""
+          },
+          {
+            "from": "B",
+            "to": "D",
+            "label": ""
+          },
+          {
+            "from": "C",
+            "to": "D",
+            "label": ""
+          }
+        ],
+        "legend": "FIFO visits A, B, C, D. D is marked when first enqueued, so the second path does not add it again.",
+        "height": 300,
+        "note": "These are directed adjacency lists. This BFS order depends on the supplied neighbor slice order, not map iteration order.",
+        "description": "Why does D appear once even though B and C both lead to it? Nodes: A, B, C, D. Connections: A leads to B; A leads to C; B leads to D; C leads to D. FIFO visits A, B, C, D. D is marked when first enqueued, so the second path does not add it again.. These are directed adjacency lists. This BFS order depends on the supplied neighbor slice order, not map iteration order."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "depth-first-search",
+      "title": "Follow one branch before its siblings",
+      "url": "https://snowch.github.io/go-foundry/algorithms/#depth-first-search",
+      "decision": "Keep prose / worked evidence",
+      "passage": "Depth-first search visits a vertex, then recursively visits its outgoing neighbors. seen prevents following a cycle forever. The order depends on neighbor order. Unlike breadth-first search, first discovery here does not establish the shortest number of edges from the start.",
+      "starter_sha256": "820b08611c38d04e017b51035a6755f42e1e213dd4036f5db2ce0628c5a2e443",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "shortest-path",
+      "title": "Choose the least-cost unsettled vertex",
+      "url": "https://snowch.github.io/go-foundry/algorithms/#shortest-path",
+      "decision": "Keep prose / worked evidence",
+      "passage": "Dijkstra’s algorithm settles the reachable vertex with the smallest known distance, then relaxes its outgoing edges. Relaxing means replacing a distance when a cheaper route is found. This small implementation scans vertices rather than using a heap. Weights must be nonnegative, and the example’s small sums fit int.",
+      "starter_sha256": "6c053ac7666cfa73d37b80a88d69577014836bb037a11031dc57f7cefebfb0da",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "topological-order",
+      "title": "Schedule tasks only after prerequisites",
+      "url": "https://snowch.github.io/go-foundry/algorithms/#topological-order",
+      "decision": "Added",
+      "passage": "A topological order puts every prerequisite before the task that depends on it. This implementation repeatedly chooses a vertex with zero remaining incoming edges. If none exists before all tasks are emitted, a cycle prevents completion. Ties follow vertex index order.",
+      "starter_sha256": "c757cdb7f4483e450f86f94eff603b908bbc465bc723b6e82f15c556648cea61",
+      "question": "Why is [0,1,2] a complete order?",
+      "design": {
+        "title": "A dependency must precede its successor",
+        "question": "Why is [0,1,2] a complete order?",
+        "kind": "graph",
+        "nodes": [
+          {
+            "id": "0",
+            "label": "0",
+            "x": 16,
+            "y": 50
+          },
+          {
+            "id": "1",
+            "label": "1",
+            "x": 50,
+            "y": 50
+          },
+          {
+            "id": "2",
+            "label": "2",
+            "x": 84,
+            "y": 50
+          }
+        ],
+        "edges": [
+          {
+            "from": "0",
+            "to": "1",
+            "label": "before"
+          },
+          {
+            "from": "1",
+            "to": "2",
+            "label": "before"
+          }
+        ],
+        "legend": "Initial indegrees are [0,1,1]. Each chosen vertex releases the next one.",
+        "height": 180,
+        "note": "A cycle would leave no unused zero-indegree vertex before all vertices were emitted, returning complete=false. This is precedence, not a time or distance measurement.",
+        "description": "Why is [0,1,2] a complete order? Nodes: 0, 1, 2. Connections: 0 leads to 1 (before); 1 leads to 2 (before). Initial indegrees are [0,1,1]. Each chosen vertex releases the next one.. A cycle would leave no unused zero-indegree vertex before all vertices were emitted, returning complete=false. This is precedence, not a time or distance measurement."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "dynamic-programming",
+      "title": "Reuse solved subproblems",
+      "url": "https://snowch.github.io/go-foundry/algorithms/#dynamic-programming",
+      "decision": "Keep prose / worked evidence",
+      "passage": "Dynamic programming stores answers to overlapping subproblems. best[amount] uses already solved smaller amounts after removing one allowed coin. -1 means unreachable. Coins are positive integers, reuse is unlimited, and target is nonnegative. Greedily taking the largest coin can miss the minimum.",
+      "starter_sha256": "4d9abde7fd58d85986449be63562e708e9b4312648b750df90828600cdb2fed0",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "db-validation",
+      "title": "Validate a record before insertion",
+      "url": "https://snowch.github.io/go-foundry/tinydb/#db-validation",
+      "decision": "Keep prose / worked evidence",
+      "passage": "The course store accepts IDs up to 2147483647, names of 1–32 UTF-8 bytes and scores from 0 through 100. Insert validates before changing data. This lesson starts from a fresh in-memory snapshot each run; it does not overwrite a saved database.",
+      "starter_sha256": "9547bb1e052e07a02a67ce7215e87a3a774bddce10d9c6e69293cfc3643beff5",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "db-duplicates",
+      "title": "Reject a duplicate primary key",
+      "url": "https://snowch.github.io/go-foundry/tinydb/#db-duplicates",
+      "decision": "Keep prose / worked evidence",
+      "passage": "ID is the primary key: at most one row may use it. Changing a name does not make an existing ID new. Insert returns a new snapshot on success, preserving the previous snapshot. The prepared first row uses ID 7.",
+      "starter_sha256": "61cbf8cb1e079ed0e4adc7a4c3cdc386f8f771eb707e843f02d171430dc505a2",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "db-lookup",
+      "title": "Look up an ID in sorted records",
+      "url": "https://snowch.github.io/go-foundry/tinydb/#db-lookup",
+      "decision": "Keep prose / worked evidence",
+      "passage": "Insert keeps rows sorted by ID. Get uses binary search and returns a separate found boolean. A missing ID must not be confused with a zero-valued record. The starter constructs three records in a different order from their final storage order.",
+      "starter_sha256": "b52aa4f0a98c0271dba04794604744dd8a54257098b26b7b592bd377db0d4669",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "db-update",
+      "title": "Update a row without changing the old snapshot",
+      "url": "https://snowch.github.io/go-foundry/tinydb/#db-update",
+      "decision": "Added",
+      "passage": "Update requires an existing ID and validates the replacement row. It returns a new snapshot with a higher generation. The old snapshot retains its original row. These are in-memory snapshots; Save is a separate operation.",
+      "starter_sha256": "7f519da40600862c9b8db27c8ebea2afd5006dca7fedf551e74c0cd3f2cf9e66",
+      "question": "Why does the old score stay 42 when next has score 60?",
+      "design": {
+        "title": "The updated snapshot owns different row state",
+        "question": "Why does the old score stay 42 when next has score 60?",
+        "kind": "references",
+        "states": [
+          {
+            "label": "After the successful update",
+            "objects": [
+              {
+                "label": "Old snapshot row",
+                "value": "7 | Ada | 42",
+                "refs": [
+                  {
+                    "name": "db",
+                    "edge": "keeps the original snapshot"
+                  }
+                ]
+              },
+              {
+                "label": "New snapshot row",
+                "value": "7 | Ada | 60",
+                "refs": [
+                  {
+                    "name": "next",
+                    "edge": "contains the updated candidate"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "note": "The store API returns a new snapshot rather than mutating the old one. This is the API’s row-copy policy, not the ordinary behavior of every Go slice assignment.",
+        "description": "Why does the old score stay 42 when next has score 60? After the successful update: Old snapshot row contains 7 | Ada | 42. db keeps the original snapshot Old snapshot row; New snapshot row contains 7 | Ada | 60. next contains the updated candidate New snapshot row. The store API returns a new snapshot rather than mutating the old one. This is the API’s row-copy policy, not the ordinary behavior of every Go slice assignment."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "db-delete",
+      "title": "Remove an existing record",
+      "url": "https://snowch.github.io/go-foundry/tinydb/#db-delete",
+      "decision": "Keep prose / worked evidence",
+      "passage": "Delete returns a new snapshot without the requested ID. A missing ID returns ErrMissing instead of silently claiming a deletion. The starter still retains the original snapshot, letting you compare row counts.",
+      "starter_sha256": "7a334c9461d22fef73b0c89efcfc8f44e535ba21ece2f0916628614d2f07c635",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "db-filter",
+      "title": "Scan records against a predicate",
+      "url": "https://snowch.github.io/go-foundry/tinydb/#db-filter",
+      "decision": "Keep prose / worked evidence",
+      "passage": "A predicate is a true/false rule for selecting records. This query scans every row and keeps IDs whose score is at least minimum. Output order follows the store’s sorted primary keys. This is a scan, not an index-assisted query.",
+      "starter_sha256": "9f68f9968efc2f84dd51a6d5e66c5ffaa6ab8ecd68002589ab0601f8511ad896",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "db-index",
+      "title": "Build a secondary lookup by name",
+      "url": "https://snowch.github.io/go-foundry/tinydb/#db-index",
+      "decision": "Keep prose / worked evidence",
+      "passage": "This secondary index maps each name to matching primary IDs. Names need not be unique, so the value is a slice. The index is rebuilt from one snapshot. Updating records without rebuilding or maintaining that index would leave stale entries.",
+      "starter_sha256": "638d925672a783522d4a9111bdab353b4a13c75bb1497259a198812cd127c577",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "db-checksum",
+      "title": "Detect changed snapshot bytes",
+      "url": "https://snowch.github.io/go-foundry/tinydb/#db-checksum",
+      "decision": "Keep prose / worked evidence",
+      "passage": "Save encodes rows into a payload and stores its SHA-256 checksum in an envelope. Open checks that checksum before validating rows. The lesson uses a temporary directory and deliberately changes Ada to Eve in the file. A checksum detects accidental byte changes; it does not authenticate an untrusted writer who can recompute it.",
+      "starter_sha256": "79105c261746ee26a770154374a38c676adc84136ef93d30f9820cb8c84c3541",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "db-publish",
+      "title": "Publish a validated replacement snapshot",
+      "url": "https://snowch.github.io/go-foundry/tinydb/#db-publish",
+      "decision": "Revised",
+      "passage": "Save validates a candidate before writing a temporary file, closing it and renaming it over the destination. A rename publishes one complete virtual file. This is not a promise about physical power-loss durability. The starter supplies an invalid replacement score, so Save must leave the old file intact.",
+      "starter_sha256": "2d7ef6515b7c48714fce7c3431dbc3d37ebffa1e5847c5989180c1c17558b284",
+      "question": "Which failure must keep the previous destination intact?",
+      "design": {
+        "title": "Guest-file replacement and browser saving are separate",
+        "question": "Which failure must keep the previous destination intact?",
+        "kind": "panels",
+        "panels": [
+          {
+            "label": "Inside the guest filesystem",
+            "model": {
+              "kind": "branch",
+              "root": "Candidate rows validate and complete temporary write/close succeed?",
+              "paths": [
+                {
+                  "when": "Yes",
+                  "result": "Rename the completed temporary file",
+                  "detail": "Publish the replacement in the guest filesystem."
+                },
+                {
+                  "when": "No",
+                  "result": "Keep the previous destination",
+                  "detail": "Do not publish an incomplete candidate."
+                }
+              ]
+            }
+          },
+          {
+            "label": "After the job finishes",
+            "model": {
+              "kind": "flow",
+              "steps": [
+                {
+                  "label": "Save browser project archive",
+                  "detail": "The runner persists the guest’s project state for a later start."
+                }
+              ]
+            }
+          }
+        ],
+        "note": "The archive save is a separate persistence boundary. Guest rename and browser storage do not prove physical-disk durability or production fsync ordering.",
+        "description": "Which failure must keep the previous destination intact? Inside the guest filesystem. Candidate rows validate and complete temporary write/close succeed?. Yes. Rename the completed temporary file. Publish the replacement in the guest filesystem.; No. Keep the previous destination. Do not publish an incomplete candidate.; After the job finishes. Save browser project archive. The runner persists the guest’s project state for a later start.. The archive save is a separate persistence boundary. Guest rename and browser storage do not prove physical-disk durability or production fsync ordering."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "db-transaction",
+      "title": "Commit related changes together or keep the old snapshot",
+      "url": "https://snowch.github.io/go-foundry/tinydb/#db-transaction",
+      "decision": "Added",
+      "passage": "Transaction clones the initial rows before invoking the callback. The callback updates one row, then tries an insertion. An error returns the original snapshot; successful validation returns the candidate. This is single-process copy-on-write behavior, not concurrent multi-writer transaction isolation.",
+      "starter_sha256": "4fc1dd11d2080ec2ec5e9a479a753f511586c3ecc4a51bdeb4d188bda5682e41",
+      "question": "Why does the returned snapshot still have score 42 and one row?",
+      "design": {
+        "title": "A later failure discards the whole candidate",
+        "question": "Why does the returned snapshot still have score 42 and one row?",
+        "kind": "table",
+        "headings": [
+          "Step",
+          "Private work",
+          "Published / returned state"
+        ],
+        "rows": [
+          [
+            "Begin from old snapshot",
+            "ID7 Ada score42",
+            "Old snapshot unchanged"
+          ],
+          [
+            "Update ID7 to score60",
+            "Candidate score60",
+            "Old snapshot unchanged"
+          ],
+          [
+            "Insert duplicate ID7",
+            "Error: duplicate primary key",
+            "Discard candidate"
+          ],
+          [
+            "Transaction returns error",
+            "No candidate publication",
+            "score42; rows1; rolled back=true"
+          ]
+        ],
+        "label": "",
+        "links": [],
+        "note": "The successful intermediate update is not published separately. All-or-nothing behavior belongs to this store.Transaction contract; it is not automatically supplied by a callback.",
+        "description": "Why does the returned snapshot still have score 42 and one row? Step; Private work; Published / returned state. Begin from old snapshot; ID7 Ada score42; Old snapshot unchanged; Update ID7 to score60; Candidate score60; Old snapshot unchanged; Insert duplicate ID7; Error: duplicate primary key; Discard candidate; Transaction returns error; No candidate publication; score42; rows1; rolled back=true. . . The successful intermediate update is not published separately. All-or-nothing behavior belongs to this store.Transaction contract; it is not automatically supplied by a callback."
+      },
+      "reason": "Use the source-specific relationship/state model recorded below.",
+      "placement": "Beside the worked explanation/result; no extra navigation, execution or completion changes.",
+      "prose_replacement": "The diagram replaces a mental reconstruction of the quoted relationship. Keep definitions, preconditions and caveats; do not repeat a second step-by-step narration."
+    },
+    {
+      "id": "db-single-writer",
+      "title": "Reject a second writer in one guest filesystem",
+      "url": "https://snowch.github.io/go-foundry/tinydb/#db-single-writer",
+      "decision": "Keep prose / worked evidence",
+      "passage": "O_CREATE|O_EXCL creates a file only if its path is absent. A writer can use that outcome to refuse a second writer, then remove its own lock after closing. This temporary-directory demonstration does not implement crash recovery for abandoned locks or coordination across separate browser projects.",
+      "starter_sha256": "c4119e1c33ee2b231c25172c85ce97369538c5de2756c868a9ae91e4df3ff34e",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    },
+    {
+      "id": "db-persistence",
+      "title": "Reopen your database after stopping the runner",
+      "url": "https://snowch.github.io/go-foundry/tinydb/#db-persistence",
+      "decision": "Keep prose / worked evidence",
+      "passage": "This capstone uses data/course-capstone.gdb and keeps it between runs. On first use it inserts ID 7; later runs update that row. Save writes the guest file. After execution, the runner archives project files into browser storage. Wait for the project-saved message before stopping. Other TinyDB lesson data is unchanged.",
+      "starter_sha256": "065cf15588d400a0b28cf35c103b88ffcfaeacfb680eda7cbd80accbc5978e14",
+      "question": "",
+      "design": null,
+      "reason": "Keep the focused explanation and editable worked evidence. A separate model is not selected in this pass; the specific visual dependencies selected across this chapter are recorded on their own lessons.",
+      "placement": null,
+      "prose_replacement": null
+    }
+  ]
+}
