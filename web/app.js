@@ -198,7 +198,7 @@ function renderDiagram(diagram){
 }
 function completionStatus(){$('completion-status').textContent=unsavedCompletion.has(probe?.id)?'Storage is unavailable. This completion mark is kept in this tab only.':'Saved in this browser. Completion records your progress, not a test result.';}
 function navigationCard(node,entry,direction,lab=null){
-  const label=document.createElement('span'),title=document.createElement('strong');label.className='card-direction';label.textContent=entry?direction:lab?'Lab overview':'Go Foundry labs';title.textContent=entry?entry.title:lab?lab.title:'Choose a lab';node.href=entry?routes.lesson(entry):routes.home(lab);node.replaceChildren(label,title);
+  const label=document.createElement('span'),title=document.createElement('strong');label.className='card-direction';label.textContent=entry?direction:lab?'Chapter overview':'All parts';title.textContent=entry?entry.title:lab?lab.title:'Choose a part';node.href=entry?routes.lesson(entry):routes.home(lab);node.replaceChildren(label,title);
 }
 let pendingTools=false;
 function show(id){
