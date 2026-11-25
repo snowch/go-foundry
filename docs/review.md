@@ -138,3 +138,9 @@ Check fresh start, returning draft/resume, completed-last advance and full-serie
 review; direct links, keyboard, history/reload, responsive column counts, diagram
 order and both themes. Keep real execution and checkpoint verification separate
 from interface checks, and do not infer learning effectiveness from passing tests.
+
+
+## Foundry navigation
+
+Use Course → Part → Chapter → Lesson. See the [navigation review](navigation-review.md)
+for reading order, learner actions, compatibility and verification.

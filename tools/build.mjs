@@ -21,17 +21,16 @@ const flatModules={course:'export const lessons='+JSON.stringify(lessons)+';\n',
 for(const [name,content]of Object.entries(flatModules))await writeFile(site+'/'+name+'.js',content);
 const helper=await asset('source-transfer','js',await readFile('web/source-transfer.js'));
 let appSource=await readFile('web/app.js','utf8');
-for(const module of ['workspace-store','course','investigations','lesson-presentation','editor','routes']){const name=await asset(module,'js',flatModules[module]||await readFile('web/'+module+'.js'));appSource=appSource.replace('./'+module+'.js','./'+name);}
+for(const module of ['course-parts','lab-hub','workspace-store','course','investigations','lesson-presentation','editor','routes']){const name=await asset(module,'js',flatModules[module]||await readFile('web/'+module+'.js'));appSource=appSource.replace('./'+module+'.js','./'+name);}
 const app=await asset('app','js',appSource);
 const css=await asset('style','css',await readFile('web/style.css'));
 const html=(await readFile('web/index.html','utf8')).replace('src="app.js"','src="'+app+'"').replace('href="style.css"','href="'+css+'"');
 await writeFile(site+'/index.html',html);
 for(const lab of labs){
  const safe=text=>text.replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');
- const entry=html.replace('<title>Go Foundry · Lab series</title>','<title>'+safe(lab.title)+' · Go Foundry</title>')
+ const entry=html.replace('<title>Go Foundry · Course parts</title>','<title>'+safe(lab.title)+' · Go Foundry</title>')
   .replace(/<meta name="description" content="[^"]*">/,'<meta name="description" content="'+safe(lab.description)+'">')
-  .replace('<span id="brand-title">Go Foundry</span>','<span id="brand-title">Go — '+safe(lab.title)+'</span>')
-  .replace('<small id="brand-subtitle">Learn Go in your browser</small>','<small id="brand-subtitle">Go Foundry lab</small>')
+  .replace('<small id="brand-subtitle">Learn Go in your browser</small>','<small id="brand-subtitle">Go Foundry chapter</small>')
   .replace('<div id="home-view">','<div id="home-view" hidden>').replace('<article id="lab-view" hidden>','<article id="lab-view">')
   .replace('id="lab-title" tabindex="-1"></h1>','id="lab-title" tabindex="-1">'+safe(lab.title)+'</h1>')
   .replace('id="lab-description" class="lesson-purpose"></p>','id="lab-description" class="lesson-purpose">'+safe(lab.description)+'</p>')

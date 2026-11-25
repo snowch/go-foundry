@@ -23,7 +23,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
   }
   const context=await browser.newContext(),page=await context.newPage();
   for(const [width,columns]of [[320,1],[390,1],[620,2],[768,2],[820,2],[900,2],[901,2],[1100,3],[1440,3]])for(const theme of ['light','dark']){
-   await page.setViewportSize({width,height:900});await page.goto(url);await page.waitForFunction(()=>document.querySelector('#home-outline').children.length===12);await page.evaluate(theme=>document.documentElement.dataset.theme=theme,theme);
+   await page.setViewportSize({width,height:900});await page.goto(url);await page.waitForFunction(()=>document.querySelector('#home-outline').children.length===4);await page.evaluate(theme=>document.documentElement.dataset.theme=theme,theme);
    const metrics=await page.evaluate(()=>{const start=document.querySelector('#start-course'),outline=document.querySelector('#course-outline-title'),figure=document.querySelector('.home-illustration');return {columns:getComputedStyle(document.querySelector('#home-outline')).gridTemplateColumns.split(' ').length,overflow:document.documentElement.scrollWidth>innerWidth,startBottom:start.getBoundingClientRect().bottom,outlineTop:outline.getBoundingClientRect().top,figureTop:figure.getBoundingClientRect().top,outlineBottom:document.querySelector('.course-home').getBoundingClientRect().bottom};});
    assert.equal(metrics.columns,columns,width+' '+theme);assert(!metrics.overflow,width+' '+theme);
    if(width<=900){assert(metrics.startBottom<metrics.outlineTop);assert(metrics.outlineBottom<=metrics.figureTop);if(width<=390)assert(metrics.outlineTop<900,'choices visible on first phone screen');}
