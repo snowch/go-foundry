@@ -356,3 +356,8 @@ header:has(.lab-header-control) :is(nav, .top-actions, .global-nav, .header-acti
     color: ButtonText;
   }
 }
+/* Keep the two labelled utility actions together below the runner on phones. */
+@media (max-width: 600px) {
+  .header nav { justify-content: flex-start; }
+  .header nav #runner-open { flex-basis: 100%; }
+}
