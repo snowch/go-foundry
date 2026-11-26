@@ -1,3 +1,4 @@
+import { mountHeaderControls } from "./header-controls.js";
 import {learningModels} from './learning-models.js';
 import {learningFigure} from './learning-model.js';
 import {partDefinitions} from './course-parts.js';
@@ -348,3 +349,5 @@ async function init(){
   try{const result=await fetch(new URL('validation.json',siteURL)).then(response=>response.json());$('evidence-summary').textContent=result.summary;const table=document.createElement('table');for(const rowData of [['Check','Observed wait','Result'],...(result.results||[]).map(row=>[row.name,row.host_seconds==null?'Not measured':row.host_seconds.toFixed(2)+' seconds',row.status])]){const row=document.createElement('tr');for(const value of rowData){const cell=document.createElement(table.children.length?'td':'th');cell.textContent=value;row.append(cell);}table.append(row);}$('timings').append(table);}catch{$('evidence-summary').textContent='No published runtime measurements are available.';}
 }
 init();
+
+mountHeaderControls({ statusOnly: true });
