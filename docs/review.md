@@ -168,3 +168,26 @@ The shared [course design guide](https://github.com/snowch/cuda-python-lab/blob/
 records this rule. Validation covers the built header at 320, 390, 820 and 1440px
 in both themes, keyboard focus, modal opening/Escape, persistence and project-local
 asset requests. Functional checks do not establish learning effectiveness.
+
+
+## Shared terminal icon in the header (2026-11-27)
+
+Before: Code runner had a text label and subordinate status; the adjacent shared
+controls used labelled Material icons. After: the bundled official Material
+Symbols Rounded terminal icon is centred beside the same two lines. Native
+status nodes, event handlers, storage and runner lifetime are preserved. The
+icon never changes with state and opening settings does not start Linux.
+
+Applied the shared UX and learning-design skill reviews proportionately to the
+header: learners can still identify Code runner without recognising the icon;
+Stopped remains separate from the label; no new programming prerequisites or
+lesson actions are introduced. Homepage introduction, runner control and course
+part chooser retain their reading order. The existing phone arrangement still
+places the runner on its own row when needed.
+
+The built UI passed 320/390/820/1440px checks in both themes for the 24px icon,
+8px gap, label/status alignment, 48px target, settings opening/closing and focus
+return, unchanged stopped state, no page overflow and no off-project asset
+requests. Unit and interface results are also reported in the change PR;
+browser bridge fixtures are distinct from real guest execution. This visual
+change does not alter the guest or claim new execution or learning outcomes.
